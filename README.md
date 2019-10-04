@@ -1,5 +1,8 @@
 # :christmas_tree: Advent of Code :christmas_tree:
-Credit: www.adventofcode.com
+
+My solutions for the Advent of Code challenges.
+
+www.adventofcode.com
 
 **Solutions**
 - [2015](2015)
