@@ -1,0 +1,57 @@
+#ip 3
+
+00 | addi 3 16 3  ip += 16
+  goto 17
+
+01 | seti 1 0 4   reg[4] = 1
+02 | seti 1 7 2   reg[2] = 1
+03 | mulr 4 2 1   reg[1] = reg[4] * reg[2]
+04 | eqrr 1 5 1   reg[1] = (reg[1] == reg[5])
+05 | addr 1 3 3   ip += reg[1]
+06 | addi 3 1 3   ip += 1
+07 | addr 4 0 0   reg[0] += reg[4]
+08 | addi 2 1 2   reg[2] += 1
+09 | gtrr 2 5 1   reg[1] = (reg[2] > reg[5])
+10 | addr 3 1 3   ip += reg[1]
+11 | seti 2 6 3   ip = 2
+12 | addi 4 1 4   reg[4] += 1
+13 | gtrr 4 5 1   reg[1] = (reg[4] > reg[5])
+14 | addr 1 3 3   ip += reg[1]
+15 | seti 1 3 3   ip = 1
+16 | mulr 3 3 3   ip = ip * ip
+
+  for r4 = 1..r5
+    for r2 = 1..r5
+      if r4 * r2 == r5:
+        r0 += r4
+  STOP
+  # r0 = sum of all divisors of r5
+
+17 | addi 5 2 5   reg[5] += 2
+18 | mulr 5 5 5   reg[5] = reg[5]^2
+19 | mulr 3 5 5   reg[5] = ip * reg[5]
+20 | muli 5 11 5  reg[5] = reg[5] * 11
+21 | addi 1 6 1   reg[1] += 6
+22 | mulr 1 3 1   reg[1] = reg[1] * ip
+23 | addi 1 13 1  reg[1] += 13
+24 | addr 5 1 5   reg[5] += reg[1]
+25 | addr 3 0 3   ip += reg[0]
+26 | seti 0 6 3   ip = 0
+
+  r5 = 13 + 22 * 6 + 209 * 2^2  # = 981
+  if r0 == 0:
+    goto 1
+
+27 | setr 3 1 1   reg[1] = ip
+28 | mulr 1 3 1   reg[1] *= ip
+29 | addr 3 1 1   reg[1] += ip
+30 | mulr 3 1 1   reg[1] *= ip
+31 | muli 1 14 1  reg[1] *= 14
+32 | mulr 1 3 1   reg[1] *= ip
+33 | addr 5 1 5   reg[5] += reg[1]
+34 | seti 0 0 0   reg[0] = 0
+35 | seti 0 3 3   ip = 0
+
+  r5 += (27 * 28 + 29) * 30 * 14 * 32  # = 10550400
+  r0 = 0
+  goto 1
