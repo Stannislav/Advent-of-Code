@@ -1,0 +1,62 @@
+cpy a d
+cpy 7 c
+cpy 362 b
+inc d
+dec b
+jnz b -2
+dec c
+jnz c -5
+cpy d a
+jnz 0 0 -------------------
+cpy a b
+cpy 0 a
+cpy 2 c
+jnz b 2
+jnz 1 6
+dec b
+dec c
+jnz c -4
+inc a
+jnz 1 -7
+cpy 2 b
+jnz c 2
+jnz 1 4
+dec b
+dec c
+jnz 1 -4
+jnz 0 0
+out b
+jnz a -19
+jnz 1 -21
+
+[x,0,0,0]
+[x,0,0,x]
+for c = 1..7
+	for b = 1..362:
+		d += 1
+[x,0,0,x+7*362]
+do {
+	a = d
+	do { --- jnz 0 0 ---
+		b = a
+		a = 0
+		[0, a, 0, d]
+		while True:
+			c = 2
+			do {
+				if b==0:
+					break
+				b -= 1
+				c -= 1
+			} while c > 0
+			a += 1
+		[a//2, 0, 2 if a%2==0 else 1,d]
+		b = 2
+		while c != 0:
+			c -= 1
+			b -= 1
+		--- jnz 0 0 ---
+		[a//2, a%2, 0, d]
+		print(b)
+	} while a != 0
+} while True
