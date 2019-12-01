@@ -1,7 +1,9 @@
+'use strict';
+
 // Read Data
 const fs = require('fs');
 let data = fs.readFileSync("../input/input_01.txt", "utf8");
-data = data.trim().split("\n").map(numStr => parseInt(numStr));
+data = data.trim().split("\n").map(Number);
 
 
 function getFuel(x) {
