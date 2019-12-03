@@ -7,7 +7,7 @@
 | Day | Problem | Solution |
 |----:|:--------|:---------|
 |   1 | [The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1) | [day_01.js](./src/day_01.js)
-|   2 | [???](https://adventofcode.com/2019/day/2) | [day_02.js](./src/day_02.js)
+|   2 | [1202 Program Alarm](https://adventofcode.com/2019/day/2) | [day_02.js](./src/day_02.js)
 |   3 | [???](https://adventofcode.com/2019/day/3) | [day_03.js](./src/day_03.js)
 |   4 | [???](https://adventofcode.com/2019/day/4) | [day_04.js](./src/day_04.js)
 |   5 | [???](https://adventofcode.com/2019/day/5) | [day_05.js](./src/day_05.js)
