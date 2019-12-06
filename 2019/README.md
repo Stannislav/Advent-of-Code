@@ -10,7 +10,7 @@
 |   2 | [1202 Program Alarm](https://adventofcode.com/2019/day/2) | [day_02.js](./src/day_02.js)
 |   3 | [Crossed Wires](https://adventofcode.com/2019/day/3) | [day_03.js](./src/day_03.js)
 |   4 | [Secure Container](https://adventofcode.com/2019/day/4) | [day_04.js](./src/day_04.js)
-|   5 | [???](https://adventofcode.com/2019/day/5) | [day_05.js](./src/day_05.js)
+|   5 | [Sunny with a Chance of Asteroids](https://adventofcode.com/2019/day/5) | [day_05.js](./src/day_05.js)
 |   6 | [???](https://adventofcode.com/2019/day/6) | [day_06.js](./src/day_06.js)
 |   7 | [???](https://adventofcode.com/2019/day/7) | [day_07.js](./src/day_07.js)
 |   8 | [???](https://adventofcode.com/2019/day/8) | [day_08.js](./src/day_08.js)
