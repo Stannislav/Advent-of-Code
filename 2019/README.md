@@ -14,7 +14,7 @@
 |   6 | [Universal Orbit Map](https://adventofcode.com/2019/day/6) | [day_06.js](./src/day_06.js)
 |   7 | [Amplification Circuit ](https://adventofcode.com/2019/day/7) | [day_07.js](./src/day_07.js)
 |   8 | [Space Image Format](https://adventofcode.com/2019/day/8) | [day_08.js](./src/day_08.js)
-|   9 | [???](https://adventofcode.com/2019/day/9) | [day_09.js](./src/day_09.js)
+|   9 | [Sensor Boost](https://adventofcode.com/2019/day/9) | [day_09.js](./src/day_09.js)
 |  10 | [???](https://adventofcode.com/2019/day/10) | [day_10.js](./src/day_10.js)
 |  11 | [???](https://adventofcode.com/2019/day/11) | [day_11.js](./src/day_11.js)
 |  12 | [???](https://adventofcode.com/2019/day/12) | [day_12.js](./src/day_12.js)

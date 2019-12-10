@@ -1,25 +1,30 @@
+'use strict';
+
+
 class IntcodeComputer {
-    n_inst = {
-        1: 4,  // add
-        2: 4,  // multiply
-        3: 2,  // input
-        4: 2,  // output
-        5: 3,  // jump-if-true
-        6: 3,  // jump-if-false
-        7: 4,  // less than
-        8: 4,  // equals
-        99: 1, // halt
-    };
-
-    HALTED = 0;
-    RUNNING = 1;
-    PAUSED = 2;
-
 
     constructor() {
+        this.arity = {
+            1: 3,  // add
+            2: 3,  // multiply
+            3: 1,  // input
+            4: 1,  // output
+            5: 2,  // jump-if-true
+            6: 2,  // jump-if-false
+            7: 3,  // less than
+            8: 3,  // equals
+            9: 1,  // relative base
+            99: 0, // halt
+        };
+
+        this.HALTED = 0;
+        this.RUNNING = 1;
+        this.PAUSED = 2;
+
         this.inputs = [];
         this.outputs = [];
         this.ptr = null;
+        this.base = null;
         this.program = null;
         this.status = this.HALTED;
     }
@@ -28,24 +33,35 @@ class IntcodeComputer {
         this.inputs.push(input);
     }
 
-    receiveInputs(arr) {
-        this.inputs = this.inputs.concat(arr);
+    getValue(arg, mode) {
+        if (mode === 0) {
+            if (this.program[arg] === undefined)
+                this.program[arg] = 0;
+            return this.program[arg];
+        } else if (mode === 1)
+            return arg;
+        else if (mode === 2) {
+            if (this.program[this.base + arg] === undefined)
+                this.program[this.base + arg] = 0;
+            return this.program[this.base + arg];
+        } else
+            throw `Bad mode in getValue: ${mode}`;
     }
 
-    getValue(arg, mode) {
+    setValue(arg, mode, value) {
         if (mode === 0)
-            return this.program[arg];
-        else if (mode === 1)
-            return arg;
+            this.program[arg] = value;
+        else if (mode === 2)
+            this.program[this.base + arg] = value;
         else
-            throw "Bad mode";
+            throw `Bad mode in setValue: ${mode}`
     }
 
     parseInstruction(instruction) {
         let op = instruction % 100;
         instruction = Math.floor(instruction / 100);
         let modes = [];
-        for (let i = 0; i < this.n_inst[op] - 1; ++i) {
+        for (let i = 0; i < this.arity[op]; ++i) {
             modes.push(instruction % 10);
             instruction = Math.floor(instruction / 10);
         }
@@ -56,52 +72,49 @@ class IntcodeComputer {
     step() {
         // Parse op and mode
         const [op, modes] = this.parseInstruction(this.program[this.ptr]);
-        const args = this.program.slice(this.ptr + 1, this.ptr + this.n_inst[op]);
+        const args = this.program.slice(this.ptr + 1, this.ptr + this.arity[op] + 1);
 
         // Retrieve values based on modes
-        const vals = args.map((arg, i) => this.getValue(arg, modes[i]));
+        const values = args.map((arg, i) => this.getValue(arg, modes[i]));
 
         // Execute op
         switch (op) {
             case 1:
-                this.program[args[2]] = vals[0] + vals[1];
+                this.setValue(args[2], modes[2], values[0] + values[1]);
                 break;
             case 2:
-                this.program[args[2]] = vals[0] * vals[1];
+                this.setValue(args[2], modes[2], values[0] * values[1]);
                 break;
             case 3:
                 if (this.inputs.length === 0) {
                     this.status = this.PAUSED;
                     return;
                 } else
-                    this.program[args[0]] = this.inputs.shift();
+                    this.setValue(args[0], modes[0], this.inputs.shift());
                 break;
             case 4:
-                this.outputs.push(vals[0]);
+                this.outputs.push(values[0]);
                 break;
             case 5:
-                if (vals[0] !== 0) {
-                    this.ptr = vals[1];
+                if (values[0] !== 0) {
+                    this.ptr = values[1];
                     return;
                 }
                 break;
             case 6:
-                if (vals[0] === 0) {
-                    this.ptr = vals[1];
+                if (values[0] === 0) {
+                    this.ptr = values[1];
                     return;
                 }
                 break;
             case 7:
-                if (vals[0] < vals[1])
-                    this.program[args[2]] = 1;
-                else
-                    this.program[args[2]] = 0;
+                this.setValue(args[2], modes[2], values[0] < values[1] ? 1 : 0);
                 break;
             case 8:
-                if (vals[0] === vals[1])
-                    this.program[args[2]] = 1;
-                else
-                    this.program[args[2]] = 0;
+                this.setValue(args[2], modes[2], values[0] === values[1] ? 1 : 0);
+                break;
+            case 9:
+                this.base += values[0];
                 break;
             case 99:
                 this.status = this.HALTED;
@@ -109,7 +122,7 @@ class IntcodeComputer {
             default: throw `Unknown op: ${op}`;
         }
 
-        this.ptr += this.n_inst[this.program[this.ptr] % 100];
+        this.ptr += this.arity[this.program[this.ptr] % 100] + 1;
     }
 
     launch(program, inputs=[]) {
@@ -117,6 +130,7 @@ class IntcodeComputer {
         this.outputs = [];
         this.program = [...program];  // shallow copy
         this.ptr = 0;
+        this.base = 0;
 
         return this.resume();
     }
