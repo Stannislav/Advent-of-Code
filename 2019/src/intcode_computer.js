@@ -29,8 +29,16 @@ class IntcodeComputer {
         this.status = this.HALTED;
     }
 
-    receiveInput(input) {
+    putInput(input) {
         this.inputs.push(input);
+    }
+
+    hasOutput() {
+        return this.outputs.length > 0;
+    }
+
+    getOutput() {
+        return this.outputs.shift();
     }
 
     getValue(arg, mode) {

@@ -48,7 +48,7 @@ getPermutations([0, 1, 2, 3, 4]).forEach(phases => {
 
     for (let n = 0; n < 5; ++n) {
         amps[n].launch(program, [phases[n], signal]);
-        signal = amps[n].outputs.pop()
+        signal = amps[n].getOutput()
     }
     part1 = Math.max(part1, signal);
 });
@@ -63,12 +63,11 @@ getPermutations([5, 6, 7, 8, 9]).forEach(phases => {
     let signal = 0;
     let pos = 0;
     while (true) {
-        amps[pos].receiveInput(signal);
+        amps[pos].putInput(signal);
         amps[pos].resume();
-        if (amps[pos].outputs.length === 0)
+        if (!amps[pos].hasOutput())
             break;
-        else
-            signal = amps[pos].outputs.shift();
+        signal = amps[pos].getOutput();
         pos = (pos + 1) % 5;
     }
     part2 = Math.max(part2, signal);
