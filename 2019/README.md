@@ -16,7 +16,7 @@
 |   8 | [Space Image Format](https://adventofcode.com/2019/day/8) | [day_08.js](./src/day_08.js)
 |   9 | [Sensor Boost](https://adventofcode.com/2019/day/9) | [day_09.js](./src/day_09.js)
 |  10 | [Monitoring Station](https://adventofcode.com/2019/day/10) | [day_10.js](./src/day_10.js)
-|  11 | [???](https://adventofcode.com/2019/day/11) | [day_11.js](./src/day_11.js)
+|  11 | [Space Police](https://adventofcode.com/2019/day/11) | [day_11.js](./src/day_11.js)
 |  12 | [???](https://adventofcode.com/2019/day/12) | [day_12.js](./src/day_12.js)
 |  13 | [???](https://adventofcode.com/2019/day/13) | [day_13.js](./src/day_13.js)
 |  14 | [???](https://adventofcode.com/2019/day/14) | [day_14.js](./src/day_14.js)
