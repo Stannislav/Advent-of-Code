@@ -41,6 +41,12 @@ class IntcodeComputer {
         return this.outputs.shift();
     }
 
+    getAllOutputs() {
+        let outputs = this.outputs;
+        this.outputs = [];
+        return outputs;
+    }
+
     getValue(arg, mode) {
         if (mode === 0) {
             if (this.program[arg] === undefined)
