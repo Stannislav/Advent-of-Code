@@ -19,7 +19,13 @@ class IntcodeComputer {
 
         this.HALTED = 0;
         this.RUNNING = 1;
-        this.PAUSED = 2;
+        this.WAITING = 2;
+
+        this.statusText = {
+            [this.HALTED]: "HALTED",
+            [this.RUNNING]: "RUNNING",
+            [this.WAITING]: "WAITING"
+        };
 
         this.inputs = [];
         this.outputs = [];
@@ -31,6 +37,10 @@ class IntcodeComputer {
 
     putInput(input) {
         this.inputs.push(input);
+    }
+
+    setInputs(inputs) {
+        this.inputs = [...inputs];
     }
 
     hasOutput() {
@@ -45,6 +55,10 @@ class IntcodeComputer {
         let outputs = this.outputs;
         this.outputs = [];
         return outputs;
+    }
+
+    getStatusText() {
+        return this.statusText[this.status];
     }
 
     getValue(arg, mode) {
@@ -101,7 +115,7 @@ class IntcodeComputer {
                 break;
             case 3:
                 if (this.inputs.length === 0) {
-                    this.status = this.PAUSED;
+                    this.status = this.WAITING;
                     return;
                 } else
                     this.setValue(args[0], modes[0], this.inputs.shift());
@@ -139,12 +153,15 @@ class IntcodeComputer {
         this.ptr += this.arity[this.program[this.ptr] % 100] + 1;
     }
 
-    launch(program, inputs=[]) {
+    launch(program, {inputs=[], patch={}}={}) {
         this.inputs = inputs;
         this.outputs = [];
         this.program = [...program];  // shallow copy
         this.ptr = 0;
         this.base = 0;
+
+        for (let [idx, value] of Object.entries(patch))
+            this.program[idx] = value;
 
         return this.resume();
     }
