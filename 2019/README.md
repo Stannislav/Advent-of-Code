@@ -25,7 +25,7 @@
 |  17 | [???](https://adventofcode.com/2019/day/17) | [day_17.js](./src/day_17.js)
 |  18 | [???](https://adventofcode.com/2019/day/18) | [day_18.js](./src/day_18.js)
 |  19 | [Tractor Beam](https://adventofcode.com/2019/day/19) | [day_19.js](./src/day_19.js)
-|  20 | [???](https://adventofcode.com/2019/day/20) | [day_20.js](./src/day_20.js)
+|  20 | [Donut Maze](https://adventofcode.com/2019/day/20) | [day_20.js](./src/day_20.js)
 |  21 | [???](https://adventofcode.com/2019/day/21) | [day_21.js](./src/day_21.js)
 |  22 | [???](https://adventofcode.com/2019/day/22) | [day_22.js](./src/day_22.js)
 |  23 | [???](https://adventofcode.com/2019/day/23) | [day_23.js](./src/day_23.js)
