@@ -36,11 +36,10 @@ class IntcodeComputer {
     }
 
     putInput(input) {
-        this.inputs.push(input);
-    }
-
-    setInputs(inputs) {
-        this.inputs = [...inputs];
+        if (input instanceof Array)
+            this.inputs.push(...input);
+        else
+            this.inputs.push(input);
     }
 
     hasOutput() {
