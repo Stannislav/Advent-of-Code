@@ -28,6 +28,6 @@
 |  20 | [Donut Maze](https://adventofcode.com/2019/day/20) | [day_20.js](./src/day_20.js)
 |  21 | [Springdroid Adventure](https://adventofcode.com/2019/day/21) | [day_21.js](./src/day_21.js)
 |  22 | [???](https://adventofcode.com/2019/day/22) | [day_22.js](./src/day_22.js)
-|  23 | [???](https://adventofcode.com/2019/day/23) | [day_23.js](./src/day_23.js)
+|  23 | [Category Six](https://adventofcode.com/2019/day/23) | [day_23.js](./src/day_23.js)
 |  24 | [???](https://adventofcode.com/2019/day/24) | [day_24.js](./src/day_24.js)
 |  25 | [???](https://adventofcode.com/2019/day/25) | [day_25.js](./src/day_25.js)
