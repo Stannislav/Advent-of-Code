@@ -35,7 +35,9 @@ class IntcodeComputer {
         this.status = this.HALTED;
     }
 
-    putInput(input) {
+    putInput(input, ascii=false) {
+        if (ascii)
+            input = input.split('').map(c => c.charCodeAt(0));
         if (input instanceof Array)
             this.inputs.push(...input);
         else
@@ -46,13 +48,17 @@ class IntcodeComputer {
         return this.outputs.length > 0;
     }
 
-    getOutput() {
-        return this.outputs.shift();
+    getOutput(ascii=false) {
+        let output = this.outputs.shift();
+        if (ascii)
+            output = String.fromCharCode(output);
+        return output;
     }
 
-    getAllOutputs() {
-        let outputs = this.outputs;
-        this.outputs = [];
+    getAllOutputs(ascii=false) {
+        let outputs = this.outputs.splice(0);
+        if (ascii)
+            outputs = outputs.map(i => String.fromCharCode(i)).join('');
         return outputs;
     }
 
@@ -152,13 +158,14 @@ class IntcodeComputer {
         this.ptr += this.arity[this.program[this.ptr] % 100] + 1;
     }
 
-    launch(program, {inputs=[], patch={}}={}) {
-        this.inputs = inputs;
+    launch(program, {inputs=[], patch={}, ascii=false}={}) {
+        this.inputs = [];
         this.outputs = [];
         this.program = [...program];  // shallow copy
         this.ptr = 0;
         this.base = 0;
 
+        this.putInput(inputs, ascii);
         for (let [idx, value] of Object.entries(patch))
             this.program[idx] = value;
 
