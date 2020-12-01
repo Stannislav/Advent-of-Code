@@ -1,6 +1,11 @@
 use std::fs;
 
-/// Solution to part 1
+/// Solution to part 1.
+/// 
+/// Find the two numbers that sum to 2020 and return their product.
+/// 
+/// # Arguments
+/// * `numbers` - The problem input as a sorted vector.
 ///
 /// Assuming that `numbers` is sorted it runs indices, `i` and `j`,
 /// one from the left and one from the right. Because `numbers` is
@@ -23,7 +28,12 @@ fn solve_1(numbers: &Vec<i32>) -> i32 {
     return -1;
 }
 
-/// Solution to part 2
+/// Solution to part 2.
+/// 
+/// Find the three numbers that sum 2020 and return their product.
+/// 
+/// # Arguments
+/// * `numbers` - The problem input as a sorted vector.
 ///
 /// Similarly to part 1 `i` runs from the left and `j` runs from the right.
 /// The third index, `k`, runs starting from `j` towards `i`. Again we can
