@@ -1,7 +1,7 @@
 use std::fs;
 
 /// Solution to part 1
-/// 
+///
 /// Assuming that `numbers` is sorted it runs indices, `i` and `j`,
 /// one from the left and one from the right. Because `numbers` is
 /// sorted the sum `number[i] + numbers[j]` is always decreasing, so
@@ -24,7 +24,7 @@ fn solve_1(numbers: &Vec<i32>) -> i32 {
 }
 
 /// Solution to part 2
-/// 
+///
 /// Similarly to part 1 `i` runs from the left and `j` runs from the right.
 /// The third index, `k`, runs starting from `j` towards `i`. Again we can
 /// make optimizations based on the fact that `numbers` is sorted.
