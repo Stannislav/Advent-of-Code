@@ -55,7 +55,7 @@ fn main() {
     let mut numbers: Vec<i32> = fs::read_to_string("input/01.txt")
         .expect("Can't read the input file")
         .split_whitespace()
-        .map(|s| s.parse().unwrap())
+        .map(|s| s.parse().expect("Can't parse number"))
         .collect();
     numbers.sort();
 
