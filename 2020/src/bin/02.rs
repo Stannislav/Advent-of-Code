@@ -4,9 +4,9 @@ use regex::Regex;
 use std::fs;
 
 /// Solve both part 1 and part 2
-/// 
+///
 /// Check line by line if the conditions of part 1 and part 2 are fulfilled.
-/// 
+///
 /// # Arguments
 /// * `lines`: The lines from the input file.
 fn solve(lines: &Vec<String>) -> (i32, i32) {
