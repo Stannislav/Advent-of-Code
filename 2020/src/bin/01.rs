@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 /// Solution to part 1.
 /// 
@@ -61,6 +62,8 @@ fn solve_2(numbers: &Vec<i32>) -> i32 {
 }
 
 fn main() {
+    let start = Instant::now();
+
     // Read input
     let mut numbers: Vec<i32> = fs::read_to_string("input/01.txt")
         .expect("Can't read the input file")
@@ -69,11 +72,15 @@ fn main() {
         .collect();
     numbers.sort();
 
-    // part 1
+    // Part 1
     let solution_1 = solve_1(&numbers);
     println!("Part 1: {}", solution_1);
 
-    // part 2
+    // Part 2
     let solution_2 = solve_2(&numbers);
     println!("Part 2: {}", solution_2);
+
+    // Print duration
+    let duration = start.elapsed();
+    println!("{:?}", duration);
 }
