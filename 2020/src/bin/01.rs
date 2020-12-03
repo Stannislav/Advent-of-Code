@@ -7,6 +7,7 @@ use std::fs;
 /// # Arguments
 /// * `numbers` - The problem input as a sorted vector.
 ///
+/// # Description
 /// Assuming that `numbers` is sorted it runs indices, `i` and `j`,
 /// one from the left and one from the right. Because `numbers` is
 /// sorted the sum `number[i] + numbers[j]` is always decreasing, so

@@ -5,10 +5,11 @@ use std::fs;
 
 /// Solve both part 1 and part 2.
 ///
-/// Check line by line if the conditions of part 1 and part 2 are fulfilled.
-///
 /// # Arguments
 /// * `lines`: The lines from the input file.
+///
+/// # Description
+/// Check line by line if the conditions of part 1 and part 2 are fulfilled.
 fn solve(lines: &Vec<String>) -> (i32, i32) {
     let re = Regex::new(r"(\d+)-(\d+) ([a-z]): ([a-z]+)").expect("Broken regex");
     let (mut part_1, mut part_2) = (0, 0);
