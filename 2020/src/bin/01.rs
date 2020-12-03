@@ -1,6 +1,6 @@
 use std::fs;
 
-/// Solution to part 1.
+/// Solve part 1.
 ///
 /// Find the two numbers that sum to 2020 and return their product.
 ///
@@ -28,7 +28,7 @@ fn solve_1(numbers: &Vec<i32>) -> i32 {
     return -1;
 }
 
-/// Solution to part 2.
+/// Solve part 2.
 ///
 /// Find the three numbers that sum 2020 and return their product.
 ///

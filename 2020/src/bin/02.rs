@@ -3,7 +3,7 @@ extern crate regex;
 use regex::Regex;
 use std::fs;
 
-/// Solve both part 1 and part 2
+/// Solve both part 1 and part 2.
 ///
 /// Check line by line if the conditions of part 1 and part 2 are fulfilled.
 ///
