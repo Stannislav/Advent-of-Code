@@ -10,7 +10,7 @@ fn parse_passport(passport_data: &str) -> HashMap<String, String> {
         .split(|x| x == '\n' || x == ' ')
         .map(|x| x.to_string())
         .collect();
-        
+
     let mut passport: HashMap<String, String> = HashMap::new();
     for entry in entries.iter() {
         let pair: Vec<&str> = entry.split(':').collect();
@@ -41,18 +41,22 @@ fn check_passport(passport: &HashMap<String, String>, check_values: bool) -> i32
         return 1;
     }
 
+    // byr
     let byr: i32 = passport.get("byr").unwrap().parse().unwrap();
     if byr < 1920 || byr > 2002 {
         return 0;
     }
+    // iyr
     let iyr: i32 = passport.get("iyr").unwrap().parse().unwrap();
     if iyr < 2010 || iyr > 2020 {
         return 0;
     }
+    // eyr
     let eyr: i32 = passport.get("eyr").unwrap().parse().unwrap();
     if eyr < 2020 || eyr > 2030 {
         return 0;
     }
+    // hgt
     let hgt = passport.get("hgt").unwrap();
     let re = Regex::new(r"^(\d+)(cm|in)$").expect("Broken regex");
     if !re.is_match(hgt) {
@@ -64,18 +68,19 @@ fn check_passport(passport: &HashMap<String, String>, check_values: bool) -> i32
     if !((unit == "cm" && n >= 150 && n <= 193) || (unit == "in" && n >= 59 && n <= 76)) {
         return 0;
     }
-
+    // hcl
     let hcl = passport.get("hcl").unwrap();
     let re = Regex::new(r"^#[0-9a-f]{6}$").expect("Broken regex");
     if !re.is_match(hcl) {
         return 0;
     }
-
+    // ecl
     let ecl = passport.get("ecl").unwrap();
     let colors = vec!["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
     if !colors.contains(&ecl.as_str()) {
         return 0;
     }
+    // pid
     let pid = passport.get("pid").unwrap();
     let re = Regex::new(r"^\d\d\d\d\d\d\d\d\d$").expect("Broken regex");
     if !re.is_match(pid) {
