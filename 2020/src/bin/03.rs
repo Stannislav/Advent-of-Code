@@ -27,6 +27,7 @@ fn toboggan_travel(lines: &Vec<Vec<char>>, dw: usize, dh: usize) -> usize {
     count
 }
 
+#[doc(hidden)]
 fn main() {
     // Read input
     let lines: Vec<Vec<char>> = fs::read_to_string("input/03.txt")

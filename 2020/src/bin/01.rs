@@ -61,6 +61,7 @@ fn solve_2(numbers: &Vec<i32>) -> i32 {
     return -1;
 }
 
+#[doc(hidden)]
 fn main() {
     // Read input
     let mut numbers: Vec<i32> = fs::read_to_string("input/01.txt")

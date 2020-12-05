@@ -41,6 +41,7 @@ fn solve(lines: &Vec<String>) -> (i32, i32) {
     (part_1, part_2)
 }
 
+#[doc(hidden)]
 fn main() {
     // Read input
     let lines: Vec<String> = fs::read_to_string("input/02.txt")
