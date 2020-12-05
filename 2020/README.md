@@ -17,7 +17,7 @@ and replace `<xx>` by the day number, e.g. `05`, or `17`.
 |   1 | [Report Repair](https://adventofcode.com/2020/day/1) | [src/bin/01.rs](src/bin/01.rs)
 |   2 | [Password Philosophy](https://adventofcode.com/2020/day/2) | [src/bin/02.rs](src/bin/02.rs)
 |   3 | [Toboggan Trajectory](https://adventofcode.com/2020/day/3) | [src/bin/03.rs](src/bin/03.rs)
-|   4 | [???](https://adventofcode.com/2020/day/4) | [src/bin/04.rs](src/bin/04.rs)
+|   4 | [Passport Processing](https://adventofcode.com/2020/day/4) | [src/bin/04.rs](src/bin/04.rs)
 |   5 | [???](https://adventofcode.com/2020/day/5) | [src/bin/05.rs](src/bin/05.rs)
 |   6 | [???](https://adventofcode.com/2020/day/6) | [src/bin/06.rs](src/bin/06.rs)
 |   7 | [???](https://adventofcode.com/2020/day/7) | [src/bin/07.rs](src/bin/07.rs)
