@@ -4,9 +4,15 @@ use regex::Regex;
 use std::collections::HashMap;
 use std::fs;
 
-fn parse_passport(passport_data: &Vec<String>) -> HashMap<String, String> {
+fn parse_passport(passport_data: &str) -> HashMap<String, String> {
+    let entries: Vec<String> = passport_data.trim()
+        .to_string()
+        .split(|x| x == '\n' || x == ' ')
+        .map(|x| x.to_string())
+        .collect();
+        
     let mut passport: HashMap<String, String> = HashMap::new();
-    for entry in passport_data.iter() {
+    for entry in entries.iter() {
         let pair: Vec<&str> = entry.split(':').collect();
         passport.insert(pair[0].to_string(), pair[1].to_string());
     }
@@ -84,16 +90,10 @@ fn main() {
     let passports: Vec<HashMap<String, String>> = fs::read_to_string("input/04.txt")
         .expect("Can't read input file.")
         .split("\n\n")
-        .map(|x| {
-            x.trim()
-                .to_string()
-                .split(|x| x == '\n' || x == ' ')
-                .map(|x| x.to_string())
-                .collect()
-        })
-        .map(|x| parse_passport(&x))
+        .map(parse_passport)
         .collect();
 
+    // Solutions
     let mut part_1 = 0;
     let mut part_2 = 0;
     for passport in passports.iter() {
