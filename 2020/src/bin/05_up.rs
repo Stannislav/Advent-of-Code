@@ -13,7 +13,7 @@ fn main() {
 
     // Solutions
     println!("Part 1: {}", ids.iter().max().unwrap());
-    ids.sort();
+    ids.sort_unstable();
     for (x1, x2) in ids.iter().zip(ids.iter().skip(1)) {
         if x2 - x1 == 2 {
             println!("Part 2: {}", x1 + 1);

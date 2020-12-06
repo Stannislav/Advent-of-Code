@@ -35,7 +35,7 @@ fn main() {
     println!("Part 1: {}", all_ids.iter().max().unwrap());
 
     // Part 2
-    all_ids.sort();
+    all_ids.sort_unstable();
     for i in 0..all_ids.len() - 1 {
         if all_ids[i + 1] - all_ids[i] == 2 {
             println!("Part 2: {}", all_ids[i] + 1);
