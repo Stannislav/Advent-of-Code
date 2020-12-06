@@ -11,6 +11,16 @@ cargo run --release --bin <xx>
 ```
 and replace `<xx>` by the day number, e.g. `05`, or `17`.
 
+Some solutions use new Rust features not yet available in the `stable` release.
+They can be recognized by the following error:
+```bash
+error[E0554]: `#![feature]` may not be used on the stable release channel
+```
+If you see this error you need compile using the `nightly` toolchain of Rust:
+```bash
+cargo +nightly run --release --bin <xx>
+```
+
 ## Solutions
 The last column contains improved solutions inspired by solutions of other people.
 
