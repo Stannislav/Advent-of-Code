@@ -12,7 +12,7 @@ use std::fs;
 /// doing steps of the form `(h, w) -> (h + dh, w + dw)` while wrapping
 /// around the horizontal (`w`) axis. Record the number of trees marked
 /// by `'#'` that are encountered along the trajectory.
-fn toboggan_travel(lines: &Vec<Vec<char>>, dw: usize, dh: usize) -> usize {
+fn toboggan_travel(lines: &[Vec<char>], dw: usize, dh: usize) -> usize {
     let (h_max, w_max) = (lines.len(), lines[0].len());
     let (mut h, mut w) = (0, 0);
     let mut count = 0;
@@ -21,7 +21,7 @@ fn toboggan_travel(lines: &Vec<Vec<char>>, dw: usize, dh: usize) -> usize {
             count += 1;
         }
         w = (w + dw) % w_max;
-        h = h + dh;
+        h += dh;
     }
 
     count
