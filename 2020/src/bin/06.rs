@@ -21,7 +21,7 @@ fn main() {
     // Part 1
     // For each group compute the union of all answers of all people in that group.
     // The count for that group is the size of the union. Sum all counts.
-    let part_1 = data
+    let part_1: usize = data
         .iter()
         .map(|group| {
             group
@@ -29,13 +29,13 @@ fn main() {
                 .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect())
                 .len()
         })
-        .fold(0, |c1, c2| c1 + c2);
+        .sum();
     println!("Part 1: {}", part_1);
 
     // Part 2
     // For each group compute the intersection of all answers of all people in that group.
     // The count for that group is the size of the intersection. Sum all counts.
-    let part_2 = data
+    let part_2: usize = data
         .iter()
         .map(|group| {
             group
@@ -46,6 +46,6 @@ fn main() {
                 })
                 .len()
         })
-        .fold(0, |c1, c2| c1 + c2);
+        .sum();
     println!("Part 2: {}", part_2);
 }
