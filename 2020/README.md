@@ -7,7 +7,7 @@
 ## How to Run
 Run
 ```bash
-cargo run --release --bin <xx>
+$ cargo run --release --bin <xx>
 ```
 and replace `<xx>` by the day number, e.g. `05`, or `17`.
 
@@ -18,7 +18,7 @@ error[E0554]: `#![feature]` may not be used on the stable release channel
 ```
 If you see this error you need compile using the `nightly` toolchain of Rust:
 ```bash
-cargo +nightly run --release --bin <xx>
+$ cargo +nightly run --release --bin <xx>
 ```
 
 ## Solutions
