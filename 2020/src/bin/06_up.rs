@@ -5,7 +5,6 @@
 use std::collections::HashSet;
 use std::fs;
 
-
 fn main() {
     // Read input file
     let groups: Vec<String> = fs::read_to_string("input/06.txt")
@@ -13,7 +12,7 @@ fn main() {
         .split("\n\n")
         .map(|s| s.to_string())
         .collect();
-    
+
     // Note the use of `flat_map`
     let part_1: usize = groups
         .iter()
@@ -37,6 +36,7 @@ fn main() {
                 .fold_first(|h1, h2| h1.intersection(&h2).cloned().collect())
                 .unwrap()
                 .len()
-        }).sum();
+        })
+        .sum();
     println!("Part 2: {}", part_2);
 }
