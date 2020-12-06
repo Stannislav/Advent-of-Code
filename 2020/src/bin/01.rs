@@ -1,4 +1,5 @@
 use std::fs;
+use std::cmp::Ordering;
 
 /// Solve part 1.
 ///
@@ -13,20 +14,20 @@ use std::fs;
 /// sorted the sum `number[i] + numbers[j]` is always decreasing, so
 /// we can optimize checking if this number is below the target value
 /// of 2020.
-fn solve_1(numbers: &Vec<i32>) -> i32 {
+fn solve_1(numbers: &[i32]) -> i32 {
     let n = numbers.len();
     for i in 0..n {
         for j in (i + 1..n).rev() {
-            if numbers[i] + numbers[j] == 2020 {
-                return numbers[i] * numbers[j];
-            } else if numbers[i] + numbers[j] < 2020 {
+            match (numbers[i] + numbers[j]).cmp(&2020) {
                 // we won't find a good j for this i any more
-                break;
+                Ordering::Less => break,
+                Ordering::Equal => return numbers[i] * numbers[j],
+                Ordering::Greater => (),
             }
         }
     }
 
-    return -1;
+    -1
 }
 
 /// Solve part 2.
@@ -39,7 +40,7 @@ fn solve_1(numbers: &Vec<i32>) -> i32 {
 /// Similarly to part 1 `i` runs from the left and `j` runs from the right.
 /// The third index, `k`, runs starting from `j` towards `i`. Again we can
 /// make optimizations based on the fact that `numbers` is sorted.
-fn solve_2(numbers: &Vec<i32>) -> i32 {
+fn solve_2(numbers: &[i32]) -> i32 {
     let n = numbers.len();
     for i in 0..n {
         for j in (i + 1..n).rev() {
@@ -48,17 +49,17 @@ fn solve_2(numbers: &Vec<i32>) -> i32 {
                 continue;
             }
             for k in (i + 1..j).rev() {
-                if numbers[i] + numbers[j] + numbers[k] == 2020 {
-                    return numbers[i] * numbers[j] * numbers[k];
-                } else if numbers[i] + numbers[j] + numbers[k] < 2020 {
+                match (numbers[i] + numbers[j]).cmp(&2020) {
                     // won't find a good k in this branch any more
-                    break;
+                    Ordering::Less => break,
+                    Ordering::Equal => return numbers[i] * numbers[j] * numbers[k],
+                    Ordering::Greater => (),
                 }
             }
         }
     }
 
-    return -1;
+    -1
 }
 
 #[doc(hidden)]
@@ -69,7 +70,7 @@ fn main() {
         .split_whitespace()
         .map(|s| s.parse().expect("Can't parse number"))
         .collect();
-    numbers.sort();
+    numbers.sort_unstable();
 
     // Part 1
     let solution_1 = solve_1(&numbers);
