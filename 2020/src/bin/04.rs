@@ -73,17 +73,17 @@ fn check_passport(passport: &HashMap<String, String>, check_values: bool) -> u8 
     // Part 2 only
     // byr
     let byr: i32 = passport.get("byr").unwrap().parse().unwrap();
-    if byr < 1920 || byr > 2002 {
+    if !(1920..=2002).contains(&byr) {
         return 0;
     }
     // iyr
     let iyr: i32 = passport.get("iyr").unwrap().parse().unwrap();
-    if iyr < 2010 || iyr > 2020 {
+    if !(2010..=2020).contains(&iyr) {
         return 0;
     }
     // eyr
     let eyr: i32 = passport.get("eyr").unwrap().parse().unwrap();
-    if eyr < 2020 || eyr > 2030 {
+    if !(2020..=2030).contains(&eyr) {
         return 0;
     }
     // hgt
@@ -117,7 +117,7 @@ fn check_passport(passport: &HashMap<String, String>, check_values: bool) -> u8 
         return 0;
     }
 
-    return 1;
+    1
 }
 
 #[doc(hidden)]
