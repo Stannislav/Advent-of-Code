@@ -1,5 +1,5 @@
-use std::fs;
 use std::cmp::Ordering;
+use std::fs;
 
 /// Solve part 1.
 ///
