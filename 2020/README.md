@@ -32,7 +32,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   4 | [Passport Processing](https://adventofcode.com/2020/day/4) | [src/bin/04.rs](src/bin/04.rs) |  |
 |   5 | [Binary Boarding](https://adventofcode.com/2020/day/5) | [src/bin/05.rs](src/bin/05.rs) | [src/bin/05_up.rs](src/bin/05_up.rs) |
 |   6 | [Custom Customs](https://adventofcode.com/2020/day/6) | [src/bin/06.rs](src/bin/06.rs) | [src/bin/06_up.rs](src/bin/06_up.rs) |
-|   7 | [???](https://adventofcode.com/2020/day/7) | [src/bin/07.rs](src/bin/07.rs) |  |
+|   7 | [Handy Haversacks](https://adventofcode.com/2020/day/7) | [src/bin/07.rs](src/bin/07.rs) |  |
 |   8 | [???](https://adventofcode.com/2020/day/8) | [src/bin/08.rs](src/bin/08.rs) |  |
 |   9 | [???](https://adventofcode.com/2020/day/9) | [src/bin/09.rs](src/bin/09.rs) |  |
 |  10 | [???](https://adventofcode.com/2020/day/10) | [src/bin/10.rs](src/bin/10.rs) |  |
