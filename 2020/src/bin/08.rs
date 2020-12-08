@@ -1,19 +1,86 @@
+use std::collections::HashSet;
 use std::fs;
 
-fn parse_input(lines: &Vec<String>) {
-
+/// An intcode command.
+#[derive(Debug)]
+enum Cmd {
+    Nop(isize),
+    Acc(isize),
+    Jmp(isize),
 }
 
+/// Run intcodes.
+///
+/// # Arguments
+/// * `cmd` -- A sequence of intcode commands
+///
+/// # Returns
+/// * `acc` -- The value of the accumulator
+/// * `looped` -- Boolean, true if the program ended in an infinite loop
+/// * `seen` -- Indices of commands that were executed.
+fn run(cmd: &[Cmd]) -> (isize, bool, HashSet<isize>) {
+    let mut acc: isize = 0;
+    let mut ptr: isize = 0;
+    let mut seen: HashSet<isize> = HashSet::new();
+    let mut looped = false;
+    while ptr < cmd.len() as isize {
+        if seen.contains(&ptr) {
+            looped = true;
+            break;
+        }
+
+        seen.insert(ptr);
+        match cmd[ptr as usize] {
+            Cmd::Nop(_) => (),
+            Cmd::Acc(x) => acc += x,
+            Cmd::Jmp(x) => ptr += x - 1,
+        }
+        ptr += 1;
+    }
+
+    (acc, looped, seen)
+}
+
+#[doc(hidden)]
 fn main() {
-    let lines: Vec<String> = fs::read_to_string("input/08.txt")
+    // Read input
+    let mut cmd: Vec<Cmd> = fs::read_to_string("input/08.txt")
         .expect("Can't read input file.")
         .trim()
         .lines()
-        .map(|x| x.to_string())
+        .map(|x| {
+            let pair: Vec<&str> = x.split(' ').collect();
+            let name = pair[0];
+            let x = pair[1].parse().expect("Can't parse command argument");
+            match name {
+                "nop" => Cmd::Nop(x),
+                "acc" => Cmd::Acc(x),
+                "jmp" => Cmd::Jmp(x),
+                _ => panic!("Unknown command: {}", name),
+            }
+        })
         .collect();
-    
-    println!("{:#?}", lines);
 
-    // Parse input
-    parse_input(&lines);
+    // Part 1
+    let (acc, _looped, seen) = run(&cmd);
+    println!("Part 1: {}", acc);
+
+    // Part 2
+    // One of the "jmp" commands that were exectued in part 1 has to
+    // be replaced by a "nop" command (or vice versa, which, however,
+    // is not the case). Brute-force the solution by trying to replace
+    // each of the "jmp" commands in `seen` by `nop` until the code
+    // doesn't loop.
+    for ptr in seen {
+        if let Cmd::Jmp(x) = cmd[ptr as usize] {
+            cmd[ptr as usize] = Cmd::Nop(x);
+            let (acc, looped, _seen) = run(&cmd);
+            if !looped {
+                println!("Part 2: {}", acc);
+                break;
+            }
+            // Restore the original "jmp" command.
+            cmd[ptr as usize] = Cmd::Jmp(x);
+        }
+    }
 }
