@@ -15,7 +15,7 @@ impl FromStr for Cmd {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let cmd_name = &s[..3];
-        let x = (&s[4..]).parse().unwrap();
+        let x = s[4..].parse().unwrap();
         let cmd = match cmd_name {
             "nop" => Cmd::Nop(x),
             "acc" => Cmd::Acc(x),
