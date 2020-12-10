@@ -35,7 +35,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   7 | [Handy Haversacks](https://adventofcode.com/2020/day/7) | [src/bin/07.rs](src/bin/07.rs) |  |
 |   8 | [Handheld Halting](https://adventofcode.com/2020/day/8) | [src/bin/08.rs](src/bin/08.rs) | [src/bin/08_up.rs](src/bin/08_up.rs) |
 |   9 | [Encoding Error](https://adventofcode.com/2020/day/9) | [src/bin/09.rs](src/bin/09.rs) |  |
-|  10 | [???](https://adventofcode.com/2020/day/10) | [src/bin/10.rs](src/bin/10.rs) |  |
+|  10 | [Adapter Array](https://adventofcode.com/2020/day/10) | [src/bin/10.rs](src/bin/10.rs) |  |
 |  11 | [???](https://adventofcode.com/2020/day/11) | [src/bin/11.rs](src/bin/11.rs) |  |
 |  12 | [???](https://adventofcode.com/2020/day/12) | [src/bin/12.rs](src/bin/12.rs) |  |
 |  13 | [???](https://adventofcode.com/2020/day/13) | [src/bin/13.rs](src/bin/13.rs) |  |
