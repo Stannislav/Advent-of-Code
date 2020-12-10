@@ -54,6 +54,12 @@ fn solve_1(data: &[usize]) -> usize {
 /// We use dynamic programming and starting from the end build
 /// up an array `n_paths` that contains the number of paths from
 /// the correspondign element to the end.
+///
+/// # Arguments
+/// * `data` -- The sorted sequence of input data with two added elements.
+///
+/// # Returns
+/// `usize` -- The problem solution.
 fn solve_2(data: &[usize]) -> usize {
     // Initialize the memoization array, 0 means not processed yet.
     let mut n_paths: Vec<usize> = vec![0; data.len()];
