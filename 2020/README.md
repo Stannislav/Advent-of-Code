@@ -36,9 +36,9 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   8 | [Handheld Halting](https://adventofcode.com/2020/day/8) | [src/bin/08.rs](src/bin/08.rs) | [src/bin/08_up.rs](src/bin/08_up.rs) |
 |   9 | [Encoding Error](https://adventofcode.com/2020/day/9) | [src/bin/09.rs](src/bin/09.rs) |  |
 |  10 | [Adapter Array](https://adventofcode.com/2020/day/10) | [src/bin/10.rs](src/bin/10.rs) |  |
-|  11 | [???](https://adventofcode.com/2020/day/11) | [src/bin/11.rs](src/bin/11.rs) |  |
-|  12 | [???](https://adventofcode.com/2020/day/12) | [src/bin/12.rs](src/bin/12.rs) |  |
-|  13 | [???](https://adventofcode.com/2020/day/13) | [src/bin/13.rs](src/bin/13.rs) |  |
+|  11 | [Seating System](https://adventofcode.com/2020/day/11) | [src/bin/11.rs](src/bin/11.rs) |  |
+|  12 | [Rain Risk](https://adventofcode.com/2020/day/12) | [src/bin/12.rs](src/bin/12.rs) |  |
+|  13 | [Shuttle Search](https://adventofcode.com/2020/day/13) | [src/bin/13.rs](src/bin/13.rs) |  |
 |  14 | [???](https://adventofcode.com/2020/day/14) | [src/bin/14.rs](src/bin/14.rs) |  |
 |  15 | [???](https://adventofcode.com/2020/day/15) | [src/bin/15.rs](src/bin/15.rs) |  |
 |  16 | [???](https://adventofcode.com/2020/day/16) | [src/bin/16.rs](src/bin/16.rs) |  |
