@@ -40,7 +40,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  12 | [Rain Risk](https://adventofcode.com/2020/day/12) | [src/bin/12.rs](src/bin/12.rs) |  |
 |  13 | [Shuttle Search](https://adventofcode.com/2020/day/13) | [src/bin/13.rs](src/bin/13.rs) |  |
 |  14 | [Docking Data](https://adventofcode.com/2020/day/14) | [src/bin/14.rs](src/bin/14.rs) |  |
-|  15 | [???](https://adventofcode.com/2020/day/15) | [src/bin/15.rs](src/bin/15.rs) |  |
+|  15 | [Rambunctious Recitation](https://adventofcode.com/2020/day/15) | [src/bin/15.rs](src/bin/15.rs) |  |
 |  16 | [???](https://adventofcode.com/2020/day/16) | [src/bin/16.rs](src/bin/16.rs) |  |
 |  17 | [???](https://adventofcode.com/2020/day/17) | [src/bin/17.rs](src/bin/17.rs) |  |
 |  18 | [???](https://adventofcode.com/2020/day/18) | [src/bin/18.rs](src/bin/18.rs) |  |
