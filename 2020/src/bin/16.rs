@@ -55,7 +55,7 @@ fn main() {
         .iter()
         .flat_map(|ticket| ticket.iter().filter(|&&value| !match_any(&value, &rules)))
         .sum();
-    println!("Part 1: {:?}", part_1);
+    println!("Part 1: {}", part_1);
 
     // Discard invalid tickets and add my ticket
     let mut other_tickets: Vec<_> = other_tickets
@@ -69,7 +69,7 @@ fn main() {
     let part_2 = departure_ids
         .iter()
         .fold(1, |acc, &idx| acc * my_ticket[idx] as u64);
-    println!("Part 2: {:?}", part_2);
+    println!("Part 2: {}", part_2);
 }
 
 /// Check if a value complies with a rule.
@@ -90,7 +90,7 @@ fn check_rule(value: &u32, (s1, e1, s2, e2): &Rule) -> bool {
 /// Check if a value complies with any of the rules.
 ///
 /// # Arguments
-/// * `value` -- The valuel to verify.
+/// * `value` -- The value to verify.
 /// * `rules` -- A map with rules as values.
 ///
 /// # Return
