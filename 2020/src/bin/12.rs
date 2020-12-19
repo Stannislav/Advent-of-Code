@@ -1,6 +1,6 @@
-extern crate num;
+extern crate num_complex;
 
-use num::complex;
+use num_complex::Complex;
 use std::fs;
 use std::str::FromStr;
 
@@ -46,11 +46,11 @@ fn main() {
         .collect();
 
     // Solutions
-    let i = complex::Complex::i();
+    let i = Complex::i();
 
     // Part 1
-    let mut pos = complex::Complex::new(0, 0);
-    let mut dir = complex::Complex::new(1, 0);
+    let mut pos = Complex::new(0, 0);
+    let mut dir = Complex::new(1, 0);
     for cmd in &data {
         match cmd {
             Command::N(n) => pos += n * i,
@@ -65,8 +65,8 @@ fn main() {
     println!("Part 1: {}", pos.l1_norm());
 
     // Part 2
-    let mut pos = complex::Complex::new(0, 0);
-    let mut waypoint = complex::Complex::new(10, 1);
+    let mut pos = Complex::new(0, 0);
+    let mut waypoint = Complex::new(10, 1);
     for cmd in &data {
         match cmd {
             Command::N(n) => waypoint += n * i,
