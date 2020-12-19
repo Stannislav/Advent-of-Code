@@ -42,9 +42,9 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  14 | [Docking Data](https://adventofcode.com/2020/day/14) | [src/bin/14.rs](src/bin/14.rs) |  |
 |  15 | [Rambunctious Recitation](https://adventofcode.com/2020/day/15) | [src/bin/15.rs](src/bin/15.rs) |  |
 |  16 | [Ticket Translation](https://adventofcode.com/2020/day/16) | [src/bin/16.rs](src/bin/16.rs) |  |
-|  17 | [???](https://adventofcode.com/2020/day/17) | [src/bin/17.rs](src/bin/17.rs) |  |
-|  18 | [???](https://adventofcode.com/2020/day/18) | [src/bin/18.rs](src/bin/18.rs) |  |
-|  19 | [???](https://adventofcode.com/2020/day/19) | [src/bin/19.rs](src/bin/19.rs) |  |
+|  17 | [Conway Cubes](https://adventofcode.com/2020/day/17) | [src/bin/17.rs](src/bin/17.rs) |  |
+|  18 | [Operation Order](https://adventofcode.com/2020/day/18) | [src/bin/18.rs](src/bin/18.rs) |  |
+|  19 | [Monster Messages](https://adventofcode.com/2020/day/19) | [src/bin/19.rs](src/bin/19.rs) |  |
 |  20 | [???](https://adventofcode.com/2020/day/20) | [src/bin/20.rs](src/bin/20.rs) |  |
 |  21 | [???](https://adventofcode.com/2020/day/21) | [src/bin/21.rs](src/bin/21.rs) |  |
 |  22 | [???](https://adventofcode.com/2020/day/22) | [src/bin/22.rs](src/bin/22.rs) |  |
