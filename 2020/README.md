@@ -46,7 +46,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  18 | [Operation Order](https://adventofcode.com/2020/day/18) | [src/bin/18.rs](src/bin/18.rs) |  |
 |  19 | [Monster Messages](https://adventofcode.com/2020/day/19) | [src/bin/19.rs](src/bin/19.rs) |  |
 |  20 | [Jurassic Jigsaw](https://adventofcode.com/2020/day/20) | [src/bin/20.rs](src/bin/20.rs) |  |
-|  21 | [???](https://adventofcode.com/2020/day/21) | [src/bin/21.rs](src/bin/21.rs) |  |
+|  21 | [Allergen Assessment](https://adventofcode.com/2020/day/21) | [src/bin/21.rs](src/bin/21.rs) |  |
 |  22 | [???](https://adventofcode.com/2020/day/22) | [src/bin/22.rs](src/bin/22.rs) |  |
 |  23 | [???](https://adventofcode.com/2020/day/23) | [src/bin/23.rs](src/bin/23.rs) |  |
 |  24 | [???](https://adventofcode.com/2020/day/24) | [src/bin/24.rs](src/bin/24.rs) |  |
