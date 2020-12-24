@@ -1,5 +1,5 @@
-use std::fs;
 use std::collections::HashMap;
+use std::fs;
 
 fn main() {
     let lines: Vec<String> = fs::read_to_string("input/13.txt")
@@ -12,7 +12,7 @@ fn main() {
         .trim()
         .split(',')
         .enumerate()
-        .filter(|&(i, s)| s != "x")
+        .filter(|&(_i, s)| s != "x")
         .map(|(i, s)| (i, s.parse().unwrap()))
         .collect();
 
@@ -28,19 +28,18 @@ fn main() {
         if wait < min_wait {
             min_wait = wait;
             part_1 = id * min_wait;
-            
         }
     }
     println!("Part 1: {}", part_1); // = 3035
 
     // Part 2 -- brute-force -- takes too long
-    // let (_i, id) = ids.iter().max_by(|a, b| a.1.cmp(&b.1)).unwrap();
-    // let mut timestamp = *id;
-    // while !check(&ids, timestamp) {
-    //     timestamp += id;
-    //     // println!("{}", timestamp);
-    // }
-    // println!("Part 2: {}", timestamp);
+    let (_i, id) = ids.iter().max_by(|a, b| a.1.cmp(&b.1)).unwrap();
+    let mut timestamp = *id;
+    while !check(&ids, timestamp) {
+        timestamp += id;
+        // println!("{}", timestamp);
+    }
+    println!("Part 2: {}", timestamp);
 }
 
 fn check(ids: &HashMap<usize, usize>, timestamp: usize) -> bool {
