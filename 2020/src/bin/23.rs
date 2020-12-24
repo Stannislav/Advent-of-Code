@@ -1,3 +1,4 @@
+//! Solutions for day 22.
 use std::collections::HashMap;
 use std::fs;
 
