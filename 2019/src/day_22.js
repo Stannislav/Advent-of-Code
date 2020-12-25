@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 // Read data
-const data = fs.readFileSync("../input/input_22.txt", "utf-8");
+const data = fs.readFileSync("input/22.txt", "utf-8");
 
 
 // Parse instructions

@@ -3,7 +3,7 @@
 
 // Read data
 const fs = require('fs');
-const data = fs.readFileSync("../input/input_04.txt", "utf-8").trim();
+const data = fs.readFileSync("input/04.txt", "utf-8").trim();
 const [n_from, n_to] = data.split("-").map(Number);
 
 

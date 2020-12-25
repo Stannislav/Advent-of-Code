@@ -2,7 +2,7 @@
 
 // Read data
 const fs = require('fs');
-const data = fs.readFileSync("../input/input_02.txt", "utf8");
+const data = fs.readFileSync("input/02.txt", "utf8");
 let program = data.trim().split(",").map(Number);
 
 

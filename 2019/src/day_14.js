@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 // Read data
-const data = fs.readFileSync("../input/input_14.txt", "utf-8");
+const data = fs.readFileSync("input/14.txt", "utf-8");
 /*
 Save data in a dictionary using the following format:
     n A, m B => k C

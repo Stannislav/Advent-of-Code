@@ -2,7 +2,7 @@
 
 // Read data
 const fs = require('fs');
-const data = fs.readFileSync("../input/input_03.txt", "utf-8");
+const data = fs.readFileSync("input/03.txt", "utf-8");
 let wires = data.trim().split('\n').map(s => s.trim().split(','));
 
 

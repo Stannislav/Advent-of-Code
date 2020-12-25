@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 // Read Data
-const data = fs.readFileSync("../input/input_08.txt", "utf-8");
+const data = fs.readFileSync("input/08.txt", "utf-8");
 const pixels = [...data.trim()].map(Number);
 
 const WIDTH = 25;

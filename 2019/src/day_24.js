@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 // Read data
-const data = fs.readFileSync("../input/input_24.txt", "utf-8");
+const data = fs.readFileSync("input/24.txt", "utf-8");
 const initialMap = data.trim().split('\n').map(s => [...s]);
 let H = initialMap.length;
 let W = initialMap[0].length;

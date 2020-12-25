@@ -7,7 +7,7 @@ const IntcodeComputer = require('./intcode_computer');
 
 
 // Read data
-const data = fs.readFileSync("../input/input_19.txt", "utf-8");
+const data = fs.readFileSync("input/19.txt", "utf-8");
 const program = data.trim().split(',').map(Number);
 
 

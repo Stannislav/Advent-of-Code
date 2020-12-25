@@ -3,7 +3,7 @@
 
 // Read Data
 const fs = require('fs');
-const data = fs.readFileSync("../input/input_06.txt", "utf-8");
+const data = fs.readFileSync("input/06.txt", "utf-8");
 const lines = data.trim().split("\n");
 let parents = {};
 for (let i = 0; i < lines.length; ++i) {

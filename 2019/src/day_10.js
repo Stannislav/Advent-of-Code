@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 // Read data
-const data = fs.readFileSync("../input/input_10.txt", "utf-8");
+const data = fs.readFileSync("input/10.txt", "utf-8");
 const map = data.trim().split('\n').map(line => line.trim().split(""));
 
 
