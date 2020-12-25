@@ -50,4 +50,4 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  22 | [Crab Combat](https://adventofcode.com/2020/day/22) | [src/bin/22.rs](src/bin/22.rs) |  |
 |  23 | [Crab Cups](https://adventofcode.com/2020/day/23) | [src/bin/23.rs](src/bin/23.rs) |  |
 |  24 | [Lobby Layout](https://adventofcode.com/2020/day/24) | [src/bin/24.rs](src/bin/24.rs) |  |
-|  25 | [???](https://adventofcode.com/2020/day/25) | [src/bin/25.rs](src/bin/25.rs) |  |
+|  25 | [Combo Breaker](https://adventofcode.com/2020/day/25) | [src/bin/25.rs](src/bin/25.rs) |  |
