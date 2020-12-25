@@ -1,1 +1,6 @@
+# VSCode files
 /.vscode/
+
+# Input files
+/input/*
+!/input/place_input_here.txt
