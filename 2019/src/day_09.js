@@ -14,8 +14,8 @@ const program = data.trim().split(',').map(Number);
 // Solutions
 let computer = new IntcodeComputer();
 
-computer.launch(program, [1]);
+computer.launch(program, {inputs: [1]});
 console.log("Part 1:", computer.outputs.pop());
 
-computer.launch(program, [2]);
+computer.launch(program, {inputs: [2]});
 console.log("Part 2:", computer.outputs.pop());
