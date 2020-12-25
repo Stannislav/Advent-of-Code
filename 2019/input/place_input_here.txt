@@ -1,0 +1,3 @@
+Place your input files in this folder and name
+them using two digits plus a "txt" extension,
+e.g. "02.txt" or "15.txt".
