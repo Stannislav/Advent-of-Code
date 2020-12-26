@@ -4,6 +4,14 @@
 - Discussions: [Reddit](https://www.reddit.com/r/adventofcode/)
 - Language: JavaScript
 
+## How to Run
+
+```bash
+$ node src/day_xx.js
+```
+
+## Solutions
+
 | Day | Problem | Solution |
 |----:|:--------|:---------|
 |   1 | [The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1) | [day_01.js](./src/day_01.js)
