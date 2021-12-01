@@ -1,7 +1,33 @@
 # :christmas_tree: Advent of Code 2021 :christmas_tree:
 
-- Web: [AoC](https://adventofcode.com/2021)
-- Discussions: [Reddit](https://www.reddit.com/r/adventofcode)
+* Web: [AoC](https://adventofcode.com/2021)
+* Discussions: [Reddit](https://www.reddit.com/r/adventofcode)
+
+## Goals
+The goal this year is to try and use as many new features introduced
+in python versions 3.7 to 3.10. Detailed descriptions of all new features
+can be found in the python docs:
+* [What’s New In Python 3.7](https://docs.python.org/3/whatsnew/3.7.html)
+* [What’s New In Python 3.8](https://docs.python.org/3/whatsnew/3.8.html)
+* [What’s New In Python 3.9](https://docs.python.org/3/whatsnew/3.9.html)
+* [What’s New In Python 3.10](https://docs.python.org/3/whatsnew/3.10.html)
+
+The new features include:
+* [py37] Postponed evaluation of type annotations
+* [py37] The `dataclasses` module
+* [py38] The walrus operator (`:=`)
+* [py38] Positional-only parameters (`/`)
+* [py38] Self-documentation operator `=` in f-strings
+* [py38] The new `@functools.cached_property` decorator
+* [py38] `Literal` and `Final` in `typing`
+* [py39] Dictionary merge (`|`) and update (`|=`) operators
+* [py39] `str.removeprefix(prefix)` and `str.removesuffix(suffix)`
+* [py39] Type hinting generics
+* [py39] The `graphlib` module and the `graphlib.TopologicalSorter` class
+* [py310] Structural pattern matching
+* [py310] Parenthesized context managers
+* [py310] The type union operator (`|`)
+* [py310] New method `int.bit_count()`
 
 ## How to Run
 Create a virtual environment
