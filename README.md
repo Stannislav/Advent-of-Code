@@ -11,3 +11,4 @@ www.adventofcode.com
 - [2018](2018) - Python
 - [2019](2019) - JavaScript
 - [2020](2020) - Rust
+- [2021](2021) - Python 3.10
