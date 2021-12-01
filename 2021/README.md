@@ -1,4 +1,4 @@
-# :christmas_tree: Advent of Code 2020 :christmas_tree:
+# :christmas_tree: Advent of Code 2021 :christmas_tree:
 
 - Web: [AoC](https://adventofcode.com/2021)
 - Discussions: [Reddit](https://www.reddit.com/r/adventofcode)
@@ -22,6 +22,7 @@ Code style and formatting can be check and applied using tox.
 ```bash
 tox -e format
 tox -e lint
+tox -e type
 ```
 
 ## Solutions
