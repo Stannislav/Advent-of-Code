@@ -1,4 +1,4 @@
-# :christmas_tree: Advent of Code 2021 :christmas_tree:
+# 🎄 Advent of Code 2021 🎄
 
 * Web: [AoC](https://adventofcode.com/2021)
 * Discussions: [Reddit](https://www.reddit.com/r/adventofcode)
@@ -44,11 +44,10 @@ Run (replace `XX` by the day number, e.g. `05`, or `17`).
 python src/XX.py
 ```
 
-Code style and formatting can be check and applied using tox.
+Code style and formatting can be checked and fixed using tox.
 ```bash
-tox -e format
-tox -e lint
-tox -e type
+tox  # check
+tox -e format  # fix
 ```
 
 ## Solutions
