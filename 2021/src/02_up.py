@@ -4,7 +4,7 @@ from typing import TypeAlias
 Command: TypeAlias = tuple[str, int]
 
 
-def solution(commands: list[Command]) -> tuple[int, int]:
+def solve(commands: list[Command]) -> tuple[int, int]:
     """Perform piloting according to part 2 instructions.
 
     Compute the solutions for both parts in one pass by realising
@@ -36,7 +36,7 @@ def main() -> None:
             cmd, value = line.split()
             commands.append((cmd, int(value)))
 
-    part1, part2 = solution(commands)
+    part1, part2 = solve(commands)
     print("Part 1:", part1)
     print("Part 2:", part2)
 
