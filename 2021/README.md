@@ -57,7 +57,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |----:|:--------|:---------|:------------------|
 |   1 | [Sonar Sweep](https://adventofcode.com/2021/day/1) | [src/01.py](src/01.py) | [src/01_up.py](src/01_up.py) |
 |   2 | [Dive!](https://adventofcode.com/2021/day/2) | [src/02.py](src/02.py) |  |
-|   3 | [???](https://adventofcode.com/2021/day/3) | [src/03.py](src/03.py) |  |
+|   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | [src/03.py](src/03.py) |  |
 |   4 | [???](https://adventofcode.com/2021/day/4) | [src/04.py](src/04.py) |  |
 |   5 | [???](https://adventofcode.com/2021/day/5) | [src/05.py](src/05.py) |  |
 |   6 | [???](https://adventofcode.com/2021/day/6) | [src/06.py](src/06.py) |  |
