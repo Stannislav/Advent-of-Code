@@ -53,32 +53,30 @@ tox -e format  # fix
 ## Solutions
 The last column contains improved solutions inspired by solutions of other people.
 
-| Day | Problem | Solution | Improved Solution |
-|----:|:--------|:---------|:------------------|
-|   1 | [Sonar Sweep](https://adventofcode.com/2021/day/1) | [src/01.py](src/01.py) | [src/01_up.py](src/01_up.py) |
-|   2 | [Dive!](https://adventofcode.com/2021/day/2) | [src/02.py](src/02.py) | [src/02_up.py](src/02_up.py) |
-|   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | [src/03.py](src/03.py) |  |
-|   4 | [Giant Squid](https://adventofcode.com/2021/day/4) | [src/04.py](src/04.py) |  |
-|   5 | [???](https://adventofcode.com/2021/day/5) | [src/05.py](src/05.py) |  |
-|   6 | [???](https://adventofcode.com/2021/day/6) | [src/06.py](src/06.py) |  |
-|   7 | [???](https://adventofcode.com/2021/day/7) | [src/07.py](src/07.py) |  |
-|   8 | [???](https://adventofcode.com/2021/day/8) | [src/08.py](src/08.py) |  |
-|   9 | [???](https://adventofcode.com/2021/day/9) | [src/09.py](src/09.py) |  |
-|  10 | [???](https://adventofcode.com/2021/day/10) | [src/10.py](src/10.py) |  |
-|  11 | [???](https://adventofcode.com/2021/day/11) | [src/11.py](src/11.py) |  |
-|  12 | [???](https://adventofcode.com/2021/day/12) | [src/12.py](src/12.py) |  |
-|  13 | [???](https://adventofcode.com/2021/day/13) | [src/13.py](src/13.py) |  |
-|  14 | [???](https://adventofcode.com/2021/day/14) | [src/14.py](src/14.py) |  |
-|  15 | [???](https://adventofcode.com/2021/day/15) | [src/15.py](src/15.py) |  |
-|  16 | [???](https://adventofcode.com/2021/day/16) | [src/16.py](src/16.py) |  |
-|  17 | [???](https://adventofcode.com/2021/day/17) | [src/17.py](src/17.py) |  |
-|  18 | [???](https://adventofcode.com/2021/day/18) | [src/18.py](src/18.py) |  |
-|  19 | [???](https://adventofcode.com/2021/day/19) | [src/19.py](src/19.py) |  |
-|  20 | [???](https://adventofcode.com/2021/day/20) | [src/20.py](src/20.py) |  |
-|  21 | [???](https://adventofcode.com/2021/day/21) | [src/21.py](src/21.py) |  |
-|  22 | [???](https://adventofcode.com/2021/day/22) | [src/22.py](src/22.py) |  |
-|  23 | [???](https://adventofcode.com/2021/day/23) | [src/23.py](src/23.py) |  |
-|  24 | [???](https://adventofcode.com/2021/day/24) | [src/24.py](src/24.py) |  |
-|  25 | [???](https://adventofcode.com/2021/day/25) | [src/25.py](src/25.py) |  |
-
-
+| Day | Problem                                                  | Solution               | Improved Solution            |
+|----:|:---------------------------------------------------------|:-----------------------|:-----------------------------|
+|   1 | [Sonar Sweep](https://adventofcode.com/2021/day/1)       | [src/01.py](src/01.py) | [src/01_up.py](src/01_up.py) |
+|   2 | [Dive!](https://adventofcode.com/2021/day/2)             | [src/02.py](src/02.py) | [src/02_up.py](src/02_up.py) |
+|   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | [src/03.py](src/03.py) |                              |
+|   4 | [Giant Squid](https://adventofcode.com/2021/day/4)       | [src/04.py](src/04.py) |                              |
+|   5 | [???](https://adventofcode.com/2021/day/5)               | [src/05.py](src/05.py) |                              |
+|   6 | [???](https://adventofcode.com/2021/day/6)               | [src/06.py](src/06.py) |                              |
+|   7 | [???](https://adventofcode.com/2021/day/7)               | [src/07.py](src/07.py) |                              |
+|   8 | [???](https://adventofcode.com/2021/day/8)               | [src/08.py](src/08.py) |                              |
+|   9 | [???](https://adventofcode.com/2021/day/9)               | [src/09.py](src/09.py) |                              |
+|  10 | [???](https://adventofcode.com/2021/day/10)              | [src/10.py](src/10.py) |                              |
+|  11 | [???](https://adventofcode.com/2021/day/11)              | [src/11.py](src/11.py) |                              |
+|  12 | [???](https://adventofcode.com/2021/day/12)              | [src/12.py](src/12.py) |                              |
+|  13 | [???](https://adventofcode.com/2021/day/13)              | [src/13.py](src/13.py) |                              |
+|  14 | [???](https://adventofcode.com/2021/day/14)              | [src/14.py](src/14.py) |                              |
+|  15 | [???](https://adventofcode.com/2021/day/15)              | [src/15.py](src/15.py) |                              |
+|  16 | [???](https://adventofcode.com/2021/day/16)              | [src/16.py](src/16.py) |                              |
+|  17 | [???](https://adventofcode.com/2021/day/17)              | [src/17.py](src/17.py) |                              |
+|  18 | [???](https://adventofcode.com/2021/day/18)              | [src/18.py](src/18.py) |                              |
+|  19 | [???](https://adventofcode.com/2021/day/19)              | [src/19.py](src/19.py) |                              |
+|  20 | [???](https://adventofcode.com/2021/day/20)              | [src/20.py](src/20.py) |                              |
+|  21 | [???](https://adventofcode.com/2021/day/21)              | [src/21.py](src/21.py) |                              |
+|  22 | [???](https://adventofcode.com/2021/day/22)              | [src/22.py](src/22.py) |                              |
+|  23 | [???](https://adventofcode.com/2021/day/23)              | [src/23.py](src/23.py) |                              |
+|  24 | [???](https://adventofcode.com/2021/day/24)              | [src/24.py](src/24.py) |                              |
+|  25 | [???](https://adventofcode.com/2021/day/25)              | [src/25.py](src/25.py) |                              |
