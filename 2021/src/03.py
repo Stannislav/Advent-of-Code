@@ -1,4 +1,4 @@
-"""Solutions for day 2."""
+"""Solutions for day 3."""
 N_BITS = 12
 BIT_MASK = (1 << N_BITS) - 1  # e.g. 0b111 for N_BITS = 3
 
