@@ -1,4 +1,5 @@
 from aoc2021.solutions import day04
+from aoc2021.solutions_extra import day04 as day04extra
 
 data = """\
 7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
@@ -25,5 +26,11 @@ data = """\
 
 def test_my_solution():
     part1, part2 = day04.run(data)
+    assert part1 == 4512
+    assert part2 == 1924
+
+
+def test_community_solution():
+    part1, part2 = day04extra.run(data)
     assert part1 == 4512
     assert part2 == 1924
