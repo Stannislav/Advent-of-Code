@@ -14,14 +14,17 @@ def solve(values: list[int], n: int) -> int:
     return sum(x < y for x, y in zip(values, values[n:]))
 
 
-def main() -> None:
+def run(raw_data: str) -> tuple[int, int]:
     """Compute the solutions."""
-    with open("input/01.txt") as fh:
-        depths = [int(line) for line in fh]
+    depths = [int(line) for line in raw_data.splitlines()]
 
-    print(f"Part 1: {solve(depths, 1)}")
-    print(f"Part 2: {solve(depths, 3)}")
+    return solve(depths, 1), solve(depths, 3)
 
 
 if __name__ == "__main__":
-    main()
+    with open("input/01.txt") as fh:
+        raw_data = fh.read()
+
+    p1, p2 = run(raw_data)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")

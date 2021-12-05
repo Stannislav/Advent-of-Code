@@ -63,14 +63,17 @@ def part2(data: list[int]) -> int:
     return oxygen * co2
 
 
-def main() -> None:
+def run(raw_data: str) -> tuple[int, int]:
     """Solve the puzzles."""
-    with open("input/03.txt") as fh:
-        data = [int(line, base=2) for line in fh]
+    data = [int(line, base=2) for line in raw_data.splitlines()]
 
-    print(f"Part 1: {part1(data)}")
-    print(f"Part 2: {part2(data)}")
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":
-    main()
+    with open("input/03.txt") as fh:
+        raw_data = fh.read()
+
+    p1, p2 = run(raw_data)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")

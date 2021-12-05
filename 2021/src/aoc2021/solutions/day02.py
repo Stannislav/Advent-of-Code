@@ -34,17 +34,20 @@ def part2(commands: list[Command]) -> int:
     return pos * depth
 
 
-def main() -> None:
+def run(data: str) -> tuple[int, int]:
     """Compute the solutions."""
     commands = []
-    with open("input/02.txt") as fh:
-        for line in fh:
-            cmd, value = line.split()
-            commands.append((cmd, int(value)))
+    for line in data.splitlines():
+        cmd, value = line.split()
+        commands.append((cmd, int(value)))
 
-    print("Part 1:", part1(commands))
-    print("Part 2:", part2(commands))
+    return part1(commands), part2(commands)
 
 
 if __name__ == "__main__":
-    main()
+    with open("input/02.txt") as fh:
+        raw_data = fh.read()
+
+    p1, p2 = run(raw_data)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")

@@ -28,18 +28,21 @@ def solve(commands: list[Command]) -> tuple[int, int]:
     return pos * aim, pos * depth
 
 
-def main() -> None:
+def run(raw_data: str) -> tuple[int, int]:
     """Compute the solutions."""
     commands = []
-    with open("input/02.txt") as fh:
-        for line in fh:
-            cmd, value = line.split()
-            commands.append((cmd, int(value)))
+    for line in raw_data.splitlines():
+        cmd, value = line.split()
+        commands.append((cmd, int(value)))
 
     part1, part2 = solve(commands)
-    print("Part 1:", part1)
-    print("Part 2:", part2)
+    return part1, part2
 
 
 if __name__ == "__main__":
-    main()
+    with open("input/01.txt") as fh:
+        raw_data = fh.read()
+
+    p1, p2 = run(raw_data)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")

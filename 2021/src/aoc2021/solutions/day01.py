@@ -17,14 +17,19 @@ def count_positive(values: list[int], /) -> int:
     return sum(x > 0 for x in values)
 
 
-def main() -> None:
+def run(data: str) -> tuple[int, int]:
     """Compute the solutions."""
-    with open("input/01.txt") as fh:
-        depths = [int(line) for line in fh]
+    depths = [int(line) for line in data.splitlines()]
+    part1 = count_positive(grad(depths))
+    part2 = count_positive(grad(sliding_sum(depths, window_size=3)))
 
-    print(f"Part 1: {count_positive(grad(depths))}")
-    print(f"Part 2: {count_positive(grad(sliding_sum(depths, window_size=3)))}")
+    return part1, part2
 
 
 if __name__ == "__main__":
-    main()
+    with open("input/01.txt") as fh:
+        raw_data = fh.read()
+
+    p1, p2 = run(raw_data)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")

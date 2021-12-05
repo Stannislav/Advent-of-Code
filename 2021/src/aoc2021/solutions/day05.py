@@ -47,7 +47,7 @@ def solve(data: list[VentLine], only_horizontal: bool) -> int:
     return sum(v > 1 for v in vents.values())
 
 
-def main(data_s: str) -> tuple[int, int]:
+def run(data_s: str) -> tuple[int, int]:
     """Solve the puzzles."""
     # Parse data
     data = []
@@ -68,6 +68,6 @@ if __name__ == "__main__":
     with open("input/05.txt") as fh:
         input_data = fh.read()
 
-    part1, part2 = main(input_data)
+    part1, part2 = run(input_data)
     print(f"Part 1: {part1}")
     print(f"Part 2: {part2}")

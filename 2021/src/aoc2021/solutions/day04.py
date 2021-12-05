@@ -95,21 +95,22 @@ def part2(numbers: list[int], boards: list[Board]) -> int:
     return 0
 
 
-def main(input_data: str) -> None:
+def run(raw_data: str) -> tuple[int, int]:
     """Solve the puzzles.
 
-    :param input_data: The contents of the puzzle input file.
+    :param raw_data: The contents of the puzzle input file.
     """
-    numbers, boards = parse_input(input_data)
-    print(f"Part 1: {part1(numbers, boards)}")
-    print(f"Part 2: {part2(numbers, boards)}")
-
-    # print(numbers)
+    numbers, boards = parse_input(raw_data)
     # for board in boards:
     #     print(board)
+
+    return part1(numbers, boards), part2(numbers, boards)
 
 
 if __name__ == "__main__":
     with open("input/04.txt") as fh:
-        data = fh.read()
-    main(data)
+        raw_data = fh.read()
+
+    p1, p2 = run(raw_data)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")
