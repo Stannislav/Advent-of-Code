@@ -5,10 +5,11 @@ class Board:
     """A bingo board."""
 
     def __init__(self, name: str, board_s: str) -> None:
-        """Initialize.
+        """Initialize the board.
 
-        :param name: The name of the board. Only used for bookkeeping.
-        :param board_s: The string with the board data as seen in the input file.
+        Args:
+            name: The name of the board. Only used for bookkeeping.
+            board_s: The string with the board data as seen in the input file.
         """
         self.name = name
         self.size = 5
@@ -59,9 +60,12 @@ class Board:
 def parse_input(data_s: str) -> tuple[list[int], list[Board]]:
     """Parse the input data.
 
-    :param data_s: The input data.
-    :return numbers: The sequence of the bingo numbers that are called out.
-    :return boards: All bingo boards.
+    Args:
+        data_s: The input data.
+
+    Returns:
+        The sequence of the bingo numbers that are called out and
+        all boards.
     """
     numbers_s, *boards_s = data_s.split("\n\n")
     numbers = [int(n) for n in numbers_s.split(",")]
@@ -98,7 +102,8 @@ def part2(numbers: list[int], boards: list[Board]) -> int:
 def run(raw_data: str) -> tuple[int, int]:
     """Solve the puzzles.
 
-    :param raw_data: The contents of the puzzle input file.
+    Args:
+        raw_data: The contents of the puzzle input file.
     """
     numbers, boards = parse_input(raw_data)
     # for board in boards:

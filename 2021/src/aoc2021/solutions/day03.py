@@ -12,9 +12,12 @@ def most_common(numbers: Data, bit_pos: int) -> int:
 def inv(n: int, n_bits: int) -> int:
     """Compute the bitwise inverse.
 
-    :param n: An integer.
-    :param n_bits: The bit-width of the integers used.
-    :returns: The binary inverse of the input.
+    Args:
+        n: An integer.
+        n_bits: The bit-width of the integers used.
+
+    Returns:
+        The binary inverse of the input.
     """
     # We should only invert the bits that are within the bit-width of the
     # integers we use. We set this mask to set the other bits to zero.
@@ -30,9 +33,12 @@ def part1(data: Data, n_bits: int) -> int:
     in the input data. The epsilon rate consists of the least common bits
     in the input data and is therefore the bitwise inverse of the gamma rate.
 
-    :param data: The puzzle input data.
-    :param n_bits: The bit-width of the integers used.
-    :return: The part 1 solution.
+    Args:
+        data: The puzzle input data.
+        n_bits: The bit-width of the integers used.
+
+    Returns:
+        The part 1 solution.
     """
     gamma = 0
     for bit_pos in range(n_bits):
@@ -46,11 +52,14 @@ def part1(data: Data, n_bits: int) -> int:
 def keep_most_common(values: Data, n_bits: int, *, least_common: bool = False) -> int:
     """Run the bit criteria loop for part 2.
 
-    :param values: The puzzle input data.
-    :param n_bits: The bit-width of the integers used.
-    :param least_common: If true the criteria is the least common bit,
-    otherwise it's the most common bit.
-    :return: The single remaining value after the criteria loop.
+    Args:
+        values: The puzzle input data.
+        n_bits: The bit-width of the integers used.
+        least_common: If true the criteria is the least common bit,
+            otherwise it's the most common bit.
+
+    Returns:
+        The single remaining value after the criteria loop.
     """
     pos = n_bits
     while len(values) > 1:

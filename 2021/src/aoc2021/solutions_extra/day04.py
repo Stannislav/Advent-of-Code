@@ -7,7 +7,8 @@ class Board:
     def __init__(self, values: list[int]) -> None:
         """Initialise the board.
 
-        :param values: The board values row-wise or column-wise.
+        Args:
+            values: The board values row-wise or column-wise.
         """
         self.lines = []  # rows and columns
         for i in range(5):
@@ -19,14 +20,16 @@ class Board:
     def mark(self, n: int) -> None:
         """Mark a value on the board.
 
-        :param n: The value to mark.
+        Args:
+            n: The value to mark.
         """
         self.unmarked.discard(n)
 
     def has_won(self) -> bool:
         """Check if the board has won.
 
-        :return: If the board has won.
+        Returns:
+            If the board has won.
         """
         for line in self.lines:
             if not line & self.unmarked:
@@ -37,7 +40,8 @@ class Board:
     def score(self) -> int:
         """Compute the current score.
 
-        :return: The current score.
+        Returns:
+            The current score.
         """
         return sum(self.unmarked)
 

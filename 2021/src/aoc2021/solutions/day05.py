@@ -13,9 +13,12 @@ def iter_vents(
 ) -> Generator[Pos, None, None]:
     """Iterate over all vent positions in a vent line.
 
-    :param vent_line: The start and end points of a vent line.
-    :param only_horizontal: If true then non-horizontal lines will be skipped.
-    :return: The (x, y) coordinates of a vent.
+    Args:
+        vent_line: The start and end points of a vent line.
+        only_horizontal: If true then non-horizontal lines will be skipped.
+
+    Returns:
+        The (x, y) coordinates of a vent.
     """
     x1, y1, x2, y2 = vent_line
     nx = abs(x2 - x1)
@@ -35,9 +38,12 @@ def iter_vents(
 def solve(data: list[VentLine], only_horizontal: bool) -> int:
     """Solve part 1 or part 2.
 
-    :param data: The input data.
-    :param only_horizontal: Should be true for part 1 and false for part 2.
-    :return: The solution for either part 1 or part 2.
+    Args:
+        data: The input data.
+        only_horizontal: Should be true for part 1 and false for part 2.
+
+    Returns:
+        The solution for either part 1 or part 2.
     """
     vents: dict[Pos, int] = defaultdict(int)
     for vent_line in data:

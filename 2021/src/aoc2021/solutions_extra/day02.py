@@ -10,9 +10,11 @@ def solve(commands: list[Command]) -> tuple[int, int]:
     Compute the solutions for both parts in one pass by realising
     that `aim` from part 2 is equivalent to `depth` from part 1.
 
-    :param commands: The commands from the problem input.
-    :return: Part 1 solution.
-    :return: Part 2 solution.
+    Args:
+        commands: The commands from the problem input.
+
+    Returns:
+        The part 1 and part 2 solutions.
     """
     pos, depth, aim = 0, 0, 0
     for cmd, value in commands:
