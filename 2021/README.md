@@ -19,7 +19,8 @@ The new features include:
 * [py38] Positional-only parameters (`/`)
 * [py38] Self-documentation operator `=` in f-strings
 * [py38] The new `@functools.cached_property` decorator
-* [py38] `Literal` and `Final` in `typing`
+* [py38] `typing.Literal` and `typing.Final`
+* [py38] `typing.Protocol` for structural typing
 * [py39] Dictionary merge (`|`) and update (`|=`) operators
 * [py39] `str.removeprefix(prefix)` and `str.removesuffix(suffix)`
 * [py39] Type hinting generics
