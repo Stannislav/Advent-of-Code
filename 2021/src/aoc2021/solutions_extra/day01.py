@@ -19,12 +19,3 @@ def run(raw_data: str) -> tuple[int, int]:
     depths = [int(line) for line in raw_data.splitlines()]
 
     return solve(depths, 1), solve(depths, 3)
-
-
-if __name__ == "__main__":
-    with open("input/01.txt") as fh:
-        raw_data = fh.read()
-
-    p1, p2 = run(raw_data)
-    print(f"Part 1: {p1}")
-    print(f"Part 2: {p2}")

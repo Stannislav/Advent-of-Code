@@ -42,12 +42,3 @@ def run(data: str) -> tuple[int, int]:
         commands.append((cmd, int(value)))
 
     return part1(commands), part2(commands)
-
-
-if __name__ == "__main__":
-    with open("input/02.txt") as fh:
-        raw_data = fh.read()
-
-    p1, p2 = run(raw_data)
-    print(f"Part 1: {p1}")
-    print(f"Part 2: {p2}")

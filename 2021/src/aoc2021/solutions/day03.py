@@ -69,11 +69,3 @@ def run(raw_data: str) -> tuple[int, int]:
 
     return part1(data), part2(data)
 
-
-if __name__ == "__main__":
-    with open("input/03.txt") as fh:
-        raw_data = fh.read()
-
-    p1, p2 = run(raw_data)
-    print(f"Part 1: {p1}")
-    print(f"Part 2: {p2}")
