@@ -68,4 +68,3 @@ def run(raw_data: str) -> tuple[int, int]:
     data = [int(line, base=2) for line in raw_data.splitlines()]
 
     return part1(data), part2(data)
-

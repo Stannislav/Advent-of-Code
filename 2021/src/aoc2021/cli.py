@@ -1,3 +1,4 @@
+"""The command line application for running the advent of code solutions."""
 import argparse
 import importlib
 from typing import cast
@@ -6,6 +7,7 @@ from aoc2021.lib import ModSolution
 
 
 def main() -> None:
+    """Run the main CLI entry point."""
     parser = argparse.ArgumentParser()
     parser.add_argument("day", type=int)
     parser.add_argument("-e", "--extra", action="store_true")
