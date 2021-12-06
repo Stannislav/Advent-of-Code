@@ -68,7 +68,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   1 | [Sonar Sweep](https://adventofcode.com/2021/day/1)          | [src/01.py](src/aoc2021/solutions/day01.py) | [src/01_up.py](src/aoc2021/solutions_extra/day01.py) |
 |   2 | [Dive!](https://adventofcode.com/2021/day/2)                | [src/02.py](src/aoc2021/solutions/day02.py) | [src/02_up.py](src/aoc2021/solutions_extra/day02.py) |
 |   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3)    | [src/03.py](src/aoc2021/solutions/day03.py) |                                                      |
-|   4 | [Giant Squid](https://adventofcode.com/2021/day/4)          | [src/04.py](src/aoc2021/solutions/day04.py) |                                                      |
+|   4 | [Giant Squid](https://adventofcode.com/2021/day/4)          | [src/04.py](src/aoc2021/solutions/day04.py) | [src/04_up.py](src/aoc2021/solutions_extra/day04.py) |
 |   5 | [Hydrothermal Venture](https://adventofcode.com/2021/day/5) | [src/05.py](src/aoc2021/solutions/day05.py) |                                                      |
 |   6 | [Lanternfish](https://adventofcode.com/2021/day/6)          | [src/06.py](src/06.py)                      |                                                      |
 |   7 | [???](https://adventofcode.com/2021/day/7)                  | [src/07.py](src/07.py)                      |                                                      |
