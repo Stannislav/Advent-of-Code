@@ -70,7 +70,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3)    | [src/03.py](src/aoc2021/solutions/day03.py) |                                                      |
 |   4 | [Giant Squid](https://adventofcode.com/2021/day/4)          | [src/04.py](src/aoc2021/solutions/day04.py) |                                                      |
 |   5 | [Hydrothermal Venture](https://adventofcode.com/2021/day/5) | [src/05.py](src/aoc2021/solutions/day05.py) |                                                      |
-|   6 | [???](https://adventofcode.com/2021/day/6)                  | [src/06.py](src/06.py)                      |                                                      |
+|   6 | [Lanternfish](https://adventofcode.com/2021/day/6)          | [src/06.py](src/06.py)                      |                                                      |
 |   7 | [???](https://adventofcode.com/2021/day/7)                  | [src/07.py](src/07.py)                      |                                                      |
 |   8 | [???](https://adventofcode.com/2021/day/8)                  | [src/08.py](src/08.py)                      |                                                      |
 |   9 | [???](https://adventofcode.com/2021/day/9)                  | [src/09.py](src/09.py)                      |                                                      |
