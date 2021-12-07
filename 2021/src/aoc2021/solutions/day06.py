@@ -16,7 +16,6 @@ def solve(timers: list[int], duration: int) -> int:
     Returns:
         The lanternfish population after the given duration.
     """
-    fish = len(timers)
     births = [0] * duration
 
     # Compute all spawns from the starting population
@@ -26,11 +25,10 @@ def solve(timers: list[int], duration: int) -> int:
 
     # Compute all spawns from the offspring
     for t in range(duration):
-        fish += births[t]
         for day in range(t + 9, duration, 7):
             births[day] += births[t]
 
-    return fish
+    return sum(births) + len(timers)
 
 
 def run(data_s: str) -> tuple[int, int]:
