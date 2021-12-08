@@ -77,7 +77,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   5 | [Hydrothermal Venture](https://adventofcode.com/2021/day/5)    | [day05.py](src/aoc2021/solutions/day05.py) |                                                  |
 |   6 | [Lanternfish](https://adventofcode.com/2021/day/6)             | [day06.py](src/aoc2021/solutions/day06.py) |                                                  |
 |   7 | [The Treachery of Whales](https://adventofcode.com/2021/day/7) | [day07.py](src/aoc2021/solutions/day07.py) |                                                  |
-|   8 | [???](https://adventofcode.com/2021/day/8)                     | [day08.py](src/aoc2021/solutions/day08.py) |                                                  |
+|   8 | [Seven Segment Search](https://adventofcode.com/2021/day/8)    | [day08.py](src/aoc2021/solutions/day08.py) |                                                  |
 |   9 | [???](https://adventofcode.com/2021/day/9)                     | [day09.py](src/aoc2021/solutions/day09.py) |                                                  |
 |  10 | [???](https://adventofcode.com/2021/day/10)                    | [day10.py](src/aoc2021/solutions/day10.py) |                                                  |
 |  11 | [???](https://adventofcode.com/2021/day/11)                    | [day11.py](src/aoc2021/solutions/day11.py) |                                                  |
