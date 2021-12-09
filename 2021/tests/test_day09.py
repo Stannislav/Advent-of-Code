@@ -12,4 +12,4 @@ data = """\
 def test_my_solution():
     part1, part2 = day09.run(data)
     assert part1 == 15
-    assert part2 == 0
+    assert part2 == 1134
