@@ -3,7 +3,6 @@ import math
 from queue import Queue
 from typing import Generator
 
-
 Cave = list[list[int]]
 Point = tuple[int, int]
 

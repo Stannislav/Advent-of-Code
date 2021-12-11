@@ -2,7 +2,6 @@
 from collections import defaultdict
 from typing import Generator
 
-
 VentLine = tuple[int, int, int, int]
 Pos = tuple[int, int]
 
