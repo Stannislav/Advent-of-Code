@@ -81,7 +81,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   9 | [Smoke Basin](https://adventofcode.com/2021/day/9)             | [day09.py](src/aoc2021/solutions/day09.py) |                                                  |
 |  10 | [Syntax Scoring](https://adventofcode.com/2021/day/10)         | [day10.py](src/aoc2021/solutions/day10.py) |                                                  |
 |  11 | [Dumbo Octopus](https://adventofcode.com/2021/day/11)          | [day11.py](src/aoc2021/solutions/day11.py) |                                                  |
-|  12 | [???](https://adventofcode.com/2021/day/12)                    | [day12.py](src/aoc2021/solutions/day12.py) |                                                  |
+|  12 | [Passage Pathing](https://adventofcode.com/2021/day/12)        | [day12.py](src/aoc2021/solutions/day12.py) |                                                  |
 |  13 | [???](https://adventofcode.com/2021/day/13)                    | [day13.py](src/aoc2021/solutions/day13.py) |                                                  |
 |  14 | [???](https://adventofcode.com/2021/day/14)                    | [day14.py](src/aoc2021/solutions/day14.py) |                                                  |
 |  15 | [???](https://adventofcode.com/2021/day/15)                    | [day15.py](src/aoc2021/solutions/day15.py) |                                                  |
