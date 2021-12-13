@@ -1,10 +1,41 @@
 from aoc2021.solutions import day13
 
 data = """\
+6,10
+0,14
+9,10
+0,3
+10,4
+4,11
+6,0
+6,12
+4,1
+0,13
+10,12
+3,4
+3,0
+8,4
+1,10
+2,14
+8,10
+9,0
+
+fold along y=7
+fold along x=5
 """
+
+part2_expect = """
+#####
+#...#
+#...#
+#...#
+#####
+.....
+.....
+""".strip()
 
 
 def test_my_solution():
     part1, part2 = day13.run(data)
-    assert part1 == 0
-    assert part2 == 0
+    assert part1 == 17
+    assert part2 == "\n" + part2_expect
