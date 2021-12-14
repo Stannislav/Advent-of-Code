@@ -68,30 +68,30 @@ pytest  # (or tox -e py310) run unit tests
 ## Solutions
 The last column contains improved solutions inspired by solutions of other people.
 
-| Day | Problem                                                        | Solution                                   | Improved Solution                                |
-|----:|:---------------------------------------------------------------|:-------------------------------------------|:-------------------------------------------------|
-|   1 | [Sonar Sweep](https://adventofcode.com/2021/day/1)             | [day01.py](src/aoc2021/solutions/day01.py) | [day01.py](src/aoc2021/solutions_extra/day01.py) |
-|   2 | [Dive!](https://adventofcode.com/2021/day/2)                   | [day02.py](src/aoc2021/solutions/day02.py) | [day02.py](src/aoc2021/solutions_extra/day02.py) |
-|   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3)       | [day03.py](src/aoc2021/solutions/day03.py) |                                                  |
-|   4 | [Giant Squid](https://adventofcode.com/2021/day/4)             | [day04.py](src/aoc2021/solutions/day04.py) | [day04.py](src/aoc2021/solutions_extra/day04.py) |
-|   5 | [Hydrothermal Venture](https://adventofcode.com/2021/day/5)    | [day05.py](src/aoc2021/solutions/day05.py) |                                                  |
-|   6 | [Lanternfish](https://adventofcode.com/2021/day/6)             | [day06.py](src/aoc2021/solutions/day06.py) |                                                  |
-|   7 | [The Treachery of Whales](https://adventofcode.com/2021/day/7) | [day07.py](src/aoc2021/solutions/day07.py) |                                                  |
-|   8 | [Seven Segment Search](https://adventofcode.com/2021/day/8)    | [day08.py](src/aoc2021/solutions/day08.py) |                                                  |
-|   9 | [Smoke Basin](https://adventofcode.com/2021/day/9)             | [day09.py](src/aoc2021/solutions/day09.py) |                                                  |
-|  10 | [Syntax Scoring](https://adventofcode.com/2021/day/10)         | [day10.py](src/aoc2021/solutions/day10.py) |                                                  |
-|  11 | [Dumbo Octopus](https://adventofcode.com/2021/day/11)          | [day11.py](src/aoc2021/solutions/day11.py) |                                                  |
-|  12 | [Passage Pathing](https://adventofcode.com/2021/day/12)        | [day12.py](src/aoc2021/solutions/day12.py) |                                                  |
-|  13 | [Transparent Origami](https://adventofcode.com/2021/day/13)    | [day13.py](src/aoc2021/solutions/day13.py) |                                                  |
-|  14 | [???](https://adventofcode.com/2021/day/14)                    | [day14.py](src/aoc2021/solutions/day14.py) |                                                  |
-|  15 | [???](https://adventofcode.com/2021/day/15)                    | [day15.py](src/aoc2021/solutions/day15.py) |                                                  |
-|  16 | [???](https://adventofcode.com/2021/day/16)                    | [day16.py](src/aoc2021/solutions/day16.py) |                                                  |
-|  17 | [???](https://adventofcode.com/2021/day/17)                    | [day17.py](src/aoc2021/solutions/day17.py) |                                                  |
-|  18 | [???](https://adventofcode.com/2021/day/18)                    | [day18.py](src/aoc2021/solutions/day18.py) |                                                  |
-|  19 | [???](https://adventofcode.com/2021/day/19)                    | [day19.py](src/aoc2021/solutions/day19.py) |                                                  |
-|  20 | [???](https://adventofcode.com/2021/day/20)                    | [day20.py](src/aoc2021/solutions/day20.py) |                                                  |
-|  21 | [???](https://adventofcode.com/2021/day/21)                    | [day21.py](src/aoc2021/solutions/day21.py) |                                                  |
-|  22 | [???](https://adventofcode.com/2021/day/22)                    | [day22.py](src/aoc2021/solutions/day22.py) |                                                  |
-|  23 | [???](https://adventofcode.com/2021/day/23)                    | [day23.py](src/aoc2021/solutions/day23.py) |                                                  |
-|  24 | [???](https://adventofcode.com/2021/day/24)                    | [day24.py](src/aoc2021/solutions/day24.py) |                                                  |
-|  25 | [???](https://adventofcode.com/2021/day/25)                    | [day25.py](src/aoc2021/solutions/day25.py) |                                                  |
+| Day | Problem                                                         | Solution                                   | Improved Solution                                |
+|----:|:----------------------------------------------------------------|:-------------------------------------------|:-------------------------------------------------|
+|   1 | [Sonar Sweep](https://adventofcode.com/2021/day/1)              | [day01.py](src/aoc2021/solutions/day01.py) | [day01.py](src/aoc2021/solutions_extra/day01.py) |
+|   2 | [Dive!](https://adventofcode.com/2021/day/2)                    | [day02.py](src/aoc2021/solutions/day02.py) | [day02.py](src/aoc2021/solutions_extra/day02.py) |
+|   3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3)        | [day03.py](src/aoc2021/solutions/day03.py) |                                                  |
+|   4 | [Giant Squid](https://adventofcode.com/2021/day/4)              | [day04.py](src/aoc2021/solutions/day04.py) | [day04.py](src/aoc2021/solutions_extra/day04.py) |
+|   5 | [Hydrothermal Venture](https://adventofcode.com/2021/day/5)     | [day05.py](src/aoc2021/solutions/day05.py) |                                                  |
+|   6 | [Lanternfish](https://adventofcode.com/2021/day/6)              | [day06.py](src/aoc2021/solutions/day06.py) |                                                  |
+|   7 | [The Treachery of Whales](https://adventofcode.com/2021/day/7)  | [day07.py](src/aoc2021/solutions/day07.py) |                                                  |
+|   8 | [Seven Segment Search](https://adventofcode.com/2021/day/8)     | [day08.py](src/aoc2021/solutions/day08.py) |                                                  |
+|   9 | [Smoke Basin](https://adventofcode.com/2021/day/9)              | [day09.py](src/aoc2021/solutions/day09.py) |                                                  |
+|  10 | [Syntax Scoring](https://adventofcode.com/2021/day/10)          | [day10.py](src/aoc2021/solutions/day10.py) |                                                  |
+|  11 | [Dumbo Octopus](https://adventofcode.com/2021/day/11)           | [day11.py](src/aoc2021/solutions/day11.py) |                                                  |
+|  12 | [Passage Pathing](https://adventofcode.com/2021/day/12)         | [day12.py](src/aoc2021/solutions/day12.py) |                                                  |
+|  13 | [Transparent Origami](https://adventofcode.com/2021/day/13)     | [day13.py](src/aoc2021/solutions/day13.py) |                                                  |
+|  14 | [Extended Polymerization](https://adventofcode.com/2021/day/14) | [day14.py](src/aoc2021/solutions/day14.py) |                                                  |
+|  15 | [???](https://adventofcode.com/2021/day/15)                     | [day15.py](src/aoc2021/solutions/day15.py) |                                                  |
+|  16 | [???](https://adventofcode.com/2021/day/16)                     | [day16.py](src/aoc2021/solutions/day16.py) |                                                  |
+|  17 | [???](https://adventofcode.com/2021/day/17)                     | [day17.py](src/aoc2021/solutions/day17.py) |                                                  |
+|  18 | [???](https://adventofcode.com/2021/day/18)                     | [day18.py](src/aoc2021/solutions/day18.py) |                                                  |
+|  19 | [???](https://adventofcode.com/2021/day/19)                     | [day19.py](src/aoc2021/solutions/day19.py) |                                                  |
+|  20 | [???](https://adventofcode.com/2021/day/20)                     | [day20.py](src/aoc2021/solutions/day20.py) |                                                  |
+|  21 | [???](https://adventofcode.com/2021/day/21)                     | [day21.py](src/aoc2021/solutions/day21.py) |                                                  |
+|  22 | [???](https://adventofcode.com/2021/day/22)                     | [day22.py](src/aoc2021/solutions/day22.py) |                                                  |
+|  23 | [???](https://adventofcode.com/2021/day/23)                     | [day23.py](src/aoc2021/solutions/day23.py) |                                                  |
+|  24 | [???](https://adventofcode.com/2021/day/24)                     | [day24.py](src/aoc2021/solutions/day24.py) |                                                  |
+|  25 | [???](https://adventofcode.com/2021/day/25)                     | [day25.py](src/aoc2021/solutions/day25.py) |                                                  |
