@@ -25,4 +25,4 @@ CN -> C
 def test_my_solution():
     part1, part2 = day14.run(data)
     assert part1 == 1588
-    assert part2 == 0
+    assert part2 == 2188189693529
