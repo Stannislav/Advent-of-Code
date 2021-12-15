@@ -84,7 +84,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  12 | [Passage Pathing](https://adventofcode.com/2021/day/12)         | [day12.py](src/aoc2021/solutions/day12.py) |                                                  |
 |  13 | [Transparent Origami](https://adventofcode.com/2021/day/13)     | [day13.py](src/aoc2021/solutions/day13.py) |                                                  |
 |  14 | [Extended Polymerization](https://adventofcode.com/2021/day/14) | [day14.py](src/aoc2021/solutions/day14.py) |                                                  |
-|  15 | [???](https://adventofcode.com/2021/day/15)                     | [day15.py](src/aoc2021/solutions/day15.py) |                                                  |
+|  15 | [Chiton](https://adventofcode.com/2021/day/15)                  | [day15.py](src/aoc2021/solutions/day15.py) |                                                  |
 |  16 | [???](https://adventofcode.com/2021/day/16)                     | [day16.py](src/aoc2021/solutions/day16.py) |                                                  |
 |  17 | [???](https://adventofcode.com/2021/day/17)                     | [day17.py](src/aoc2021/solutions/day17.py) |                                                  |
 |  18 | [???](https://adventofcode.com/2021/day/18)                     | [day18.py](src/aoc2021/solutions/day18.py) |                                                  |
