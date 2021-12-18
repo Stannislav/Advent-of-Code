@@ -87,7 +87,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  15 | [Chiton](https://adventofcode.com/2021/day/15)                  | [day15.py](src/aoc2021/solutions/day15.py) |                                                  |
 |  16 | [Packet Decoder](https://adventofcode.com/2021/day/16)          | [day16.py](src/aoc2021/solutions/day16.py) |                                                  |
 |  17 | [Trick Shot](https://adventofcode.com/2021/day/17)              | [day17.py](src/aoc2021/solutions/day17.py) |                                                  |
-|  18 | [???](https://adventofcode.com/2021/day/18)                     | [day18.py](src/aoc2021/solutions/day18.py) |                                                  |
+|  18 | [Snailfish](https://adventofcode.com/2021/day/18)               | [day18.py](src/aoc2021/solutions/day18.py) |                                                  |
 |  19 | [???](https://adventofcode.com/2021/day/19)                     | [day19.py](src/aoc2021/solutions/day19.py) |                                                  |
 |  20 | [???](https://adventofcode.com/2021/day/20)                     | [day20.py](src/aoc2021/solutions/day20.py) |                                                  |
 |  21 | [???](https://adventofcode.com/2021/day/21)                     | [day21.py](src/aoc2021/solutions/day21.py) |                                                  |
