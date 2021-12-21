@@ -53,7 +53,7 @@ def play_deterministic(start1: int, start2: int) -> int:
 
 
 @cache
-def play_dirac(pos1: int, pos2: int, pts1: int, pts2: int) -> tuple[int, int]:
+def play_dirac(pos1: int, pos2: int, pts1: int = 0, pts2: int = 0) -> tuple[int, int]:
     """Play a Dirac game for part 2.
 
     Args:
@@ -96,7 +96,7 @@ def run(data_s: str) -> tuple[int, int]:
 
     # Solve
     part1 = play_deterministic(*start)
-    wins = play_dirac(*start, 0, 0)
+    wins = play_dirac(*start)
     part2 = max(wins)
 
     return part1, part2
