@@ -91,7 +91,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  19 | [Beacon Scanner](https://adventofcode.com/2021/day/19)          | [day19.py](src/aoc2021/solutions/day19.py) |                                                  |
 |  20 | [Trench Map](https://adventofcode.com/2021/day/20)              | [day20.py](src/aoc2021/solutions/day20.py) |                                                  |
 |  21 | [Dirac Dice](https://adventofcode.com/2021/day/21)              | [day21.py](src/aoc2021/solutions/day21.py) |                                                  |
-|  22 | [???](https://adventofcode.com/2021/day/22)                     | [day22.py](src/aoc2021/solutions/day22.py) |                                                  |
+|  22 | [Reactor Reboot](https://adventofcode.com/2021/day/22)          | [day22.py](src/aoc2021/solutions/day22.py) |                                                  |
 |  23 | [???](https://adventofcode.com/2021/day/23)                     | [day23.py](src/aoc2021/solutions/day23.py) |                                                  |
 |  24 | [???](https://adventofcode.com/2021/day/24)                     | [day24.py](src/aoc2021/solutions/day24.py) |                                                  |
 |  25 | [???](https://adventofcode.com/2021/day/25)                     | [day25.py](src/aoc2021/solutions/day25.py) |                                                  |
