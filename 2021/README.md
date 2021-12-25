@@ -94,4 +94,4 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  22 | [Reactor Reboot](https://adventofcode.com/2021/day/22)          | [day22.py](src/aoc2021/solutions/day22.py) |                                                  |
 |  23 | [Amphipod](https://adventofcode.com/2021/day/23)                | [day23.py](src/aoc2021/solutions/day23.py) |                                                  |
 |  24 | [Arithmetic Logic Unit](https://adventofcode.com/2021/day/24)   | [day24.py](src/aoc2021/solutions/day24.py) |                                                  |
-|  25 | [???](https://adventofcode.com/2021/day/25)                     | [day25.py](src/aoc2021/solutions/day25.py) |                                                  |
+|  25 | [Sea Cucumber](https://adventofcode.com/2021/day/25)            | [day25.py](src/aoc2021/solutions/day25.py) |                                                  |
