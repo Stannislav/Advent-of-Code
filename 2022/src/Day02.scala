@@ -17,7 +17,7 @@ object Day02 {
       .map(line => (line(0) - 'A', line(2) - 'X'))
       .toArray
     }
-    
+
     // Part 1
     val part1 = lines.map((them, me) => score(mod(me - them + 1, 3), me)).sum
     println(s"Part 1: $part1")
@@ -35,11 +35,12 @@ object Day02 {
    * @param divisor A divisor.
    * @return The positive version of `num % divisor`.
    */
-  def mod(num: Int, divisor: Int): Int = {
+  private def mod(num: Int, divisor: Int): Int = {
     val result = num % divisor
     if (result < 0)
-      return result + divisor
-    return result
+      result + divisor
+    else
+      result
   }
 
   /**
@@ -49,5 +50,5 @@ object Day02 {
    * @param me      My shape: 0=rock, 1=paper, 2=scissors.
    * @return The round score.
    */
-  def score(outcome: Int, me: Int) = outcome * 3 + (me + 1)
+  private def score(outcome: Int, me: Int) = outcome * 3 + (me + 1)
 }
