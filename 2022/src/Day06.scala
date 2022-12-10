@@ -1,5 +1,4 @@
-import util.control.Breaks.*
-
+import util.control.NonLocalReturns.{returning, throwReturn}
 
 object Day06 {
   def main(args: Array[String]): Unit = {
@@ -9,12 +8,11 @@ object Day06 {
     println(s"Part 2: ${solve(input, 14)}")
   }
 
-  def solve(input: String, len: Int): Int = {
+  def solve(input: String, len: Int): Int = returning {
     for (received <- Range(len, input.length)) {
       if (input.slice(received - len, received).toSet.size == len)
-        return received
+        throwReturn(received)
     }
-
     -1
   }
 }
