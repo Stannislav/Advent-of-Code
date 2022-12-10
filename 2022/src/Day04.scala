@@ -6,16 +6,16 @@ object Day04 {
       .toList
     }
 
-    val part1 = lines.filter {
+    val part1 = lines.count {
       case List(a, b, x, y) => (a <= x && b >= y) || (x <= a && y >= b)
       case _ => throw new Exception("Unexpected line")
-    }.length
+    }
     println(s"Part 1: $part1")
 
-    val part2 = lines.filter {
+    val part2 = lines.count {
       case List(a, b, x, y) => (a <= x && x <= b) || (x <= a && a <= y)
       case _ => throw new Exception("Unexpected line")
-    }.length
+    }
     println(s"Part 2: $part2")
   }
 }
