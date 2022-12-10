@@ -38,9 +38,7 @@ object Day07 {
       .getLines
       .toList
     }
-
     val lines = Lines(input)
-
     val s"$$ cd $_" = lines.next(): @unchecked
     val root = Dir()
     val dir_idx: ListBuffer[Dir] = ListBuffer(root)
@@ -62,8 +60,7 @@ object Day07 {
     while (!lines.done()) {
       lines.next() match {
         case s"dir $_" => // dirs from ls unused - they'll be parsed in $ cd
-        case file(size, _) =>
-          parent.add_child(File(size.toInt))
+        case file(size, _) => parent.add_child(File(size.toInt))
         case "$ cd .." => return
         case s"$$ cd $_" =>
           val child = Dir()
