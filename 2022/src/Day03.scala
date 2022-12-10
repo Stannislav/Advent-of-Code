@@ -27,10 +27,10 @@ object Day03 {
     println(s"Part 2: $part2")
   }
 
-  def priority(c: Char): Int = {
+  private def priority(c: Char): Int = {
     if ('a' <= c && c <= 'z')
-      return c - 'a' + 1
+      c - 'a' + 1
     else
-      return c - 'A' + 27
+      c - 'A' + 27
   }
 }
