@@ -8,7 +8,7 @@ import scala.io.Source
  * @return The positive version of `num % divisor`.
  */
 def mod(num: Int, divisor: Int): Int = {
-  val result = num % divisor``
+  val result = num % divisor
   if (result < 0)
     return result + divisor
   return result
