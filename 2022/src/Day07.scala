@@ -32,13 +32,13 @@ class Lines(lines: List[String]) {
 }
 
 
-
 object Day07 {
   def main(args: Array[String]): Unit = {
-    val input = io.Source
-      .fromFile("2022/input/07.txt")
+    val input = util.Using.resource(io.Source.fromFile("2022/input/07.txt")) {_
       .getLines
       .toList
+    }
+
     val lines = Lines(input)
 
     val s"$$ cd $name" = lines.next()

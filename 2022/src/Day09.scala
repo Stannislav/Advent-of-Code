@@ -8,24 +8,23 @@ implicit class TupleAdd(self: (Int, Int)) {
 
 object Day09 {
   def main(args: Array[String]) = {
-    val steps =
-      io.Source
-        .fromFile("2022/input/09.txt")
-        .getLines
-        .toList
-        .map {
-          case s"$dir $n" => (dir, n.toInt)
-          case _ => throw Exception("Invalid command")
+    val steps = util.Using.resource(io.Source.fromFile("2022/input/09.txt")) { _
+      .getLines
+      .toList
+      .map {
+        case s"$dir $n" => (dir, n.toInt)
+        case _ => throw Exception("Invalid command")
+      }
+      .flatMap((dir, n) => List.fill(n)(
+        dir match {
+          case "U" => (0, 1)
+          case "D" => (0, -1)
+          case "L" => (-1, 0)
+          case "R" => (1, 0)
+          case _ => throw Exception(s"Unknown direction $dir.")
         }
-        .flatMap((dir, n) => List.fill(n)(
-          dir match {
-            case "U" => (0, 1)
-            case "D" => (0, -1)
-            case "L" => (-1, 0)
-            case "R" => (1, 0)
-            case _ => throw Exception(s"Unknown direction $dir.")
-          }
-        ))
+      ))
+    }
 
     println(s"Part 1: ${run(steps, 2)}")
     println(s"Part 2: ${run(steps, 10)}")

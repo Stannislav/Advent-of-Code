@@ -3,11 +3,12 @@ import scala.collection.mutable.ListBuffer
 
 object Day08 {
   def main(args: Array[String]): Unit = {
-    val trees = io.Source
-      .fromFile("2022/input/08.txt")
+    val trees = util.Using.resource(io.Source.fromFile("2022/input/08.txt")) { _
       .getLines
       .map(line => line.map(_.asDigit).toList)
       .toList
+    }
+
     val rows = trees.length
     val cols = trees(0).length
     trees.foreach(line => assert(line.length == cols))

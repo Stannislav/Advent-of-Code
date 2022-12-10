@@ -1,18 +1,15 @@
-import scala.util.Using
-
 object Day10 {
   def main(args: Array[String]): Unit = {
     // Read and transform the input: list of (dx, nCycle)
-    val cycles = Using.resource(io.Source.fromFile("2022/input/10.txt")) {
-      _
-        .getLines
-        .flatMap(_ match {
-          case "noop" => List(0)
-          case s"addx $n" => List(0, n.toInt)
-          case _ => throw Exception("Invalid line")
-        })
-        .zipWithIndex
-        .toList
+    val cycles = util.Using.resource(io.Source.fromFile("2022/input/10.txt")) { _
+      .getLines
+      .flatMap(_ match {
+        case "noop" => List(0)
+        case s"addx $n" => List(0, n.toInt)
+        case _ => throw Exception("Invalid line")
+      })
+      .zipWithIndex
+      .toList
     }
 
     // Part 1

@@ -1,13 +1,10 @@
-import scala.io.Source
-
-
 object Day04 {
   def main(args: Array[String]): Unit = {
-    val lines = Source
-      .fromFile("2022/input/04.txt")
+    val lines = util.Using.resource(io.Source.fromFile("2022/input/04.txt")) { _
       .getLines
       .map(_.split("[-,]").map(_.toInt).toList)
       .toList
+    }
 
     val part1 = lines.filter {
       case List(a, b, x, y) => (a <= x && b >= y) || (x <= a && y >= b)

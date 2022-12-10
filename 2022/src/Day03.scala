@@ -1,14 +1,10 @@
-import scala.io.Source
-
-
-
 object Day03 {
   def main(args: Array[String]): Unit = {
-    val lines = Source
-      .fromFile("2022/input/03.txt")
+    val lines = util.Using.resource(io.Source.fromFile("2022/input/03.txt")) { _
       .getLines
       .map(line => line.map(priority).toList)
       .toList
+    }
 
     val part1 = lines
       .map(line => {

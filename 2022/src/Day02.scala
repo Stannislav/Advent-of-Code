@@ -1,6 +1,3 @@
-import scala.io.Source
-
-
 object Day02 {
   /**
    * ==Idea==
@@ -15,12 +12,12 @@ object Day02 {
    */
   def main(args: Array[String]): Unit = {
     // Read data
-    val lines = Source
-      .fromFile("2022/input/02.txt")
+    val lines = util.Using.resource(io.Source.fromFile("2022/input/02.txt")) { _
       .getLines
       .map(line => (line(0) - 'A', line(2) - 'X'))
       .toArray
-
+    }
+    
     // Part 1
     val part1 = lines.map((them, me) => score(mod(me - them + 1, 3), me)).sum
     println(s"Part 1: $part1")

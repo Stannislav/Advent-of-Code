@@ -4,13 +4,13 @@ import scala.collection.mutable.Stack
 object Day05 {
   def main(args: Array[String]): Unit = {
     // Read input
-    val (stacks, instructions) = io.Source
-      .fromFile("2022/input/05.txt")
+    val (stacks, instructions) = util.Using.resource(io.Source.fromFile("2022/input/05.txt")) { _
       .mkString
       .split("\n\n")
-    match {
-      case Array(a: String, b: String) => (parse_stacks(a), parse_instructions(b))
-      case _ => throw Exception("Badly formatted input")
+      match {
+        case Array(a: String, b: String) => (parse_stacks(a), parse_instructions(b))
+        case _ => throw Exception("Badly formatted input")
+      }
     }
 
     // Part 1
