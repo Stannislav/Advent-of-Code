@@ -1,13 +1,15 @@
+import scala.annotation.targetName
 import scala.collection.mutable.ListBuffer
 
 
 implicit class TupleAdd(self: (Int, Int)) {
-  def +(other: (Int, Int)) = (self._1 + other._1, self._2 + other._2)
+  @targetName("add")
+  def +(other: (Int, Int)): (Int, Int) = (self._1 + other._1, self._2 + other._2)
 }
 
 
 object Day09 {
-  def main(args: Array[String]) = {
+  def main(args: Array[String]): Unit = {
     val steps = util.Using.resource(io.Source.fromFile("2022/input/09.txt")) { _
       .getLines
       .toList
@@ -30,7 +32,7 @@ object Day09 {
     println(s"Part 2: ${run(steps, 10)}")
   }
 
-  def follow(tail: (Int, Int), head: (Int, Int)): (Int, Int) = {
+  private def follow(tail: (Int, Int), head: (Int, Int)): (Int, Int) = {
     val dx = head._1 - tail._1
     val dy = head._2 - tail._2
     if (dx.abs == 2 || dy.abs == 2)
@@ -40,7 +42,7 @@ object Day09 {
   }
 
 
-  def run(steps: Seq[(Int, Int)], snakeLength: Int): Int = {
+  private def run(steps: Seq[(Int, Int)], snakeLength: Int): Int = {
     var rope = ListBuffer.fill(snakeLength)((0, 0))
     var seen = Set(rope.last)
 
