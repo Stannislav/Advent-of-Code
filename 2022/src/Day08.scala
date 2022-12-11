@@ -10,14 +10,14 @@ object Day08 {
     }
 
     val rows = trees.length
-    val cols = trees(0).length
+    val cols = trees.head.length
     trees.foreach(line => assert(line.length == cols))
 
     /* Part 1
     Traverse tree grid from all 4 directions, keep track of the highest
     tree seen (max), mark visible trees by 1s.
     */
-    var vis = zeroGrid(rows, cols)
+    val vis = zeroGrid(rows, cols)
     // left-right
     for (row <- Range(0, rows)) {
       // from left
@@ -66,11 +66,11 @@ object Day08 {
     println(s"Part 2: ${scores.map(_.max).max}")
   }
 
-  def zeroGrid(rows: Int, cols: Int) = ListBuffer.tabulate(rows)(i => ListBuffer.fill(cols)(0))
+  private def zeroGrid(rows: Int, cols: Int) = ListBuffer.tabulate(rows)(* => ListBuffer.fill(cols)(0))
 
-  def scenicScore(trees: List[List[Int]], row: Int, col: Int): Int = {
+  private def scenicScore(trees: List[List[Int]], row: Int, col: Int): Int = {
     val rows = trees.length
-    val cols = trees(0).length
+    val cols = trees.head.length
     val height = trees(row)(col)
 
     // Positions of the last visible trees
