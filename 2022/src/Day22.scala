@@ -1,6 +1,11 @@
 import scala.annotation.tailrec
 import scala.collection.mutable
 
+
+type Coord = (Int, Int)
+val DELTAS: List[Coord] = List((0, 1), (1, 0), (0, -1), (-1, 0))
+
+
 object Day22 {
   def main(args: Array[String]): Unit = {
     val (map, path) = util.Using.resource(io.Source.fromFile("2022/input/22.txt")) {
@@ -9,39 +14,36 @@ object Day22 {
         case input @ _ => throw Exception(s"Invalid input:\n${input.mkString("\n\n")}")
       }
     }
-    val ds = List((0, 1), (1, 0), (0, -1), (-1, 0))
 
-    def neighbour(pos: (Int, Int), dir: Int): (Int, Int) = {
-      var nextPos = (pos._1 + ds(dir)._1, pos._2 + ds(dir)._2)
+    println(s"Part 1: ${solve(map, findFlatWraps(map), path)}")
+  }
 
-      if (!map.contains(nextPos)) {
-        // wrap around
-        val oppositeDir = (dir + 2) % 4
-        nextPos = pos
-        var nextNextPos = (nextPos._1 + ds(oppositeDir)._1, nextPos._2 + ds(oppositeDir)._2)
-        while (map.contains(nextNextPos)) {
-          nextPos = nextNextPos
-          nextNextPos = (nextPos._1 + ds(oppositeDir)._1, nextPos._2 + ds(oppositeDir)._2)
-        }
-      }
-      nextPos
-    }
+  private def solve(
+    map: Map[Coord, Char],
+    wraps: Map[(Coord, Int), (Coord, Int)],
+    path: List[Matchable],
+  ): Int = {
+    def step(pos: Coord, dir: Int): (Coord, Int) =
+      if (wraps.contains((pos, dir)))
+        wraps((pos, dir))
+      else
+        ((pos._1 + DELTAS(dir)._1, pos._2 + DELTAS(dir)._2), dir)
 
     @tailrec
-    def move(pos: (Int, Int), dir: Int, steps: Int): (Int, Int) = {
-      if (steps == 0)
+    def move(pos: Coord, dir: Int, nSteps: Int): Coord = {
+      if (nSteps == 0)
         pos
       else {
-        val next = neighbour(pos, dir)
-        map(next) match {
-          case '.' => move(next, dir, steps - 1)
-          case '#' => move(pos, dir, steps - 1)
+        val (newPos, newDir) = step(pos, dir)
+        map(newPos) match {
+          case '.' => move(newPos, newDir, nSteps - 1)
+          case '#' => move(pos, dir, nSteps - 1)
         }
       }
     }
 
     @tailrec
-    def walk(pos: (Int, Int), dir: Int, t: Int = 0): ((Int, Int), Int, Int) = {
+    def walk(pos: Coord, dir: Int, t: Int = 0): (Coord, Int, Int) = {
       if (t >= path.length)
         (pos, dir, t)
       else
@@ -49,17 +51,43 @@ object Day22 {
           case 'L' => walk(pos, (dir + 3) % 4, t + 1)
           case 'R' => walk(pos, (dir + 1) % 4, t + 1)
           case n: Int => walk(move(pos, dir, n), dir, t + 1)
-          case other @ _ => throw Exception(s"Invalid command: $other")
+          case other@_ => throw Exception(s"Invalid command: $other")
         }
     }
 
     val (pos, dir, _) = walk(map.keys.filter(_._1 == 1).minBy(_._2), 0)
-    val part1 = 1000 * pos._1 + 4 * pos._2 + dir
-    println(s"Part 1: $part1")
-
+    1000 * pos._1 + 4 * pos._2 + dir
   }
 
-  private def parseMap(inputMap: String): Map[(Int, Int), Char] = {
+  private def findFlatWraps(map: Map[Coord, Char]): Map[(Coord, Int), (Coord, Int)] = {
+    // precompute the wrap-around
+    // 1. Find all surface normals.
+    val normals = mutable.Set[(Coord, Int)]()
+    map.keys.foreach(point => {
+      Range(0, 4).foreach(dir => {
+        val neighbour = (point._1 + DELTAS(dir)._1, point._2 + DELTAS(dir)._2)
+        if (!map.contains(neighbour))
+          normals.addOne((point, dir))
+      })
+    })
+
+    // 2. Match pairs of surface points and connect them
+    val wraps = mutable.Map[(Coord, Int), (Coord, Int)]()
+    while (normals.nonEmpty) {
+      val (point1, dir1) = normals.head
+      normals.remove((point1, dir1))
+      val dir2 = (dir1 + 2) % 4
+      var point2 = point1
+      while (!normals.remove((point2, dir2)))
+        point2 = (point2._1 + DELTAS(dir2)._1, point2._2 + DELTAS(dir2)._2)
+      wraps.addOne((point1, dir1), (point2, dir1))
+      wraps.addOne((point2, dir2), (point1, dir2))
+    }
+
+    wraps.toMap
+  }
+
+  private def parseMap(inputMap: String): Map[Coord, Char] = {
     inputMap
       .linesIterator
       .zipWithIndex
