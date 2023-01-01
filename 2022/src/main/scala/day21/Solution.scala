@@ -1,3 +1,5 @@
+package day21
+
 abstract class aMonkey {
   def yell(allMonkeys: Map[String, aMonkey]): BigInt
 }
@@ -18,9 +20,9 @@ class OpMonkey(
   }
 }
 
-object Day21 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val monkeys = util.Using.resource(io.Source.fromFile("2022/input/21.txt")) {
+    val monkeys = util.Using.resource(io.Source.fromResource("input/21.txt")) {
       _.getLines.map(parseMonkey).toMap
     }
     println(s"Part 1: ${monkeys("root").yell(monkeys)}")

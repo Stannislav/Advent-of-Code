@@ -1,16 +1,6 @@
-import scala.annotation.tailrec
-import scala.annotation.targetName
+package day25
 
-object Day25 {
-  def main(args: Array[String]): Unit = {
-    val snafus = util.Using.resource(io.Source.fromFile("2022/input/25.txt")) {
-      _.getLines.map(SNAFU.parse).toList
-    }
-
-    println(s"Part 1: ${snafus.reduce(_ + _)}")
-  }
-
-}
+import scala.annotation.{tailrec, targetName}
 
 object SNAFU {
   def parse(s: String): SNAFU = {

@@ -1,9 +1,11 @@
+package day23
+
 import scala.annotation.tailrec
 import scala.collection.mutable
 
-object Day23 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val elves = util.Using.resource(io.Source.fromFile("2022/input/23.txt")) { stream =>
+    val elves = util.Using.resource(io.Source.fromResource("input/23.txt")) { stream =>
       parseElves(stream.mkString)
     }
 

@@ -1,3 +1,5 @@
+package day22
+
 import scala.annotation.tailrec
 import scala.collection.mutable
 
@@ -6,9 +8,9 @@ type Coord = (Int, Int)
 val DELTAS: List[Coord] = List((0, 1), (1, 0), (0, -1), (-1, 0))
 
 
-object Day22 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val (map, path) = util.Using.resource(io.Source.fromFile("2022/input/22.txt")) {
+    val (map, path) = util.Using.resource(io.Source.fromResource("input/22.txt")) {
       _.mkString.split("\n\n").match {
         case Array(map, path) => (parseMap(map), parsePath(path.strip()))
         case input @ _ => throw Exception(s"Invalid input:\n${input.mkString("\n\n")}")

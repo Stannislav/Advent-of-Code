@@ -1,8 +1,10 @@
-import util.control.NonLocalReturns.{returning, throwReturn}
+package day06
 
-object Day06 {
+import scala.util.control.NonLocalReturns.{returning, throwReturn}
+
+object Solution {
   def main(args: Array[String]): Unit = {
-    val input = util.Using.resource(io.Source.fromFile("2022/input/06.txt")) {_.mkString}
+    val input = util.Using.resource(io.Source.fromResource("input/06.txt")) {_.mkString}
 
     println(s"Part 1: ${solve(input, 4)}")
     println(s"Part 2: ${solve(input, 14)}")

@@ -1,40 +1,11 @@
+package day07
+
 import scala.collection.mutable.ListBuffer
 
-trait FSObj {
-  def get_size(): Int
-  def children(): ListBuffer[FSObj]
-}
 
-class Dir extends FSObj {
-  private val _children: ListBuffer[FSObj] = ListBuffer()
-  
-  def get_size(): Int = _children.map(child => child.get_size()).sum
-  def children(): ListBuffer[FSObj] = _children
-  def add_child(child: FSObj): Unit = _children.addOne(child)
-}
-
-class File(size: Int) extends FSObj {
-  private val _children: ListBuffer[FSObj] = ListBuffer()
-  
-  def get_size(): Int = size
-  def children(): ListBuffer[FSObj] = _children
-}
-
-class Lines(lines: List[String]) {
-  private var ptr = -1
-  
-  def next(): String = {
-    ptr += 1
-    lines(ptr)
-  }
-  
-  def done(): Boolean = ptr + 1 == lines.length
-}
-
-
-object Day07 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val input = util.Using.resource(io.Source.fromFile("2022/input/07.txt")) { _
+    val input = util.Using.resource(io.Source.fromResource("input/07.txt")) { _
       .getLines
       .toList
     }

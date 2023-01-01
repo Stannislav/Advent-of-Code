@@ -1,9 +1,11 @@
+package day20
+
 import scala.annotation.tailrec
 import scala.collection.mutable
 
-object Day20 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val input = util.Using.resource(io.Source.fromFile("2022/input/20.txt")) {
+    val input = util.Using.resource(io.Source.fromResource("input/20.txt")) {
       _.getLines.map(_.toLong).toList
     }
 

@@ -1,9 +1,11 @@
+package day08
+
 import scala.collection.mutable.ListBuffer
 
 
-object Day08 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val trees = util.Using.resource(io.Source.fromFile("2022/input/08.txt")) { _
+    val trees = util.Using.resource(io.Source.fromResource("input/08.txt")) { _
       .getLines
       .map(line => line.map(_.asDigit).toList)
       .toList

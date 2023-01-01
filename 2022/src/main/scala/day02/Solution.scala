@@ -1,4 +1,6 @@
-object Day02 {
+package day02
+
+object Solution {
   /**
    * ==Idea==
    * if the shape of them/me is represented by `(rock, paper, scissors) = (0, 1, 2)` and
@@ -12,7 +14,7 @@ object Day02 {
    */
   def main(args: Array[String]): Unit = {
     // Read data
-    val lines = util.Using.resource(io.Source.fromFile("2022/input/02.txt")) { _
+    val lines = util.Using.resource(io.Source.fromResource("input/02.txt")) { _
       .getLines
       .map(line => (line(0) - 'A', line(2) - 'X'))
       .toArray

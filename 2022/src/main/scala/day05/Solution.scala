@@ -1,9 +1,11 @@
+package day05
+
 import scala.collection.mutable
 
-object Day05 {
+object Solution {
   def main(args: Array[String]): Unit = {
     // Read input
-    val (stacks, instructions) = util.Using.resource(io.Source.fromFile("2022/input/05.txt")) { _
+    val (stacks, instructions) = util.Using.resource(io.Source.fromResource("input/05.txt")) { _
       .mkString
       .split("\n\n")
       match {

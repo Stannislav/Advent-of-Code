@@ -1,11 +1,13 @@
+package day18
+
 import scala.collection.mutable
 
 type Coord = List[Int]
 type Shape = Set[Coord] | mutable.Set[Coord]
 
-object Day18 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val droplet: Set[Coord] = util.Using.resource(io.Source.fromFile("2022/input/18.txt")) { _
+    val droplet: Set[Coord] = util.Using.resource(io.Source.fromResource("input/18.txt")) { _
       .getLines
       .map {case s"$x,$y,$z" => List(x.toInt, y.toInt, z.toInt)}
       .toSet

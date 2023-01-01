@@ -1,11 +1,13 @@
+package day12
+
 import scala.collection.mutable
 
 
-object Day12 {
+object Solution {
   def main(args: Array[String]): Unit = {
     var start = (-1, -1)
     var end = (-1, -1)
-    val map = util.Using.resource(io.Source.fromFile("2022/input/12.txt")) { _
+    val map = util.Using.resource(io.Source.fromResource("input/12.txt")) { _
       .getLines
       .zipWithIndex
       .map((line, row) => line.zipWithIndex.map((c, col) => c match {

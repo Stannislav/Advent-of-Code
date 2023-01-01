@@ -1,7 +1,9 @@
+package day10
+
 object Day10 {
   def main(args: Array[String]): Unit = {
     // Read and transform the input: list of (dx, nCycle)
-    val cycles = util.Using.resource(io.Source.fromFile("2022/input/10.txt")) { _
+    val cycles = util.Using.resource(io.Source.fromResource("input/10.txt")) { _
       .getLines
       .flatMap(_ match {
         case "noop" => List(0)

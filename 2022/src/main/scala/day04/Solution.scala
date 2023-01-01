@@ -1,6 +1,8 @@
-object Day04 {
+package day04
+
+object Solution {
   def main(args: Array[String]): Unit = {
-    val lines = util.Using.resource(io.Source.fromFile("2022/input/04.txt")) { _
+    val lines = util.Using.resource(io.Source.fromResource("input/04.txt")) { _
       .getLines
       .map(_.split("[-,]").map(_.toInt).toList)
       .toList

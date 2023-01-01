@@ -1,23 +1,15 @@
+package day13
+
 import scala.collection.mutable
 
-// Ugly: Need to wrap List/Int into classes to define recursive container type...
-// All I want is "type Packet = Seq[Packet] | Int"... there must be a better way.
-abstract class Packet
-class SeqPacket(val seq: Seq[Packet]) extends Packet {
-  override def toString: String = s"[${seq.mkString(",")}]"
-}
-class IntPacket(val value: Int) extends Packet {
-  override def toString: String = value.toString
-}
-
-
-object Day13 {
+object Solution {
   def main(args: Array[String]): Unit = {
-    val packets = util.Using.resource(io.Source.fromFile("2022/input/13.txt")) { _
-      .getLines
-      .filter(_.nonEmpty)
-      .map(parsePacket)
-      .toList
+    val packets = util.Using.resource(io.Source.fromResource("input/13.txt")) {
+      _
+        .getLines
+        .filter(_.nonEmpty)
+        .map(parsePacket)
+        .toList
     }
     val packetPairs = Range(0, packets.length, 2).map(idx => (packets(idx), packets(idx + 1))).toList
 
