@@ -12,3 +12,5 @@ www.adventofcode.com
 - [2019](2019) - JavaScript
 - [2020](2020) - Rust
 - [2021](2021) - Python 3.10
+- [2022](2022) - Scala
+- [2023](aoc2023) - Golang
