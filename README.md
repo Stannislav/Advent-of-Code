@@ -1,4 +1,4 @@
-# :christmas_tree: Advent of Code :christmas_tree:
+# 🎄 Advent of Code 🎄
 
 My solutions for the Advent of Code challenges.
 
