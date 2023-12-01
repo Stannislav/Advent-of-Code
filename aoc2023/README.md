@@ -5,6 +5,7 @@
 
 This year I'm going to use [Golang](https://golang.org/) to solve the puzzles.
 
+## How to Use
 To run a particular solution, for example day 1, use the following command:
 
 ```bash
@@ -41,3 +42,25 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  23 | [???](https://adventofcode.com/2023/day/23)        | [day23](cmd/day23/main.go) |                   |
 |  24 | [???](https://adventofcode.com/2023/day/24)        | [day24](cmd/day24/main.go) |                   |
 |  25 | [???](https://adventofcode.com/2023/day/25)        | [day25](cmd/day25/main.go) |                   |
+
+## Golang Offline Documentation
+The documentation for the standard library can be viewed using `godoc`.
+
+First, install the `godoc` tool:
+
+```bash
+go install golang.org/x/tools/cmd/godoc@latest
+```
+
+Next, run the following command to start the documentation server:
+
+```bash
+godoc -http=:6060
+```
+
+Finally, open a browser with the following URL: http://localhost:6060/.
+
+If the `godoc` binary cannot be found, make sure to add `$GOPATH/bin` to `$PATH`:
+```bash
+export PATH="$PATH:$(go env GOPATH)/bin"
+```
