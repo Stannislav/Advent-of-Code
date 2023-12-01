@@ -29,9 +29,9 @@ func solve(lines []string, digits []string) (total int) {
 	last := regexp.MustCompile(".*" + first.String())
 
 	for _, line := range lines {
-		firstIndex := slices.Index(digits, first.FindStringSubmatch(line)[1])
-		lastIndex := slices.Index(digits, last.FindStringSubmatch(line)[1])
-		total += 10*(firstIndex%9+1) + (lastIndex%9 + 1)
+		firstDigit := slices.Index(digits, first.FindStringSubmatch(line)[1])
+		lastDigit := slices.Index(digits, last.FindStringSubmatch(line)[1])
+		total += 10*(firstDigit%9+1) + (lastDigit%9 + 1)
 	}
 	return
 }
