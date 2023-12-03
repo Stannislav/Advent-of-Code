@@ -9,6 +9,11 @@ import (
 	"strings"
 )
 
+type Engine struct {
+	schematic  []string
+	maxI, maxJ int
+}
+
 type Point struct {
 	i, j int
 }
@@ -20,46 +25,43 @@ type Part struct {
 }
 
 func main() {
-	input, _ := os.ReadFile("input/03.txt")
-
-	var engineMap []string
-	for _, line := range strings.Fields(string(input)) {
-		engineMap = append(engineMap, line)
-	}
-	bounds := Point{len(engineMap), len(engineMap[0])}
+	engine := parseFile("input/03.txt")
 
 	// Find all numbers
-	reNum := regexp.MustCompile(`\d+`)
 	var numbers []int
-	coordToNumberPtr := make(map[Point]int)
-	nNumbers := 0
-	for i, line := range engineMap {
-		for _, pt := range reNum.FindAllStringIndex(line, -1) {
-			number, _ := strconv.Atoi(line[pt[0]:pt[1]])
+	pointToNumberIdx := make(map[Point]int) // Given a point, which number is it? Numbers are not unique.
+	reNumber := regexp.MustCompile(`\d+`)
+	currentIdx := 0
+	for i, line := range engine.schematic {
+		for _, bounds := range reNumber.FindAllStringIndex(line, -1) {
+			number, _ := strconv.Atoi(line[bounds[0]:bounds[1]])
 			numbers = append(numbers, number)
-			for j := pt[0]; j < pt[1]; j++ {
-				coordToNumberPtr[Point{i, j}] = nNumbers
+			for j := bounds[0]; j < bounds[1]; j++ {
+				pointToNumberIdx[Point{i, j}] = currentIdx
 			}
-			nNumbers += 1
+			currentIdx++
 		}
 	}
 
 	// Find all parts
 	notPart := []rune(".0123456789")
 	var parts []Part
-	for i, line := range engineMap {
+	for i, line := range engine.schematic {
 		for j, char := range line {
 			if !slices.Contains(notPart, char) {
-				part := Part{char, Point{i, j}, nil}
-				var seen []int // [numPtr]
-				for _, neighbour := range neighbourCoords(part.coord, bounds) {
-					numPtr, ok := coordToNumberPtr[neighbour]
-					if ok && !slices.Contains(seen, numPtr) {
-						part.partNumbers = append(part.partNumbers, numbers[numPtr])
-						seen = append(seen, numPtr)
-					}
-				}
-				parts = append(parts, part)
+				parts = append(parts, Part{char, Point{i, j}, nil})
+			}
+		}
+	}
+
+	// Attach part numbers to parts
+	for i := range parts {
+		var seen []int // list of part number indices
+		for point := range engine.neighbours(parts[i].coord) {
+			numberIdx, ok := pointToNumberIdx[point]
+			if ok && !slices.Contains(seen, numberIdx) {
+				parts[i].partNumbers = append(parts[i].partNumbers, numbers[numberIdx])
+				seen = append(seen, numberIdx)
 			}
 		}
 	}
@@ -80,13 +82,34 @@ func main() {
 	fmt.Println("Part 2:", gearRatioSum)
 }
 
-func neighbourCoords(pt Point, bounds Point) (neighbours []Point) {
-	for di := -1; di <= 1; di++ {
-		for dj := -1; dj <= 1; dj++ {
-			if pt.i+di >= 0 && pt.i+di < bounds.i && pt.j+dj >= 0 && pt.j+dj < bounds.j {
-				neighbours = append(neighbours, Point{pt.i + di, pt.j + dj})
+func parseFile(fileName string) (engine Engine) {
+	content, _ := os.ReadFile(fileName)
+	for _, line := range strings.Fields(string(content)) {
+		engine.schematic = append(engine.schematic, line)
+	}
+	engine.maxI = len(engine.schematic)
+	engine.maxJ = len(engine.schematic[0])
+	return
+}
+
+func (engine Engine) neighbours(point Point) chan Point {
+	neighbours := make(chan Point)
+
+	go func() {
+		for di := -1; di <= 1; di++ {
+			for dj := -1; dj <= 1; dj++ {
+				neighbour := Point{point.i + di, point.j + dj}
+				if engine.inBounds(neighbour) && neighbour != point {
+					neighbours <- neighbour
+				}
 			}
 		}
-	}
-	return
+		close(neighbours)
+	}()
+
+	return neighbours
+}
+
+func (engine Engine) inBounds(pt Point) bool {
+	return pt.i >= 0 && pt.i < engine.maxI && pt.j >= 0 && pt.j < engine.maxJ
 }
