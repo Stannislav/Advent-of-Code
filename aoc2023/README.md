@@ -20,7 +20,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   1 | [Trebuchet?!](https://adventofcode.com/2023/day/1)    | [day01](cmd/day01/main.go) | [day01](cmd/day01-improved/main.go) |
 |   2 | [Cube Conundrum](https://adventofcode.com/2023/day/2) | [day02](cmd/day02/main.go) |                                     |
 |   3 | [Gear Ratios](https://adventofcode.com/2023/day/3)    | [day03](cmd/day03/main.go) | [day03](cmd/day03-improved/main.go) |
-|   4 | [???](https://adventofcode.com/2023/day/4)            | [day04](cmd/day04/main.go) |                                     |
+|   4 | [Scratchcards](https://adventofcode.com/2023/day/4)   | [day04](cmd/day04/main.go) |                                     |
 |   5 | [???](https://adventofcode.com/2023/day/5)            | [day05](cmd/day05/main.go) |                                     |
 |   6 | [???](https://adventofcode.com/2023/day/6)            | [day06](cmd/day06/main.go) |                                     |
 |   7 | [???](https://adventofcode.com/2023/day/7)            | [day07](cmd/day07/main.go) |                                     |
