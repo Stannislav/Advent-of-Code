@@ -9,13 +9,19 @@ import (
 	"strings"
 )
 
+type Map struct {
+	sources      []int // Must be sorted
+	destinations []int
+	lengths      []int
+}
+
 func main() {
 	input, _ := os.ReadFile("input/05.txt")
 	blocks := strings.Split(strings.Trim(string(input), "\n"), "\n\n")
 
 	reNumber := regexp.MustCompile(`\d+`)
 	var seeds []int
-	var maps [][][]int // [nMap][nLine][destStart, sourceStart, length]
+	var maps []Map
 
 	// Parse seeds
 	for _, xStr := range reNumber.FindAllString(blocks[0], -1) {
@@ -24,32 +30,37 @@ func main() {
 	}
 
 	// Parse maps
-	var mapNames []string
 	for _, block := range blocks[1:] {
-		var nMap [][]int
-		for i, line := range strings.Split(block, "\n") {
-			if i == 0 {
-				mapNames = append(mapNames, line[:len(line)-4])
-				continue
+		var triples [][]int
+		for _, line := range strings.Split(block, "\n")[1:] {
+			triple := make([]int, 3)
+			for i, xStr := range reNumber.FindAllString(line, -1) {
+				triple[i], _ = strconv.Atoi(xStr)
 			}
-			var nLine []int
-			for _, xStr := range reNumber.FindAllString(line, -1) {
-				x, _ := strconv.Atoi(xStr)
-				nLine = append(nLine, x)
-			}
-			nMap = append(nMap, nLine)
+			triples = append(triples, triple)
 		}
-		// Sort map by source interval start
-		sort.Slice(nMap, func(i, j int) bool {
-			return nMap[i][1] < nMap[j][1]
+		// Sort triples by source interval start
+		sort.Slice(triples, func(i, j int) bool {
+			return triples[i][1] < triples[j][1]
 		})
-		maps = append(maps, nMap)
+
+		// Save map
+		m := Map{[]int{}, []int{}, []int{}}
+		for _, triple := range triples {
+			m.sources = append(m.sources, triple[1])
+			m.destinations = append(m.destinations, triple[0])
+			m.lengths = append(m.lengths, triple[2])
+		}
+		maps = append(maps, m)
 	}
 
 	// Part 1
 	var mappedSeeds []int
 	for _, seed := range seeds {
-		mappedSeeds = append(mappedSeeds, mapOne(seed, maps))
+		for _, m := range maps {
+			seed = m.mapOne(seed)
+		}
+		mappedSeeds = append(mappedSeeds, seed)
 	}
 	sort.Ints(mappedSeeds)
 	fmt.Println("Part 1:", mappedSeeds[0])
@@ -59,69 +70,48 @@ func main() {
 	for i := 0; i < len(seeds)/2; i++ {
 		intervals = append(intervals, []int{seeds[2*i], seeds[2*i+1]})
 	}
-
-	for _, rangeMap := range maps {
-		var newIntervals [][]int
+	for _, m := range maps {
+		var mappedIntervals [][]int
 		for _, interval := range intervals {
-			newIntervals = append(newIntervals, mapInterval(interval, rangeMap)...)
+			mappedIntervals = append(mappedIntervals, m.mapInterval(interval)...)
 		}
-		intervals = newIntervals
-		sort.Slice(intervals, func(i, j int) bool {
-			return intervals[i][0] < intervals[j][0]
-		})
+		intervals = mappedIntervals
 	}
-
 	sort.Slice(intervals, func(i, j int) bool {
 		return intervals[i][0] < intervals[j][0]
 	})
 	fmt.Println("Part 2:", intervals[0][0])
 }
 
-func mapOne(point int, maps [][][]int) int {
-	applyMap := func(point int, rangeMap [][]int) int {
-		for _, line := range rangeMap {
-			if point >= line[1] && point < line[1]+line[2] {
-				return point + line[0] - line[1]
-			}
+func (m Map) mapOne(point int) int {
+	for i := 0; i < len(m.sources); i++ {
+		if point >= m.sources[i] && point < m.sources[i]+m.lengths[i] {
+			return point + m.destinations[i] - m.sources[i]
 		}
-		return point
-	}
-
-	for _, rangeMap := range maps {
-		point = applyMap(point, rangeMap)
 	}
 	return point
 }
 
-func mapInterval(interval []int, rangeMap [][]int) [][]int {
+func (m Map) mapInterval(interval []int) [][]int {
 	start := interval[0]
 	length := interval[1]
 	var mapped [][]int
 
-	for _, line := range rangeMap {
-		if start < line[1] { // start outside any interval: map to itself
-			diff := line[1] - start
-			if length <= diff { // interval outside any mapping
-
-				mapped = append(mapped, []int{start, length})
-				length = 0
-				break
-			}
-			// mapping part of the interval
-			mapped = append(mapped, []int{start, diff})
-			start += diff
-			length -= diff
+	for i := 0; i < len(m.sources) && length > 0; i++ {
+		if start < m.sources[i] { // start outside any interval: map to itself
+			mappedLength := min(m.sources[i]-start, length)
+			mapped = append(mapped, []int{start, mappedLength})
+			start += mappedLength
+			length -= mappedLength
 		}
-		if start >= line[1] && start < line[1]+line[2] {
-			diff := line[1] + line[2] - start
-			if length <= diff {
-				mapped = append(mapped, []int{start + line[0] - line[1], length})
-				length = 0
-				break
-			}
-			mapped = append(mapped, []int{start + line[0] - line[1], diff})
-			start += diff
-			length -= diff
+		if length == 0 {
+			break
+		}
+		if start >= m.sources[i] && start < m.sources[i]+m.lengths[i] {
+			mappedLength := min(m.sources[i]+m.lengths[i]-start, length)
+			mapped = append(mapped, []int{m.destinations[i] + start - m.sources[i], mappedLength})
+			start += mappedLength
+			length -= mappedLength
 		}
 	}
 	// Map the remaining tail to itself
