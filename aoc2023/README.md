@@ -22,7 +22,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   3 | [Gear Ratios](https://adventofcode.com/2023/day/3)                     | [day03](cmd/day03/main.go) | [day03](cmd/day03-improved/main.go) |
 |   4 | [Scratchcards](https://adventofcode.com/2023/day/4)                    | [day04](cmd/day04/main.go) |                                     |
 |   5 | [If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) | [day05](cmd/day05/main.go) |                                     |
-|   6 | [???](https://adventofcode.com/2023/day/6)                             | [day06](cmd/day06/main.go) |                                     |
+|   6 | [Wait For It](https://adventofcode.com/2023/day/6)                     | [day06](cmd/day06/main.go) |                                     |
 |   7 | [???](https://adventofcode.com/2023/day/7)                             | [day07](cmd/day07/main.go) |                                     |
 |   8 | [???](https://adventofcode.com/2023/day/8)                             | [day08](cmd/day08/main.go) |                                     |
 |   9 | [???](https://adventofcode.com/2023/day/9)                             | [day09](cmd/day09/main.go) |                                     |
