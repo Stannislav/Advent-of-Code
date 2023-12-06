@@ -24,7 +24,7 @@ func main() {
 	fmt.Println("Part 2:", solve(time, dist))
 }
 
-func parse(input string) (time []int, dist []int) {
+func parse(input string) (time, dist []int) {
 	re := regexp.MustCompile(`\d+`)
 	numbers := re.FindAllString(input, -1)
 	for i := 0; i < len(numbers)/2; i += 1 {
@@ -40,13 +40,12 @@ func nWin(time, dist int) int {
 	epsilon := 0.000000000001
 	t := float64(time)
 	d := float64(dist)
-	w1 := math.Ceil((t-math.Sqrt(t*t-4*d))/2 + epsilon)
-	w2 := math.Floor((t+math.Sqrt(t*t-4*d))/2 - epsilon)
-
-	return int(w2 - w1 + 1)
+	minWait := math.Ceil((t-math.Sqrt(t*t-4*d))/2 + epsilon)
+	maxWait := math.Floor((t+math.Sqrt(t*t-4*d))/2 - epsilon)
+	return int(maxWait - minWait + 1)
 }
 
-func solve(time []int, dist []int) int {
+func solve(time, dist []int) int {
 	solution := 1
 	for i := 0; i < len(time); i += 1 {
 		solution *= nWin(time[i], dist[i])
