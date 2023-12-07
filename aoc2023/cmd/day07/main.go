@@ -114,22 +114,24 @@ func applyJoker(cards []rune) []rune {
 }
 
 func sortHands(hands []Hand, withJoker bool) {
-	suits := make(map[int32]int)
+	cardValues := make(map[rune]int)
 	var order string
 	if withJoker {
 		order = "J23456789TQKA"
 	} else {
 		order = "23456789TJQKA"
 	}
-	for i, suit := range order {
-		suits[suit] = i
+	for i, card := range order {
+		cardValues[card] = i
 	}
 
 	sort.Slice(hands, func(i, j int) bool {
 		if hands[i].type_ == hands[j].type_ {
 			for k := 0; k < len(hands[i].cards); k += 1 {
-				if suits[hands[i].cards[k]] != suits[hands[j].cards[k]] {
-					return suits[hands[i].cards[k]] < suits[hands[j].cards[k]]
+				card1 := hands[i].cards[k]
+				card2 := hands[j].cards[k]
+				if card1 != card2 {
+					return cardValues[card1] < cardValues[card2]
 				}
 			}
 			return false
