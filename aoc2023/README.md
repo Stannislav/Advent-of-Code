@@ -24,7 +24,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   5 | [If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) | [day05](cmd/day05/main.go) |                                     |
 |   6 | [Wait For It](https://adventofcode.com/2023/day/6)                     | [day06](cmd/day06/main.go) |                                     |
 |   7 | [Camel Cards](https://adventofcode.com/2023/day/7)                     | [day07](cmd/day07/main.go) |                                     |
-|   8 | [???](https://adventofcode.com/2023/day/8)                             | [day08](cmd/day08/main.go) |                                     |
+|   8 | [Haunted Wasteland](https://adventofcode.com/2023/day/8)               | [day08](cmd/day08/main.go) |                                     |
 |   9 | [???](https://adventofcode.com/2023/day/9)                             | [day09](cmd/day09/main.go) |                                     |
 |  10 | [???](https://adventofcode.com/2023/day/10)                            | [day10](cmd/day10/main.go) |                                     |
 |  11 | [???](https://adventofcode.com/2023/day/11)                            | [day11](cmd/day11/main.go) |                                     |
