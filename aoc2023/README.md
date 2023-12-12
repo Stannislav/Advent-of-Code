@@ -28,7 +28,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |   9 | [Mirage Maintenance](https://adventofcode.com/2023/day/9)              | [day09](cmd/day09/main.go) |                                     |
 |  10 | [Pipe Maze](https://adventofcode.com/2023/day/10)                      | [day10](cmd/day10/main.go) |                                     |
 |  11 | [Cosmic Expansion](https://adventofcode.com/2023/day/11)               | [day11](cmd/day11/main.go) |                                     |
-|  12 | [???](https://adventofcode.com/2023/day/12)                            | [day12](cmd/day12/main.go) |                                     |
+|  12 | [Hot Springs](https://adventofcode.com/2023/day/12)                    | [day12](cmd/day12/main.go) |                                     |
 |  13 | [???](https://adventofcode.com/2023/day/13)                            | [day13](cmd/day13/main.go) |                                     |
 |  14 | [???](https://adventofcode.com/2023/day/14)                            | [day14](cmd/day14/main.go) |                                     |
 |  15 | [???](https://adventofcode.com/2023/day/15)                            | [day15](cmd/day15/main.go) |                                     |
