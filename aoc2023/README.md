@@ -34,7 +34,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  15 | [Lens Library](https://adventofcode.com/2023/day/15)                   | [day15](cmd/day15/main.go) |                                     |
 |  16 | [The Floor Will Be Lava](https://adventofcode.com/2023/day/16)         | [day16](cmd/day16/main.go) |                                     |
 |  17 | [Clumsy Crucible](https://adventofcode.com/2023/day/17)                | [day17](cmd/day17/main.go) |                                     |
-|  18 | [???](https://adventofcode.com/2023/day/18)                            | [day18](cmd/day18/main.go) |                                     |
+|  18 | [Lavaduct Lagoon](https://adventofcode.com/2023/day/18)                | [day18](cmd/day18/main.go) |                                     |
 |  19 | [???](https://adventofcode.com/2023/day/19)                            | [day19](cmd/day19/main.go) |                                     |
 |  20 | [???](https://adventofcode.com/2023/day/20)                            | [day20](cmd/day20/main.go) |                                     |
 |  21 | [???](https://adventofcode.com/2023/day/21)                            | [day21](cmd/day21/main.go) |                                     |
