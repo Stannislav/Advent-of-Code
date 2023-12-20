@@ -36,7 +36,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  17 | [Clumsy Crucible](https://adventofcode.com/2023/day/17)                | [day17](cmd/day17/main.go) |                                     |
 |  18 | [Lavaduct Lagoon](https://adventofcode.com/2023/day/18)                | [day18](cmd/day18/main.go) |                                     |
 |  19 | [Aplenty](https://adventofcode.com/2023/day/19)                        | [day19](cmd/day19/main.go) |                                     |
-|  20 | [???](https://adventofcode.com/2023/day/20)                            | [day20](cmd/day20/main.go) |                                     |
+|  20 | [Pulse Propagation](https://adventofcode.com/2023/day/20)              | [day20](cmd/day20/main.go) |                                     |
 |  21 | [???](https://adventofcode.com/2023/day/21)                            | [day21](cmd/day21/main.go) |                                     |
 |  22 | [???](https://adventofcode.com/2023/day/22)                            | [day22](cmd/day22/main.go) |                                     |
 |  23 | [???](https://adventofcode.com/2023/day/23)                            | [day23](cmd/day23/main.go) |                                     |
