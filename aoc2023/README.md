@@ -40,8 +40,8 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  21 | [Step Counter](https://adventofcode.com/2023/day/21)                   | [day21](cmd/day21/main.go) |                                     |
 |  22 | [Sand Slabs](https://adventofcode.com/2023/day/22)                     | [day22](cmd/day22/main.go) |                                     |
 |  23 | [A Long Walk](https://adventofcode.com/2023/day/23)                    | [day23](cmd/day23/main.go) |                                     |
-|  24 | [???](https://adventofcode.com/2023/day/24)                            | [day24](cmd/day24/main.go) |                                     |
-|  25 | [???](https://adventofcode.com/2023/day/25)                            | [day25](cmd/day25/main.go) |                                     |
+|  24 | [Never Tell Me The Odds](https://adventofcode.com/2023/day/24)         | [day24](cmd/day24/main.go) |                                     |
+|  25 | [Snowverload](https://adventofcode.com/2023/day/25)                    | [day25](cmd/day25/main.go) |                                     |
 
 ## Golang Offline Documentation
 The documentation for the standard library can be viewed using `godoc`.
