@@ -6,6 +6,7 @@
 This year I'm going to use [Golang](https://golang.org/) to solve the puzzles.
 
 ## How to Use
+
 To run a particular solution, for example day 1, use the following command:
 
 ```bash
@@ -13,6 +14,7 @@ go run cmd/day01/main.go
 ```
 
 ## Solutions
+
 The last column contains improved solutions inspired by solutions of other people.
 
 | Day | Problem                                                                | Solution                   | Improved Solution                   |
@@ -44,6 +46,7 @@ The last column contains improved solutions inspired by solutions of other peopl
 |  25 | [Snowverload](https://adventofcode.com/2023/day/25)                    | [day25](cmd/day25/main.go) |                                     |
 
 ## Golang Offline Documentation
+
 The documentation for the standard library can be viewed using `godoc`.
 
 First, install the `godoc` tool:
@@ -61,6 +64,7 @@ godoc -http=:6060
 Finally, open a browser with the following URL: http://localhost:6060/.
 
 If the `godoc` binary cannot be found, make sure to add `$GOPATH/bin` to `$PATH`:
+
 ```bash
 export PATH="$PATH:$(go env GOPATH)/bin"
 ```

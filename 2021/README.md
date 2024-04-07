@@ -4,15 +4,18 @@
 * Discussions: [Reddit](https://www.reddit.com/r/adventofcode)
 
 ## Goals
+
 The goal this year is to try and use as many new features introduced
 in python versions 3.7 to 3.10. Detailed descriptions of all new features
 can be found in the python docs:
-* [What’s New In Python 3.7](https://docs.python.org/3/whatsnew/3.7.html)
-* [What’s New In Python 3.8](https://docs.python.org/3/whatsnew/3.8.html)
-* [What’s New In Python 3.9](https://docs.python.org/3/whatsnew/3.9.html)
-* [What’s New In Python 3.10](https://docs.python.org/3/whatsnew/3.10.html)
+
+* [What's New In Python 3.7](https://docs.python.org/3/whatsnew/3.7.html)
+* [What's New In Python 3.8](https://docs.python.org/3/whatsnew/3.8.html)
+* [What's New In Python 3.9](https://docs.python.org/3/whatsnew/3.9.html)
+* [What's New In Python 3.10](https://docs.python.org/3/whatsnew/3.10.html)
 
 The new features include:
+
 * `[py37]` Postponed evaluation of type annotations
 * `[py37]` The `dataclasses` module
 * `[py38]` The walrus operator (`:=`)
@@ -31,7 +34,9 @@ The new features include:
 * `[py310]` New method `int.bit_count()`
 
 ## How to Run
+
 Create a virtual environment
+
 ```sh
 pyenv local 3.10.0
 virtualenv -p310 venv
@@ -40,16 +45,19 @@ pip install -U pip wheel setuptools
 ```
 
 Install the package
+
 ```sh
 pip install .
 ```
 
 Run a solution (replace `<day>` by the day number)
+
 ```sh
 aoc <day>
 ```
 
 Run a community-based solution (replace `<day>` by the day number)
+
 ```sh
 aoc <day> --extra
 ```
@@ -57,6 +65,7 @@ aoc <day> --extra
 Installing with development extras allows running unit tests that test
 solutions against example data from problem descriptions, as well as
 linting, formatting, and typing checks:
+
 ```sh
 pip install '.[dev]'
 tox -e lint  # flake8 and black checks
@@ -66,6 +75,7 @@ pytest  # (or tox -e py310) run unit tests
 ```
 
 ## Solutions
+
 The last column contains improved solutions inspired by solutions of other people.
 
 | Day | Problem                                                         | Solution                                   | Improved Solution                                |
