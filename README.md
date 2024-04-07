@@ -2,9 +2,10 @@
 
 My solutions for the Advent of Code challenges.
 
-www.adventofcode.com
+<www.adventofcode.com>
 
-**Solutions**
+## Solutions
+
 - [2015](2015) - Python
 - [2016](2016) - Python
 - [2017](2017) - C++
