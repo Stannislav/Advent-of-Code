@@ -13,7 +13,7 @@ fun main() {
 fun parseInput(stream: InputStream): Pair<List<Int>, List<Int>> {
     val left = mutableListOf<Int>()
     val right = mutableListOf<Int>()
-    val pattern = Regex("(\\d+)\\s+(\\d+)")
+    val pattern = """(\d+)\s+(\d+)""".toRegex()
     stream.bufferedReader().forEachLine {
         val match = pattern.matchEntire(it)
         val (l, r) = match!!.destructured
