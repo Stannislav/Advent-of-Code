@@ -8,6 +8,6 @@ fun asHeading(title: String, width: Int = 80): String {
 }
 
 fun main() {
-    println(asHeading("Day 01").padEnd(37, '='))
+    println(asHeading("Day 01"))
     day01.main()
 }
