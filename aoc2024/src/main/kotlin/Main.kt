@@ -1,5 +1,13 @@
-package aoc2024
+fun asHeading(title: String, width: Int = 80): String {
+    if (title.length > width)
+        throw IllegalArgumentException("Heading '$title' is longer than width $width")
+
+    return title
+        .padStart((width - title.length) / 2 + title.length, '=')
+        .padEnd(width, '=')
+}
 
 fun main() {
-    println("Hello AoC 2024!")
+    println(asHeading("Day 01").padEnd(37, '='))
+    day01.main()
 }
