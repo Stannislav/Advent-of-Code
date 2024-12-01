@@ -33,16 +33,16 @@ fun part1(left: List<Int>, right: List<Int>): Int {
 
 fun part2(left: List<Int>, right: List<Int>): Int {
     val leftCounts = count(left)
-    val rightCounts = count(right)
+    val rightCounts = count(right).withDefault { 0 }
     var result = 0
     for ((n, cnt) in leftCounts) {
-        result += n * cnt * rightCounts.getOrDefault(n, 0)
+        result += n * cnt * rightCounts.getValue(n)
     }
     return result
 }
 
 fun count(seq: Iterable<Int>): Map<Int, Int> {
-    val counts = mutableMapOf<Int, Int>()
-    seq.forEach { counts[it] = counts.getOrDefault(it, 0) + 1 }
+    val counts = mutableMapOf<Int, Int>().withDefault { 0 }
+    seq.forEach { counts[it] = counts.getValue(it) + 1 }
     return counts
 }
