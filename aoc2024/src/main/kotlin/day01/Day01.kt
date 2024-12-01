@@ -15,8 +15,7 @@ fun parseInput(stream: InputStream): Pair<List<Int>, List<Int>> {
     val right = mutableListOf<Int>()
     val pattern = """(\d+)\s+(\d+)""".toRegex()
     stream.bufferedReader().forEachLine {
-        val match = pattern.matchEntire(it)
-        val (l, r) = match!!.destructured
+        val (l, r) = pattern.matchEntire(it)!!.destructured
         left.add(l.toInt())
         right.add(r.toInt())
     }
