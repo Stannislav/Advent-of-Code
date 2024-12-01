@@ -34,9 +34,6 @@ fun part1(left: List<Int>, right: List<Int>): Int {
 fun part2(left: List<Int>, right: List<Int>): Int {
     val leftCounts = left.groupingBy { it }.eachCount()
     val rightCounts = right.groupingBy { it }.eachCount().withDefault { 0 }
-    var result = 0
-    for ((n, cnt) in leftCounts) {
-        result += n * cnt * rightCounts.getValue(n)
-    }
-    return result
+
+    return leftCounts.map { (n, cnt) -> n * cnt * rightCounts.getValue(n) }.sum()
 }
