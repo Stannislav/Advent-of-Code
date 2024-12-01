@@ -10,4 +10,6 @@ fun asHeading(title: String, width: Int = 80): String {
 fun main() {
     println(asHeading("Day 01"))
     day01.main()
+    println(asHeading("Day 02"))
+    day02.main()
 }
