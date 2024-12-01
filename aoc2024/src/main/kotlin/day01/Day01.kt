@@ -28,7 +28,7 @@ fun parseInput(stream: InputStream): Pair<List<Int>, List<Int>> {
 fun part1(left: List<Int>, right: List<Int>): Int {
     return left.sorted()
         .zip(right.sorted())
-        .fold(0) { acc, (l, r) -> acc + abs(l - r) }
+        .sumOf { (l, r) -> abs(l - r) }
 }
 
 fun part2(left: List<Int>, right: List<Int>): Int {
