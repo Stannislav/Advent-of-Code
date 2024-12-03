@@ -12,4 +12,6 @@ fun main() {
     day01.main()
     println(asHeading("Day 02"))
     day02.main()
+    println(asHeading("Day 03"))
+    day03.main()
 }
