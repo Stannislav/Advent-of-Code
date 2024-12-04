@@ -5,4 +5,6 @@ fun main() {
     day02.main()
     println("--- Day 3: Mull It Over ---")
     day03.main()
+    println("--- Day 4: Ceres Search ---")
+    day04.main()
 }
