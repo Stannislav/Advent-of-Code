@@ -7,4 +7,6 @@ fun main() {
     day03.main()
     println("--- Day 4: Ceres Search ---")
     day04.main()
+    println("--- Day 5: Print Queue ---")
+    day05.main()
 }
