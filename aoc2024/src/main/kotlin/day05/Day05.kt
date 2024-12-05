@@ -9,6 +9,15 @@ fun main() {
     println("Part 2: ${part2(rules, updates)}")
 }
 
+fun parseInput(stream: InputStream): Pair<Set<Pair<Int, Int>>, List<List<Int>>> {
+    val (sec1, sec2) = stream.bufferedReader().readText().split("\n\n", limit = 2)
+
+    val rules = sec1.trim().lines().map { Pair(it.substring(0, 2).toInt(), it.substring(3, 5).toInt()) }.toSet()
+    val updates = sec2.trim().lines().map { line -> line.split(",").map { it.toInt() } }.toList()
+
+    return Pair(rules, updates)
+}
+
 fun part1(rules: Set<Pair<Int, Int>>, updates: List<List<Int>>): Int {
     return updates.filter { isValid(it, rules) }.sumOf { it[it.size / 2] }
 }
@@ -23,13 +32,4 @@ fun isValid(update: List<Int>, rules: Set<Pair<Int, Int>>): Boolean {
 
 fun order(update: List<Int>, rules: Set<Pair<Int, Int>>): List<Int> {
     return update.sortedWith { a, b -> if (rules.contains(Pair(a, b))) -1 else 1 }
-}
-
-fun parseInput(stream: InputStream): Pair<Set<Pair<Int, Int>>, List<List<Int>>> {
-    val (sec1, sec2) = stream.bufferedReader().readText().split("\n\n", limit = 2)
-
-    val rules = sec1.trim().lines().map { Pair(it.substring(0, 2).toInt(), it.substring(3, 5).toInt()) }.toSet()
-    val updates = sec2.trim().lines().map { line -> line.split(",").map { it.toInt() } }.toList()
-
-    return Pair(rules, updates)
 }
