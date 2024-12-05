@@ -13,7 +13,7 @@ fun parseInput(stream: InputStream): Pair<Set<Pair<Int, Int>>, List<List<Int>>> 
     val (sec1, sec2) = stream.bufferedReader().readText().split("\n\n", limit = 2)
 
     val rules = sec1.trim().lines().map { Pair(it.substring(0, 2).toInt(), it.substring(3, 5).toInt()) }.toSet()
-    val updates = sec2.trim().lines().map { line -> line.split(",").map { it.toInt() } }.toList()
+    val updates = sec2.trim().lines().map { line -> line.split(",").map { it.toInt() } }
 
     return Pair(rules, updates)
 }
