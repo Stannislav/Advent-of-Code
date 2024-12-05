@@ -26,21 +26,7 @@ fun isValid(update: List<Int>, rules: Set<Pair<Int, Int>>): Boolean {
 }
 
 fun order(update: List<Int>, rules: Set<Pair<Int, Int>>): List<Int> {
-    val ordered = mutableListOf(update[0])
-    for (num in update.drop(1)) {
-        var inserted = false
-        for (idx in ordered.indices) {
-            if (rules.contains(Pair(num, ordered[idx]))) {
-                ordered.add(idx, num)
-                inserted = true
-                break
-            }
-        }
-        if (!inserted) {
-            ordered.add(num)
-        }
-    }
-    return ordered
+    return update.sortedWith { a, b -> if (rules.contains(Pair(a, b))) -1 else 1 }
 }
 
 fun parseInput(stream: InputStream): Pair<Set<Pair<Int, Int>>, List<List<Int>>> {
