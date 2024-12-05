@@ -18,11 +18,7 @@ fun part2(rules: Set<Pair<Int, Int>>, updates: List<List<Int>>): Int {
 }
 
 fun isValid(update: List<Int>, rules: Set<Pair<Int, Int>>): Boolean {
-    for (i in 0 until update.size - 1) {
-        if (!rules.contains(Pair(update[i], update[i + 1])))
-            return false
-    }
-    return true
+    return update.zipWithNext().all { pair -> rules.contains(pair) }
 }
 
 fun order(update: List<Int>, rules: Set<Pair<Int, Int>>): List<Int> {
