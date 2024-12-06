@@ -20,7 +20,6 @@ fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Vec, Vec> {
     var grid = arrayOf<BooleanArray>()
     var start = Vec(0, 0)
     var dir = Vec(0, 0)
-
     var i = 0
     stream.bufferedReader().forEachLine {
         grid += it.map { c -> c != '#'}.toTypedArray().toBooleanArray()
@@ -35,7 +34,7 @@ fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Vec, Vec> {
                 }
             }
         }
-        i += 1
+        i++
     }
 
     return Triple(grid, start, dir)
@@ -104,20 +103,14 @@ fun inBounds(pos: Vec, grid: Array<BooleanArray>): Boolean {
     return pos.i >= 0 && pos.j >= 0 && pos.i < grid.size && pos.j < grid[0].size
 }
 
-fun blocked(pos: Vec, grid: Array<BooleanArray>): Boolean {
-    return inBounds(pos, grid) && !grid[pos.i][pos.j]
-}
+fun blocked(pos: Vec, grid: Array<BooleanArray>): Boolean = inBounds(pos, grid) && !grid[pos.i][pos.j]
 
-fun step(pos: Vec, dir: Vec): Vec {
-    return Vec(pos.i + dir.i, pos.j + dir.j)
-}
+fun step(pos: Vec, dir: Vec): Vec = Vec(pos.i + dir.i, pos.j + dir.j)
 
-fun turn(dir: Vec): Vec {
-    return when(dir) {
-        Vec(1, 0) -> Vec(0, -1)
-        Vec(0, -1) -> Vec(-1, 0)
-        Vec(-1, 0) -> Vec(0, 1)
-        Vec(0, 1) -> Vec(1, 0)
-        else -> throw IllegalArgumentException("Invalid direction: $dir")
-    }
+fun turn(dir: Vec): Vec = when(dir) {
+    Vec(1, 0) -> Vec(0, -1)
+    Vec(0, -1) -> Vec(-1, 0)
+    Vec(-1, 0) -> Vec(0, 1)
+    Vec(0, 1) -> Vec(1, 0)
+    else -> throw IllegalArgumentException("Invalid direction: $dir")
 }
