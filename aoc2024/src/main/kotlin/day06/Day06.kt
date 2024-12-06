@@ -113,6 +113,11 @@ fun computeJumpMap(grid: Array<BooleanArray>): Map<Pair<Vec, Vec>, Vec> {
     return jumpMap
 }
 
+/**
+ * Given is the lab map represented by [grid], the guard's starting point [start] and starting direction [startDir],
+ * the coordinates of the newly placed obstacle ([i], [j]), and the jump map for the lab without the new obstacle.
+ * [isLoop] checks whether the newly placed obstacle causes the guard to walk in an infinite loop.
+ */
 fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec, i: Int, j: Int, jumpMap: Map<Pair<Vec, Vec>, Vec>): Boolean {
     val seen = mutableSetOf<Pair<Vec, Vec>>()
     var pos = start
