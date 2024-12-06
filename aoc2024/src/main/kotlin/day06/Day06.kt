@@ -5,7 +5,8 @@ import java.io.InputStream
 
 fun main() {
     val (grid, start, dir) = parseInput(File("input/06.txt").inputStream())
-    print("Part 1: ${part1(grid, start, dir)}")
+    println("Part 1: ${part1(grid, start, dir)}")
+    println("Part 2: ${part2(grid, start, dir)}")
 }
 
 fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Pair<Int, Int>, Pair<Int, Int>> {
@@ -44,6 +45,38 @@ fun part1(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, 
         pos = step(pos, dir)
     }
     return seen.size
+}
+
+fun part2(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, Int>): Int {
+    var loopCount = 0
+    for (i in grid.indices) {
+        for (j in grid[i].indices) {
+            if (grid[i][j] && Pair(i, j) != start) {
+                grid[i][j] = false
+                if (isLoop(grid, start, startDir))
+                    loopCount++
+                grid[i][j] = true
+            }
+        }
+    }
+    return loopCount
+}
+
+fun isLoop(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, Int>): Boolean {
+    val seen = mutableSetOf<Pair<Int, Int>>()
+    val seenWithDir = mutableSetOf<Pair<Pair<Int, Int>, Pair<Int, Int>>>()
+    var pos = start
+    var dir = startDir
+    while (inBounds(pos, grid)) {
+        seen.add(pos)
+        seenWithDir.add(Pair(pos, dir))
+        while (blocked(step(pos, dir), grid))
+            dir = turn(dir)
+        pos = step(pos, dir)
+        if (seenWithDir.contains(Pair(pos, dir)))
+            return true
+    }
+    return false
 }
 
 fun inBounds(pos: Pair<Int, Int>, grid: Array<BooleanArray>): Boolean {

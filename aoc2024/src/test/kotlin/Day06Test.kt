@@ -1,5 +1,6 @@
 import day06.parseInput
 import day06.part1
+import day06.part2
 import kotlin.test.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -29,5 +30,11 @@ class Day06Test {
     fun testPart1() {
         val (grid, start, dir) = parseInput(streamInput("06.txt"))
         assertEquals(41, part1(grid, start, dir))
+    }
+
+    @Test
+    fun testPart2() {
+        val (grid, start, dir) = parseInput(streamInput("06.txt"))
+        assertEquals(6, part2(grid, start, dir))
     }
 }
