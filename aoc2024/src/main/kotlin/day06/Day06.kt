@@ -53,19 +53,17 @@ fun part1(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Set<Vec> {
     return seen
 }
 
-fun part2(grid: Array<BooleanArray>, start: Vec, startDir: Vec, candidates: Collection<Vec>): Int {
+fun part2(grid: Array<BooleanArray>, start: Vec, startDir: Vec, candidates: Set<Vec>): Int {
     var loopCount = 0
     // Cache contains straight routes to the next obstacle. Using this optimization
     // we can jump directly to the next obstacle instead of doing single steps.
     // We only cache routes without the new obstacles added in this part.
     val cache = mutableMapOf<Pair<Vec, Vec>, Vec>()
-    for ((i, j) in candidates) {
-        if (Vec(i, j) != start) {
-            grid[i][j] = false
-            if (isLoop(grid, start, startDir, i, j, cache))
-                loopCount++
-            grid[i][j] = true
-        }
+    for ((i, j) in candidates - start) {
+        grid[i][j] = false
+        if (isLoop(grid, start, startDir, i, j, cache))
+            loopCount++
+        grid[i][j] = true
     }
     return loopCount
 }
