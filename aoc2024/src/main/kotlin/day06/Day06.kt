@@ -9,8 +9,11 @@ val Vec.j: Int get() = this.second
 
 fun main() {
     val (grid, start, dir) = parseInput(File("input/06.txt").inputStream())
-    println("Part 1: ${part1(grid, start, dir)}")
-    println("Part 2: ${part2(grid, start, dir)}")
+    val seen = part1(grid, start, dir)
+    println("Part 1: ${seen.size}")
+    // Only points reachable from the given start point, all of which we found in part 1,
+    // should be considered as potential obstacle points for part 2.
+    println("Part 2: ${part2(grid, start, dir, seen)}")
 }
 
 fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Vec, Vec> {
@@ -38,7 +41,7 @@ fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Vec, Vec> {
     return Triple(grid, start, dir)
 }
 
-fun part1(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Int {
+fun part1(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Set<Vec> {
     val seen = mutableSetOf<Vec>()
     var pos = start
     var dir = startDir
@@ -48,37 +51,51 @@ fun part1(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Int {
             dir = turn(dir)
         pos = step(pos, dir)
     }
-    return seen.size
+    return seen
 }
 
-fun part2(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Int {
+fun part2(grid: Array<BooleanArray>, start: Vec, startDir: Vec, candidates: Collection<Vec>): Int {
     var loopCount = 0
-    for (i in grid.indices) {
-        for (j in grid[i].indices) {
-            if (grid[i][j] && Vec(i, j) != start) {
-                grid[i][j] = false
-                if (isLoop(grid, start, startDir))
-                    loopCount++
-                grid[i][j] = true
-            }
+    // Cache contains straight routes to the next obstacle. Using this optimization
+    // we can jump directly to the next obstacle instead of doing single steps.
+    // We only cache routes without the new obstacles added in this part.
+    val cache = mutableMapOf<Pair<Vec, Vec>, Vec>()
+    for ((i, j) in candidates) {
+        if (Vec(i, j) != start) {
+            grid[i][j] = false
+            if (isLoop(grid, start, startDir, i, j, cache))
+                loopCount++
+            grid[i][j] = true
         }
     }
     return loopCount
 }
 
-fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Boolean {
-    val seen = mutableSetOf<Vec>()
-    val seenWithDir = mutableSetOf<Pair<Vec, Vec>>()
+fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec, i: Int, j: Int, cache: MutableMap<Pair<Vec, Vec>, Vec>): Boolean {
+    val seen = mutableSetOf<Pair<Vec, Vec>>()
     var pos = start
     var dir = startDir
+    val cacheStarts = mutableListOf<Vec>()
     while (inBounds(pos, grid)) {
-        seen.add(pos)
-        seenWithDir.add(Pair(pos, dir))
-        while (blocked(step(pos, dir), grid))
-            dir = turn(dir)
-        pos = step(pos, dir)
-        if (seenWithDir.contains(Pair(pos, dir)))
+        if (seen.contains(Pair(pos, dir)))
             return true
+        seen.add(Pair(pos, dir))
+        if (blocked(step(pos, dir), grid)) {
+            cacheStarts.forEach { cache[Pair(it, dir)] = pos }
+            cacheStarts.clear()
+            while (blocked(step(pos, dir), grid))
+                dir = turn(dir)
+        } else {
+            // Cache is for the grid without the new obstacles. So, if we're on a trajectory that
+            // would hit the new obstacle, then we can't use the cache.
+            val skipCache = (pos.i == i && (j - pos.j) * dir.j > 0) || (pos.j == j && (i - pos.i) * dir.i > 0)
+            if (!skipCache && cache.contains(Pair(pos, dir))) {
+                pos = cache[Pair(pos, dir)]!!
+            } else {
+                cacheStarts.add(pos)
+                pos = step(pos, dir)
+            }
+        }
     }
     return false
 }

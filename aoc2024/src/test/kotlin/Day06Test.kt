@@ -1,9 +1,8 @@
-import day06.parseInput
-import day06.part1
-import day06.part2
+import day06.*
 import kotlin.test.assertEquals
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertTrue
 
 class Day06Test {
     @Test
@@ -29,12 +28,24 @@ class Day06Test {
     @Test
     fun testPart1() {
         val (grid, start, dir) = parseInput(streamInput("06.txt"))
-        assertEquals(41, part1(grid, start, dir))
+        assertEquals(41, part1(grid, start, dir).size)
     }
 
     @Test
     fun testPart2() {
         val (grid, start, dir) = parseInput(streamInput("06.txt"))
-        assertEquals(6, part2(grid, start, dir))
+        val candidates = part1(grid, start, dir)
+        assertEquals(6, part2(grid, start, dir, candidates))
+    }
+
+    @Test
+    fun funTestLoop() {
+        val (grid, start, dir) = parseInput(streamInput("06.txt"))
+        val cache = mutableMapOf<Pair<Vec, Vec>, Vec>()
+        val i = 9
+        val j = 7
+        grid[i][j] = false
+        assertTrue(isLoop(grid, start, dir, i, j, cache))
+        assertTrue(isLoop(grid, start, dir, i, j, cache))
     }
 }
