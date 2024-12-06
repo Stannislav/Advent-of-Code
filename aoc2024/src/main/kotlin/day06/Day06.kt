@@ -32,7 +32,7 @@ fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Vec, Vec> {
                     '>' -> Vec(0, 1)
                     '^' -> Vec(-1, 0)
                     '<' -> Vec(0, -1)
-                    else -> throw IllegalStateException("Unknown character: $c")
+                    else -> error("Unknown character: $c")
                 }
             }
         }
