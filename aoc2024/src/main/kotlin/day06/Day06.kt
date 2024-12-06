@@ -6,6 +6,8 @@ import java.io.InputStream
 typealias Vec = Pair<Int, Int>
 val Vec.i: Int get() = this.first
 val Vec.j: Int get() = this.second
+operator fun Vec.plus(other: Vec) = Vec(this.i + other.i, this.j + other.j)
+operator fun Vec.minus(other: Vec) = Vec(this.i - other.i, this.j - other.j)
 
 fun main() {
     val (grid, start, dir) = parseInput(File("input/06.txt").inputStream())
@@ -46,9 +48,9 @@ fun part1(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Set<Vec> {
     var dir = startDir
     while (inBounds(pos, grid)) {
         seen.add(pos)
-        while (blocked(step(pos, dir), grid))
+        while (blocked(pos + dir, grid))
             dir = turn(dir)
-        pos = step(pos, dir)
+        pos += dir
     }
     return seen
 }
@@ -58,40 +60,77 @@ fun part2(grid: Array<BooleanArray>, start: Vec, startDir: Vec, candidates: Set<
     // Cache contains straight routes to the next obstacle. Using this optimization
     // we can jump directly to the next obstacle instead of doing single steps.
     // We only cache routes without the new obstacles added in this part.
-    val cache = mutableMapOf<Pair<Vec, Vec>, Vec>()
+    val jumpMap = computeJumpMap(grid)
     for ((i, j) in candidates - start) {
         grid[i][j] = false
-        if (isLoop(grid, start, startDir, i, j, cache))
+        if (isLoop(grid, start, startDir, i, j, jumpMap))
             loopCount++
         grid[i][j] = true
     }
     return loopCount
 }
 
-fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec, i: Int, j: Int, cache: MutableMap<Pair<Vec, Vec>, Vec>): Boolean {
+fun computeJumpMap(grid: Array<BooleanArray>): Map<Pair<Vec, Vec>, Vec> {
+    // Idea thanks to Reddit: https://www.reddit.com/r/adventofcode/comments/1h7tovg/comment/m0pj7m5
+    val jumpMap = mutableMapOf<Pair<Vec, Vec>, Vec>()
+    val iMax = grid.size - 1
+    val jMax = grid[0].size - 1
+
+    fun addJumps(target: Vec, dir: Vec) {
+        var pos = target - dir
+        while (inBounds(pos, grid) && grid[pos.i][pos.j]) {
+            jumpMap[Pair(pos, dir)] = target
+            pos -= dir
+        }
+    }
+
+    //
+    for (i in grid.indices) {
+        if (grid[i][0])
+            addJumps(Vec(i, -1), Vec(0, -1))
+        if (grid[i][jMax])
+            addJumps(Vec(i, jMax + 1), Vec(0, 1))
+    }
+    for (j in grid[0].indices) {
+        if (grid[0][j])
+            addJumps(Vec(-1, j), Vec(-1, 0))
+        if (grid[iMax][j])
+            addJumps(Vec(iMax + 1, j), Vec(1, 0))
+    }
+    for (i in grid.indices) {
+        for (j in grid[0].indices) {
+            if (!grid[i][j]) {
+                for (dir in listOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))) {
+                    val target = Vec(i, j) - dir
+                    if (inBounds(target, grid) && grid[target.i][target.j])
+                        addJumps(target, dir)
+                }
+            }
+        }
+    }
+
+    return jumpMap
+}
+
+fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec, i: Int, j: Int, jumpMap: Map<Pair<Vec, Vec>, Vec>): Boolean {
     val seen = mutableSetOf<Pair<Vec, Vec>>()
     var pos = start
     var dir = startDir
-    val cacheStarts = mutableListOf<Vec>()
     while (inBounds(pos, grid)) {
         if (seen.contains(Pair(pos, dir)))
             return true
         seen.add(Pair(pos, dir))
-        if (blocked(step(pos, dir), grid)) {
-            // We hit an obstacle - update the cache and do a turn.
-            cacheStarts.forEach { cache[Pair(it, dir)] = pos }
-            cacheStarts.clear()
-            while (blocked(step(pos, dir), grid))
+        if (blocked(pos + dir, grid)) {
+            while (blocked(pos + dir, grid))
                 dir = turn(dir)
         } else {
-            // Cache is for the grid without the new obstacles. So, if we're on a trajectory that
-            // would hit the new obstacle, then we can't use the cache.
-            val skipCache = (pos.i == i && (j - pos.j) * dir.j > 0) || (pos.j == j && (i - pos.i) * dir.i > 0)
-            if (!skipCache && cache.contains(Pair(pos, dir))) {
-                pos = cache[Pair(pos, dir)]!!
+            // JumpMap is for the grid without the new obstacles. So, if we're on a trajectory that
+            // would hit the new obstacle, then we can't use the jumpMap.
+            val skipJump = (pos.i == i && (j - pos.j) * dir.j > 0) || (pos.j == j && (i - pos.i) * dir.i > 0)
+            if (!skipJump && jumpMap.contains(Pair(pos, dir))) {
+                pos = jumpMap[Pair(pos, dir)]!!
             } else {
-                cacheStarts.add(pos)
-                pos = step(pos, dir)
+                pos += dir
             }
         }
     }
@@ -103,8 +142,6 @@ fun inBounds(pos: Vec, grid: Array<BooleanArray>): Boolean {
 }
 
 fun blocked(pos: Vec, grid: Array<BooleanArray>): Boolean = inBounds(pos, grid) && !grid[pos.i][pos.j]
-
-fun step(pos: Vec, dir: Vec): Vec = Vec(pos.i + dir.i, pos.j + dir.j)
 
 fun turn(dir: Vec): Vec = when(dir) {
     Vec(1, 0) -> Vec(0, -1)
