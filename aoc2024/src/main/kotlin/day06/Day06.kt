@@ -84,7 +84,7 @@ fun computeJumpMap(grid: Array<BooleanArray>): Map<Pair<Vec, Vec>, Vec> {
         }
     }
 
-    //
+    // Jumps to points outside of grid.
     for (i in grid.indices) {
         if (grid[i][0])
             addJumps(Vec(i, -1), Vec(0, -1))
@@ -97,6 +97,7 @@ fun computeJumpMap(grid: Array<BooleanArray>): Map<Pair<Vec, Vec>, Vec> {
         if (grid[iMax][j])
             addJumps(Vec(iMax + 1, j), Vec(1, 0))
     }
+    // Jumps to all obstacles from all sides.
     for (i in grid.indices) {
         for (j in grid[0].indices) {
             if (!grid[i][j]) {
