@@ -80,6 +80,7 @@ fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec, i: Int, j: Int,
             return true
         seen.add(Pair(pos, dir))
         if (blocked(step(pos, dir), grid)) {
+            // We hit an obstacle - update the cache and do a turn.
             cacheStarts.forEach { cache[Pair(it, dir)] = pos }
             cacheStarts.clear()
             while (blocked(step(pos, dir), grid))
