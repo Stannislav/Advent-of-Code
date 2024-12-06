@@ -3,27 +3,31 @@ package day06
 import java.io.File
 import java.io.InputStream
 
+typealias Vec = Pair<Int, Int>
+val Vec.i: Int get() = this.first
+val Vec.j: Int get() = this.second
+
 fun main() {
     val (grid, start, dir) = parseInput(File("input/06.txt").inputStream())
     println("Part 1: ${part1(grid, start, dir)}")
     println("Part 2: ${part2(grid, start, dir)}")
 }
 
-fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Pair<Int, Int>, Pair<Int, Int>> {
+fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Vec, Vec> {
     var grid = arrayOf<BooleanArray>()
-    var start = Pair(0, 0)
-    var dir = Pair(0, 0)
+    var start = Vec(0, 0)
+    var dir = Vec(0, 0)
 
     var i = 0
     stream.bufferedReader().forEachLine {
         grid += it.map { c -> c != '#'}.toTypedArray().toBooleanArray()
         it.forEachIndexed { j, c -> if (c != '#' && c != '.') {
-                start = Pair(i, j)
+                start = Vec(i, j)
                 dir = when(c) {
-                    'v' -> Pair(1, 0)
-                    '>' -> Pair(0, 1)
-                    '^' -> Pair(-1, 0)
-                    '<' -> Pair(0, -1)
+                    'v' -> Vec(1, 0)
+                    '>' -> Vec(0, 1)
+                    '^' -> Vec(-1, 0)
+                    '<' -> Vec(0, -1)
                     else -> throw IllegalStateException("Unknown character: $c")
                 }
             }
@@ -34,8 +38,8 @@ fun parseInput(stream: InputStream): Triple<Array<BooleanArray>, Pair<Int, Int>,
     return Triple(grid, start, dir)
 }
 
-fun part1(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, Int>): Int {
-    val seen = mutableSetOf<Pair<Int, Int>>()
+fun part1(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Int {
+    val seen = mutableSetOf<Vec>()
     var pos = start
     var dir = startDir
     while (inBounds(pos, grid)) {
@@ -47,11 +51,11 @@ fun part1(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, 
     return seen.size
 }
 
-fun part2(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, Int>): Int {
+fun part2(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Int {
     var loopCount = 0
     for (i in grid.indices) {
         for (j in grid[i].indices) {
-            if (grid[i][j] && Pair(i, j) != start) {
+            if (grid[i][j] && Vec(i, j) != start) {
                 grid[i][j] = false
                 if (isLoop(grid, start, startDir))
                     loopCount++
@@ -62,9 +66,9 @@ fun part2(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, 
     return loopCount
 }
 
-fun isLoop(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int, Int>): Boolean {
-    val seen = mutableSetOf<Pair<Int, Int>>()
-    val seenWithDir = mutableSetOf<Pair<Pair<Int, Int>, Pair<Int, Int>>>()
+fun isLoop(grid: Array<BooleanArray>, start: Vec, startDir: Vec): Boolean {
+    val seen = mutableSetOf<Vec>()
+    val seenWithDir = mutableSetOf<Pair<Vec, Vec>>()
     var pos = start
     var dir = startDir
     while (inBounds(pos, grid)) {
@@ -79,24 +83,24 @@ fun isLoop(grid: Array<BooleanArray>, start: Pair<Int, Int>, startDir: Pair<Int,
     return false
 }
 
-fun inBounds(pos: Pair<Int, Int>, grid: Array<BooleanArray>): Boolean {
-    return pos.first >= 0 && pos.second >= 0 && pos.first < grid.size && pos.second < grid[0].size
+fun inBounds(pos: Vec, grid: Array<BooleanArray>): Boolean {
+    return pos.i >= 0 && pos.j >= 0 && pos.i < grid.size && pos.j < grid[0].size
 }
 
-fun blocked(pos: Pair<Int, Int>, grid: Array<BooleanArray>): Boolean {
-    return inBounds(pos, grid) && !grid[pos.first][pos.second]
+fun blocked(pos: Vec, grid: Array<BooleanArray>): Boolean {
+    return inBounds(pos, grid) && !grid[pos.i][pos.j]
 }
 
-fun step(pos: Pair<Int, Int>, dir: Pair<Int, Int>): Pair<Int, Int> {
-    return Pair(pos.first + dir.first, pos.second + dir.second)
+fun step(pos: Vec, dir: Vec): Vec {
+    return Vec(pos.i + dir.i, pos.j + dir.j)
 }
 
-fun turn(dir: Pair<Int, Int>): Pair<Int, Int> {
+fun turn(dir: Vec): Vec {
     return when(dir) {
-        Pair(1, 0) -> Pair(0, -1)
-        Pair(0, -1) -> Pair(-1, 0)
-        Pair(-1, 0) -> Pair(0, 1)
-        Pair(0, 1) -> Pair(1, 0)
+        Vec(1, 0) -> Vec(0, -1)
+        Vec(0, -1) -> Vec(-1, 0)
+        Vec(-1, 0) -> Vec(0, 1)
+        Vec(0, 1) -> Vec(1, 0)
         else -> throw IllegalArgumentException("Invalid direction: $dir")
     }
 }
