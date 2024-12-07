@@ -9,4 +9,8 @@ fun main() {
     day04.main()
     println("--- Day 5: Print Queue ---")
     day05.main()
+    println("--- Day 6: Guard Gallivant ---")
+    day06.main()
+    println("--- Day 7: Bridge Repair ---")
+    day07.main()
 }
