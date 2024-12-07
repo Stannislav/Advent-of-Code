@@ -12,25 +12,18 @@ fun main() {
 }
 
 fun parseInput(stream: InputStream): Map<Long, List<Long>> {
-    val input = mutableMapOf<Long, List<Long>>()
-    stream.bufferedReader().forEachLine {
-        val (key, values) = it.split(": ", limit = 2)
-        input[key.toLong()] = values.split(" ").map { x -> x.toLong() }.toList()
-    }
-    return input
+    return stream.bufferedReader().lineSequence().map {
+        val numbers = "\\d+".toRegex().findAll(it).map { x -> x.value.toLong() }.toList()
+        numbers.first() to numbers.drop(1)
+    }.toMap()
 }
 
 fun plus(x: Long, y: Long): Long = x + y
 fun times(x: Long, y: Long): Long = x * y
-fun cat(x: Long, y: Long): Long = (x.toString() + y.toString()).toLong()
+fun cat(x: Long, y: Long): Long = "$x$y".toLong()
 
-fun part1(input: Map<Long, List<Long>>): Long {
-    return calibrate(input, listOf(::plus, ::times))
-}
-
-fun part2(input: Map<Long, List<Long>>): Long {
-    return calibrate(input, listOf(::plus, ::times, ::cat))
-}
+fun part1(input: Map<Long, List<Long>>): Long = calibrate(input, listOf(::plus, ::times))
+fun part2(input: Map<Long, List<Long>>): Long = calibrate(input, listOf(::plus, ::times, ::cat))
 
 fun calibrate(input: Map<Long, List<Long>>, operators: List<(Long, Long) -> Long>): Long {
     fun test(numbers: List<Long>, current: Long, expected: Long): Boolean {
