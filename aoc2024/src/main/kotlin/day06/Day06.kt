@@ -1,13 +1,10 @@
 package day06
 
+import common.*
 import java.io.File
 import java.io.InputStream
 
 typealias Vec = Pair<Int, Int>
-val Vec.i: Int get() = this.first
-val Vec.j: Int get() = this.second
-operator fun Vec.plus(other: Vec) = Vec(this.i + other.i, this.j + other.j)
-operator fun Vec.minus(other: Vec) = Vec(this.i - other.i, this.j - other.j)
 
 fun main() {
     val (grid, start, dir) = parseInput(File("input/06.txt").inputStream())

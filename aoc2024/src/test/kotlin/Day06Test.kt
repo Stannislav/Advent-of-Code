@@ -1,3 +1,4 @@
+import common.Vec
 import day06.*
 import kotlin.test.assertEquals
 import kotlin.test.Test
