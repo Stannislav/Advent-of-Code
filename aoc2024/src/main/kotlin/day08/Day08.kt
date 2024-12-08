@@ -32,7 +32,7 @@ fun part1(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
         .flatMap { pairs(it) }
         .flatMap { (v1, v2) -> listOf(v1 + (v1 - v2), v2 + (v2 - v1)) }
         .toSet()
-        .count { it.i < dim.i && it.j < dim.j && it.i >= 0 && it.j >= 0 }
+        .count { inBounds(it, dim) }
 }
 
 fun part2(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
@@ -42,6 +42,8 @@ fun part2(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
         .toSet()
         .count()
 }
+
+fun inBounds(vec: Vec, dim: Vec): Boolean = vec.i >=0 && vec.j >= 0 && vec.i < dim.i && vec.j < dim.j
 
 fun pairs(vecs: List<Vec>) = sequence {
     for (i in vecs.indices) {
@@ -53,7 +55,7 @@ fun pairs(vecs: List<Vec>) = sequence {
 
 fun makeAntinodes(from: Vec, step: Vec, dim: Vec) = sequence {
     var next = from + step
-    while(next.i >=0 && next.j >= 0 && next.i < dim.i && next.j < dim.j) {
+    while(inBounds(next, dim)) {
         yield(next)
         next += step
     }
