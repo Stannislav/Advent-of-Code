@@ -28,29 +28,30 @@ fun parseInput(stream: InputStream): Pair<Map<Char, List<Vec>>, Vec> {
 }
 
 fun part1(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
-    val antinodes = mutableSetOf<Vec>()
-    for ((_, pts) in antennas) {
-        for (i in pts.indices) {
-            for (j in i + 1 until pts.size) {
-                antinodes.add(pts[i] + (pts[i] - pts[j]))
-                antinodes.add(pts[j] + (pts[j] - pts[i]))
-            }
-        }
-    }
-    return antinodes.count { it.i < dim.i && it.j < dim.j && it.i >= 0 && it.j >= 0 }
+    return antennas.values
+        .flatMap { pairs(it).asSequence() }
+        .flatMap { (v1, v2) -> listOf(v1 + (v1 - v2), v2 + (v2 - v1))}
+        .toSet()
+        .count { it.i < dim.i && it.j < dim.j && it.i >= 0 && it.j >= 0 }
 }
 
 fun part2(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
     val antinodes = mutableSetOf<Vec>()
     for ((_, pts) in antennas) {
-        for (i in pts.indices) {
-            for (j in i + 1 until pts.size) {
-                makeAntinodes(pts[i], pts[j] - pts[i], dim).forEach { antinodes.add(it) }
-                makeAntinodes(pts[j], pts[i] - pts[j], dim).forEach { antinodes.add(it) }
-            }
+        for ((v1, v2) in pairs(pts)) {
+            makeAntinodes(v1, v2 - v1, dim).forEach { antinodes.add(it) }
+            makeAntinodes(v2, v1 - v2, dim).forEach { antinodes.add(it) }
         }
     }
     return antinodes.count()
+}
+
+fun pairs(vecs: List<Vec>) = iterator {
+    for (i in vecs.indices) {
+        for (j in i + 1 until vecs.size) {
+            yield(Pair(vecs[i], vecs[j]))
+        }
+    }
 }
 
 fun makeAntinodes(from: Vec, step: Vec, dim: Vec) = iterator {
