@@ -45,10 +45,8 @@ fun part2(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
     for ((_, pts) in antennas) {
         for (i in pts.indices) {
             for (j in i + 1 until pts.size) {
-                for (a in makeAntinodes(pts[i], pts[j] - pts[i], dim))
-                    antinodes.add(a)
-                for (a in makeAntinodes(pts[j], pts[i] - pts[j], dim))
-                    antinodes.add(a)
+                makeAntinodes(pts[i], pts[j] - pts[i], dim).forEach { antinodes.add(it) }
+                makeAntinodes(pts[j], pts[i] - pts[j], dim).forEach { antinodes.add(it) }
             }
         }
     }
