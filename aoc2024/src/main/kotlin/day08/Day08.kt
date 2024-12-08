@@ -28,22 +28,20 @@ fun parseInput(stream: InputStream): Pair<Map<Char, List<Vec>>, Vec> {
 }
 
 fun part1(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
-    return antennas.values
-        .flatMap { pairs(it) }
-        .flatMap { (v1, v2) -> listOf(v1 + (v1 - v2), v2 + (v2 - v1)) }
-        .toSet()
-        .count { inBounds(it, dim) }
+    return generateAntinodes(antennas, dim, ::simpleAntinodes)
 }
 
 fun part2(antennas: Map<Char, List<Vec>>, dim: Vec): Int {
+    return generateAntinodes(antennas, dim, ::allAntinodes)
+}
+
+fun generateAntinodes(antennas: Map<Char, List<Vec>>, dim: Vec, generator: (Vec, Vec, Vec) -> Sequence<Vec>): Int {
     return antennas.values
         .flatMap { pairs(it) }
-        .flatMap { (v1, v2) -> makeAntinodes(v1, v2 - v1, dim) + makeAntinodes(v2, v1 - v2, dim) }
+        .flatMap { (v1, v2) -> generator(v1, v2, dim) }
         .toSet()
         .count()
 }
-
-fun inBounds(vec: Vec, dim: Vec): Boolean = vec.i >=0 && vec.j >= 0 && vec.i < dim.i && vec.j < dim.j
 
 fun pairs(vecs: List<Vec>) = sequence {
     for (i in vecs.indices) {
@@ -53,10 +51,19 @@ fun pairs(vecs: List<Vec>) = sequence {
     }
 }
 
-fun makeAntinodes(from: Vec, step: Vec, dim: Vec) = sequence {
-    var next = from + step
-    while(inBounds(next, dim)) {
-        yield(next)
-        next += step
+fun inBounds(vec: Vec, dim: Vec): Boolean = vec.i >=0 && vec.j >= 0 && vec.i < dim.i && vec.j < dim.j
+
+fun simpleAntinodes(v1: Vec, v2: Vec, dim: Vec): Sequence<Vec> {
+    return sequenceOf(v1 + (v1 - v2), v2 + (v2 - v1)).filter { inBounds(it, dim) }
+}
+
+fun allAntinodes(v1: Vec, v2: Vec, dim: Vec): Sequence<Vec> {
+    fun generate(from: Vec, step: Vec) = sequence {
+        var next = from + step
+        while(inBounds(next, dim)) {
+            yield(next)
+            next += step
+        }
     }
+    return generate(v1, v2 - v1) + generate(v2, v1 - v2)
 }
