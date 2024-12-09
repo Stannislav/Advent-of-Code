@@ -28,9 +28,4 @@ class Day09Test {
         val input = parseInput(streamInput("09.txt"))
         assertEquals(2858, part2(input))
     }
-
-    @Test
-    fun testDebug() {
-        part2(arrayOf(0, -1, -1, -1, -1, 1, 1, 2, 2, 3, 3))
-    }
 }

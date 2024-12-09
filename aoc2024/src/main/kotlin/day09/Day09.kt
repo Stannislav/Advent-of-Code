@@ -65,8 +65,6 @@ fun part2(input: Array<Int>): Long {
         }
         fileId--
     }
-    println("${input.sumOf { if (it == -1) 0 else it }} ${rearranged.sum()}")
-//    println(rearranged.joinToString(""))
 
     return checksum(rearranged)
 }
@@ -75,6 +73,8 @@ fun findNewPos(spaces: Array<Boolean>, originalPos: Int, blockLen: Int): Int {
     var currentPos = 0
     while (currentPos + blockLen <= originalPos) {
         val (spacePos, spaceLen) = nextSpace(spaces, currentPos)
+        if (spacePos + blockLen > originalPos)
+            break
         if (blockLen <= spaceLen)
             return spacePos
         currentPos = spacePos + spaceLen
