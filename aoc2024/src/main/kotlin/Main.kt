@@ -14,5 +14,7 @@ fun main() {
     println("--- Day 7: Bridge Repair ---")
     day07.main()
     println("--- Day 8: Resonant Collinearity ---")
-    day07.main()
+    day08.main()
+    println("--- Day 9: Disk Fragmenter ---")
+    day09.main()
 }
