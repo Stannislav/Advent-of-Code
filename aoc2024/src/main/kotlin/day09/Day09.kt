@@ -15,7 +15,6 @@ fun parseInput(stream: InputStream): Array<Int> {
         .readText()
         .replace("\n", "")
         .map { it.digitToInt() }
-
     var result = arrayOf<Int>()
     var isSpace = false
     var currentIndex = 0
@@ -46,7 +45,6 @@ fun part2(input: Array<Int>): Long {
     val rearranged = Array(input.size) { 0 }
     val spaces = Array(input.size) { idx -> input[idx] == -1 }
     var fileId = input.max()
-
     var ptr = input.size - 1
     while (ptr > 0) {
         // Find the last index of the current digit block.
@@ -65,29 +63,28 @@ fun part2(input: Array<Int>): Long {
         }
         fileId--
     }
-
     return checksum(rearranged)
 }
 
 fun findNewPos(spaces: Array<Boolean>, originalPos: Int, blockLen: Int): Int {
-    var currentPos = 0
-    while (currentPos + blockLen <= originalPos) {
-        val (spacePos, spaceLen) = nextSpace(spaces, currentPos)
+    for ((spacePos, spaceLen) in iterSpaces(spaces)) {
         if (spacePos + blockLen > originalPos)
             break
         if (blockLen <= spaceLen)
             return spacePos
-        currentPos = spacePos + spaceLen
     }
     return originalPos
 }
 
-fun nextSpace(spaces: Array<Boolean>, from: Int): Pair<Int, Int> {
-    var start = from
-    while (start < spaces.size && !spaces[start])
-        start++
-    var end = start
-    while (end < spaces.size && spaces[end])
-        end++
-    return Pair(start, end - start)
+fun iterSpaces(spaces: Array<Boolean>) = iterator {
+    var start = 0
+    while (start < spaces.size) {
+        while (start < spaces.size && !spaces[start])
+            start++
+        var end = start
+        while (end < spaces.size && spaces[end])
+            end++
+        yield(Pair(start, end - start))
+        start = end
+    }
 }
