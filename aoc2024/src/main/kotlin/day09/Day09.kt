@@ -9,6 +9,12 @@ fun main() {
     println("Part 2: ${part2(input)}")
 }
 
+/**
+ * Parse input file into an array representing the memory layout. Since `0` is a valid
+ * file ID we represent empty memory space by `-1`.
+ *
+ * For example, `"231"` would parse to `[0, 0, -1, -1, -1, 1]`.
+ */
 fun parseInput(stream: InputStream): Array<Int> {
     val digits = stream
         .bufferedReader()
