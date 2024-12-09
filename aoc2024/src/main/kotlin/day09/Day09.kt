@@ -45,25 +45,25 @@ fun part1(input: Array<Int>): Long {
 fun part2(input: Array<Int>): Long {
     val rearranged = Array(input.size) { 0 }
     val spaces = Array(input.size) { idx -> input[idx] == -1 }
-    var digit = input.max()
+    var fileId = input.max()
 
     var ptr = input.size - 1
     while (ptr > 0) {
         // Find the last index of the current digit block.
-        while (ptr >= 0 && (input[ptr] == -1 || input[ptr] > digit)) ptr--
+        while (ptr >= 0 && (input[ptr] == -1 || input[ptr] > fileId)) ptr--
         // Move past block and determine its length.
         var blockLen = 0
-        while (ptr >= 0 && input[ptr] == digit) {
+        while (ptr >= 0 && input[ptr] == fileId) {
             blockLen++
             ptr--
         }
         // Find the new position of the current block. Can be equal to the origin position.
         val newPos = findNewPos(spaces, ptr + 1, blockLen)
         for (idx in newPos until newPos + blockLen) {
-            rearranged[idx] = digit
+            rearranged[idx] = fileId
             spaces[idx] = false
         }
-        digit--
+        fileId--
     }
     println("${input.sumOf { if (it == -1) 0 else it }} ${rearranged.sum()}")
 //    println(rearranged.joinToString(""))
