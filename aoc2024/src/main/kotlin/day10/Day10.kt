@@ -45,10 +45,28 @@ class Day10(stream: InputStream) {
                     .toSet()
             return reachableSummits[pos]!!
         }
-        return map.filter { (_, v) -> v == 0 }.keys.sumOf { getReachableSummits(it).size }
+        return map.filterValues { it == 0 }.keys.sumOf { getReachableSummits(it).size }
     }
 
     fun part2(): Int {
-        return 0
+        return map.filterValues { it == 0 }.keys.sumOf { countRoutes(it) }
+    }
+
+    private fun countRoutes(from: Vec): Int {
+        var reached = 0
+
+        fun dfs(pos: Vec) {
+            if (map[pos]!! == 9) {
+                reached++
+                return
+            }
+            sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
+                .map { pos + it }
+                .filter { map.getOrDefault(it, 0) == map[pos]!! + 1 }
+                .forEach { dfs(it) }
+        }
+
+        dfs(from)
+        return reached
     }
 }
