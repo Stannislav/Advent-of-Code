@@ -12,7 +12,10 @@ fun main() {
 
 class Day10(stream: InputStream) {
     val map = parseInput(stream).withDefault { -1 }
-    val dim = computeDim(map)
+    // `routes` is a map from starting points to a list of summit points reached
+    // via distinct routes. List can contain identical summits if they were reached
+    // via different routes.
+    private val routes = solve()
 
     fun parseInput(stream: InputStream): Map<Vec, Int> {
         return stream
@@ -22,42 +25,19 @@ class Day10(stream: InputStream) {
             .toMap()
     }
 
-    private fun computeDim(map: Map<Vec, Int>): Vec {
-        return map.keys.maxWith { v1, v2 -> (v1 - v2).run { i + j } } + Vec(1, 1)
+    fun part1(): Int = routes.values.sumOf { it.toSet().size }
+    fun part2(): Int = routes.values.sumOf { it.size }
+
+    private fun solve(): Map<Vec, List<Vec>> {
+        return map.filterValues { it == 0 }.keys.associateWith { walk(it) }
     }
 
-    fun part1(): Int {
-        val done = map.mapValues { false }.toMutableMap()
-        val reachableSummits = map.mapValues { setOf<Vec>() }.toMutableMap()
-
-        fun getReachableSummits(pos: Vec): Set<Vec> {
-            if (!map.contains(pos))
-                return setOf()
-            if (done[pos]!!)
-                return reachableSummits[pos]!!
-            done[pos] = true
-            reachableSummits[pos] = if (map[pos]!! == 9)
-                setOf(pos)
-            else
-                 sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
-                    .filter { map.getOrDefault(pos + it, 0) == map[pos]!! + 1 }
-                    .flatMap { getReachableSummits(pos + it) }
-                    .toSet()
-            return reachableSummits[pos]!!
-        }
-        return map.filterValues { it == 0 }.keys.sumOf { getReachableSummits(it).size }
-    }
-
-    fun part2(): Int {
-        return map.filterValues { it == 0 }.keys.sumOf { countRoutes(it) }
-    }
-
-    private fun countRoutes(from: Vec): Int {
-        var reached = 0
+    private fun walk(from: Vec): List<Vec> {
+        val summitsReached = mutableListOf<Vec>()
 
         fun dfs(pos: Vec) {
             if (map.getValue(pos) == 9) {
-                reached++
+                summitsReached.add(pos)
                 return
             }
             sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
@@ -67,6 +47,7 @@ class Day10(stream: InputStream) {
         }
 
         dfs(from)
-        return reached
+
+        return summitsReached
     }
 }

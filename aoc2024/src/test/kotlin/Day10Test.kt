@@ -18,7 +18,6 @@ class Day10Test {
             Vec(7, 0) to 1, Vec(7, 1) to 0, Vec(7, 2) to 4, Vec(7, 3) to 5, Vec(7, 4) to 6, Vec(7, 5) to 7, Vec(7, 6) to 3, Vec(7, 7) to 2,
         )
         assertEquals(expectedMap, solution.map)
-        assertEquals(Vec(8, 8), solution.dim)
     }
 
     @Test
