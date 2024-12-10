@@ -17,4 +17,6 @@ fun main() {
     day08.main()
     println("--- Day 9: Disk Fragmenter ---")
     day09.main()
+    println("--- Day 10: Hoof It ---")
+    day10.main()
 }
