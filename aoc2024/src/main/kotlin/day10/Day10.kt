@@ -11,7 +11,7 @@ fun main() {
 }
 
 class Day10(stream: InputStream) {
-    val map = parseInput(stream)
+    val map = parseInput(stream).withDefault { -1 }
     val dim = computeDim(map)
 
     fun parseInput(stream: InputStream): Map<Vec, Int> {
@@ -56,13 +56,13 @@ class Day10(stream: InputStream) {
         var reached = 0
 
         fun dfs(pos: Vec) {
-            if (map[pos]!! == 9) {
+            if (map.getValue(pos) == 9) {
                 reached++
                 return
             }
             sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
                 .map { pos + it }
-                .filter { map.getOrDefault(it, 0) == map[pos]!! + 1 }
+                .filter { map.getValue(it) == map.getValue(pos) + 1 }
                 .forEach { dfs(it) }
         }
 
