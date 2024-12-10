@@ -26,4 +26,10 @@ class Day10Test {
         val solution = Day10(streamInput("10.txt"))
         assertEquals(36, solution.part1())
     }
+
+    @Test
+    fun testPart2() {
+        val solution = Day10(streamInput("10.txt"))
+        assertEquals(81, solution.part2())
+    }
 }

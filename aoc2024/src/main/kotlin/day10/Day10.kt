@@ -3,7 +3,6 @@ package day10
 import common.*
 import java.io.File
 import java.io.InputStream
-import kotlin.math.sign
 
 fun main() {
     val solution = Day10(File("input/10.txt").inputStream())
@@ -28,7 +27,25 @@ class Day10(stream: InputStream) {
     }
 
     fun part1(): Int {
-        return 0
+        val done = map.mapValues { false }.toMutableMap()
+        val reachableSummits = map.mapValues { setOf<Vec>() }.toMutableMap()
+
+        fun getReachableSummits(pos: Vec): Set<Vec> {
+            if (!map.contains(pos))
+                return setOf()
+            if (done[pos]!!)
+                return reachableSummits[pos]!!
+            done[pos] = true
+            reachableSummits[pos] = if (map[pos]!! == 9)
+                setOf(pos)
+            else
+                 sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
+                    .filter { map.getOrDefault(pos + it, 0) == map[pos]!! + 1 }
+                    .flatMap { getReachableSummits(pos + it) }
+                    .toSet()
+            return reachableSummits[pos]!!
+        }
+        return map.filter { (_, v) -> v == 0 }.keys.sumOf { getReachableSummits(it).size }
     }
 
     fun part2(): Int {
