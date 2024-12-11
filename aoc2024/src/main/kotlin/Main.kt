@@ -19,4 +19,6 @@ fun main() {
     day09.main()
     println("--- Day 10: Hoof It ---")
     day10.main()
+    println("--- Day 11: Plutonian Pebbles ---")
+    day11.main()it
 }
