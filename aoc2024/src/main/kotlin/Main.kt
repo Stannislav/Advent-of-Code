@@ -23,4 +23,6 @@ fun main() {
     day11.main()
     println("--- Day 12: Garden Groups ---")
     day12.main()
+    println("--- Day 13: Claw Contraption ---")
+    day13.main()
 }
