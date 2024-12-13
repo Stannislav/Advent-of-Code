@@ -44,7 +44,7 @@ class Day12Test {
 
     @Test
     fun testPart1() {
-//        assertEquals(140, part1(parseInput(input1.byteInputStream())))
+        assertEquals(140, part1(parseInput(input1.byteInputStream())))
         assertEquals(772, part1(parseInput(input2.byteInputStream())))
         assertEquals(1930, part1(parseInput(input3.byteInputStream())))
     }
