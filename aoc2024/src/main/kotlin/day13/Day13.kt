@@ -3,7 +3,6 @@ package day13
 import java.io.File
 import java.io.InputStream
 
-
 fun main() {
     val machines = parseInput(File("input/13.txt").inputStream())
     println("Part 1: ${part1(machines)}")
@@ -11,9 +10,12 @@ fun main() {
 }
 
 data class Machine(val ax: Long, val ay: Long, val bx: Long, val by: Long, val x: Long, val y: Long) {
+    private val shift = 10000000000000L
+    val enhance = { copy(x = x + shift, y = y + shift) }
+
     companion object {
         fun fromString(str: String): Machine {
-            val match = """(\d+)""".toRegex().findAll(str)
+            val match = "(\\d+)".toRegex().findAll(str)
             val ints = match.map { it.value.toLong() }.toList()
             check(ints.size == 6)
             return Machine(ints[0], ints[1], ints[2], ints[3], ints[4], ints[5])
@@ -33,7 +35,7 @@ data class Machine(val ax: Long, val ay: Long, val bx: Long, val by: Long, val x
 }
 
 fun parseInput(stream: InputStream): List<Machine> {
-    return stream.bufferedReader().readText().split("\n\n").map { Machine.fromString(it) }
+    return stream.bufferedReader().readText().split("\n\n").map(Machine::fromString)
 }
 
 fun part1(machines: List<Machine>): Long {
@@ -41,6 +43,5 @@ fun part1(machines: List<Machine>): Long {
 }
 
 fun part2(machines: List<Machine>): Long {
-    val shift = 10000000000000L
-    return machines.map { it.copy(x = it.x + shift, y = it.y + shift) }.mapNotNull { it.getCost() }.sum()
+    return machines.map { it.enhance() }.mapNotNull { it.getCost() }.sum()
 }

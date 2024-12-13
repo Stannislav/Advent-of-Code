@@ -1,7 +1,6 @@
 import day13.Machine
 import day13.parseInput
 import day13.part1
-import day13.part2
 import kotlin.test.*
 
 class Day13Test {
@@ -25,9 +24,7 @@ class Day13Test {
 
     @Test
     fun `Part 2 example works`() {
-        val shift = 10000000000000L
-        val machines = parseInput(streamInput("13.txt")).map { it.copy(x = it.x + shift, y = it.y + shift) }
-
+        val machines = parseInput(streamInput("13.txt")).map { it.enhance() }
         assertNull(machines[0].getCost())
         assertTrue(machines[1].getCost()!! > 100)
         assertNull(machines[2].getCost())
