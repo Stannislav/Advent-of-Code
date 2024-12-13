@@ -27,7 +27,7 @@ fun findRegionFor(pos: Vec, map: Map<Vec, Char>): Set<Vec> {
     val q: Queue<Vec> = LinkedList<Vec>().apply { add(pos) }
     while (q.isNotEmpty()) {
         val v = q.remove()
-        sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
+        sequenceOf(UP, DOWN, LEFT, RIGHT)
             .map { v + it }
             .filter { !region.contains(it) && map.getOrDefault(it, '?') == regionChar }
             .forEach { q.add(it); region.add(it) }
@@ -55,6 +55,6 @@ fun part1(input: Map<Vec, Char>): Int {
 
 fun perimeterScore(pos: Vec, input: Map<Vec, Char>): Int {
     val map = input.withDefault { '?' }
-    return sequenceOf(Vec(1, 0), Vec(0, 1), Vec(-1, 0), Vec(0, -1))
+    return sequenceOf(UP, DOWN, LEFT, RIGHT)
         .count { map.getValue(pos) != map.getValue(pos + it) }
 }
