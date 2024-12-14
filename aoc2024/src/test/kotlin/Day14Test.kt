@@ -1,8 +1,5 @@
 import common.Vec
-import day14.Robot
-import day14.parseInput
-import day14.part1
-import day14.part2
+import day14.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -30,6 +27,6 @@ class Day14Test {
     @Test
     fun `Part 1 example works`() {
         val robots = parseInput(streamInput("14.txt"))
-        assertEquals(12, part1(robots, Vec(11, 7)))
+        assertEquals(12, part1(Room(robots, Vec(11, 7))))
     }
 }

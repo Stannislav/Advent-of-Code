@@ -6,41 +6,11 @@ import java.io.InputStream
 
 fun main() {
     val robots = parseInput(File("input/14.txt").inputStream())
-    val lim = Vec(101, 103)
-    println("Part 1: ${part1(robots, lim)}")
-    val easterEggTime = part2(robots, lim)
+    val room = Room(robots, Vec(101, 103))
+    println("Part 1: ${part1(room)}")
+    val easterEggTime = room.findEasterEggTime()
     println("Part 2: $easterEggTime")
-    draw(robots.map { it.move(easterEggTime, lim)}, Vec(35, 30), Vec(66, 64))
-}
-
-fun parseInput(stream: InputStream): List<Robot> {
-    return stream.bufferedReader().lineSequence().map(Robot::fromString).toList()
-}
-
-fun part1(robots: List<Robot>, lim: Vec): Int {
-    require(lim.i % 2 == 1 && lim.j % 2 == 1)
-    return robots
-        .map { it.move(100, lim)}
-        .filter { it.pos.i != lim.i / 2 && it.pos.j != lim.j / 2 }
-        .groupBy { Pair(it.pos.i < lim.i / 2, it.pos.j < lim.j / 2) }
-        .values
-        .map { it.count() }
-        .fold(1) { acc, value -> acc * value }
-}
-
-fun part2(robots: List<Robot>, lim: Vec): Int {
-    return generateSequence(0, Int::inc).first { time ->
-        robots.map { it.move(time, lim) }.map { it.pos }.toSet().size == robots.size
-    }
-}
-
-fun draw(robots: List<Robot>, from: Vec, to: Vec) {
-    val positions = robots.map { it.pos }.toSet()
-
-    for (j in from.j until to.j) {
-        val line = (from.i until to.i).joinToString("") { if (positions.contains(Vec(it, j))) "##" else "  " }
-        println(line)
-    }
+    room.evolve(easterEggTime).draw(Vec(35, 30), Vec(66, 64))
 }
 
 data class Robot(val pos: Vec, val vel: Vec) {
@@ -54,7 +24,46 @@ data class Robot(val pos: Vec, val vel: Vec) {
         }
     }
 
-    fun move(steps: Int, lim: Vec): Robot {
-        return copy(pos = (pos + vel * steps).mod(lim))
+    fun move(steps: Int, lim: Vec): Robot = copy(pos = (pos + vel * steps).mod(lim))
+}
+
+data class Room(private val robots: List<Robot>, private val lim: Vec) {
+    init { require(lim.i % 2 == 1 && lim.j % 2 == 1) }
+
+    fun evolve(time: Int): Room = copy(robots = robots.map { it.move(time, lim)})
+
+    fun countByQuadrant(): List<Int> {
+        return robots
+            .filter { it.pos.i != lim.i / 2 && it.pos.j != lim.j / 2 }
+            .groupingBy { Pair(it.pos.i < lim.i / 2, it.pos.j < lim.j / 2) }
+            .eachCount()
+            .values
+            .toList()
     }
+
+    /**
+     * Find the first time when all robots are at distinct positions.
+     */
+    fun findEasterEggTime(): Int {
+        return generateSequence(0, Int::inc).first { time ->
+            robots.map { it.move(time, lim) }.map { it.pos }.toSet().size == robots.size
+        }
+    }
+
+    fun draw(from: Vec = Vec(0, 0), to: Vec = lim) {
+        val positions = robots.map { it.pos }.toSet()
+        val pixel = { pos: Vec -> if (positions.contains(pos)) "##" else "  " }
+        for (j in from.j until to.j) {
+            val line = (from.i until to.i).joinToString("") { pixel(Vec(it, j)) }
+            println(line)
+        }
+    }
+}
+
+fun parseInput(stream: InputStream): List<Robot> {
+    return stream.bufferedReader().lineSequence().map(Robot::fromString).toList()
+}
+
+fun part1(room: Room): Int {
+    return room.evolve(100).countByQuadrant().fold(1) { acc, value -> acc * value }
 }
