@@ -44,7 +44,7 @@ class Day15Test {
     @Test
     fun `Input parsing works`() {
         val parsed = parseInput(streamInput("15-small.txt"))
-        val expectedMap = mapOf(
+        val expectedMap = mutableMapOf(
             Vec(0, 0) to '#', Vec(0, 1) to '#', Vec(0, 2) to '#', Vec(0, 3) to '#', Vec(0, 4) to '#', Vec(0, 5) to '#', Vec(0, 6) to '#', Vec(0, 7) to '#',
             Vec(1, 0) to '#', Vec(1, 1) to '.', Vec(1, 2) to '.', Vec(1, 3) to 'O', Vec(1, 4) to '.', Vec(1, 5) to 'O', Vec(1, 6) to '.', Vec(1, 7) to '#',
             Vec(2, 0) to '#', Vec(2, 1) to '#', Vec(2, 2) to '@', Vec(2, 3) to '.', Vec(2, 4) to 'O', Vec(2, 5) to '.', Vec(2, 6) to '.', Vec(2, 7) to '#',
