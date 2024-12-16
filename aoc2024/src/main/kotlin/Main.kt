@@ -29,4 +29,6 @@ fun main() {
     day14.main()
     println("--- Day 15: Warehouse Woes ---")
     day15.main()
+    println("--- Day 16: Reindeer Maze ---")
+    day16.main()
 }
