@@ -14,11 +14,9 @@ fun main() {
 fun parseInput(stream: InputStream): List<Vec> {
     return stream
         .bufferedReader()
-        .readLines()
-        .map { line ->
-            val (i, j) = line.split(",", limit = 2).map { it.toInt() }
-            Vec(i, j)
-        }
+        .lineSequence()
+        .map { it.split(",", limit = 2).map(String::toInt) }
+        .map { (i, j) -> Vec(i, j) }
         .toList()
 }
 
