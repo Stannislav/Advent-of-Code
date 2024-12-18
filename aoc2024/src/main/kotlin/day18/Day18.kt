@@ -25,10 +25,13 @@ fun part1(allBytes: List<Vec>, target: Vec, max: Int): Int {
 }
 
 fun part2(allBytes: List<Vec>, target: Vec, min: Int): String {
+    // We know from path one that for min amount of bytes there is a path.
     val bytes = allBytes.subList(0, min).toMutableList()
     var path = dijkstra(bytes, target)?.toSet() ?: error("Can't find minimal path")
+
     for (byte in allBytes.drop(min)) {
         bytes += byte
+        // Only recompute the path if the next by falls on the current path.
         if (path.contains(byte))
             path = dijkstra(bytes, target)?.toSet() ?: return byte.run { "${i},${j}" }
     }
