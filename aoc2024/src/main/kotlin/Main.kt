@@ -31,4 +31,6 @@ fun main() {
     day15.main()
     println("--- Day 16: Reindeer Maze ---")
     day16.main()
+    println("--- Day 17: Chronospatial Computer ---")
+    day17.main()
 }
