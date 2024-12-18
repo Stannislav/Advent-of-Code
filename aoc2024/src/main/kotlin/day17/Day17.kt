@@ -45,18 +45,59 @@ data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Lon
 
     /**
      * In the initial value of register A with which the computer output is equal to its program.
+     *
+     * Manual parsing of the input showed that the program does the following:
+     *
+     * ```
+     * for (A = A_initial; A != 0, A = A >> 3) {
+     * 	  y = (A % 8) xor 1
+     * 	  out(y xor 4 xor (A >> y) % 8)
+     * }
+     * ```
+     *
+     * Once can see that each iteration depends on at most 10 first bits (1 << 10 = 1024) of A:
+     * y consumes the first 3 bits of A, its value is at most 7, therefore (A >> y) % 8 doesn't reach
+     * beyond the 10th bit.
+     *
+     * So, an output number depends on the first 10 bits of A, and at each iteration A is shifted by 3 bits.
+     * Therefore, subsequent output numbers have an overlap of 7 bits which they depend on:
+     *
+     * ```
+     * ##########
+     *    ##########
+     *       ##########
+     *          ##########
+     *             ...
+     * ```
+     *
+     * So, what we need to do is for each desired output number to find the input 10-bit number which
+     * is consistent in the overlap with the rest of the sequence.
+     *
+     * For each of the 8 possible output numbers we find all 10-bit values of A which lead to this
+     * output. Starting from the end of the desired sequence we recursively filter out those 10-bit
+     * values, which have a compatible overlap.
+     *
+     * At the end we need to overlap all 10-bit values into a single bit sequence and convert it
+     * to a decimal number.
      */
     fun findReplicatingA(): Long {
-        val seeds = mutableMapOf<Long, List<Long>>().withDefault { listOf() }
+        // For each of the possible outputs 0-7 collect the values of A which give this output.
+        val outputToA = mutableMapOf<Long, List<Long>>().withDefault { listOf() }
         (0L until 1024L).forEach {
             val x = this.copy(a = it).run().readout().first()
-            seeds[x] = seeds.getValue(x) + it
+            outputToA[x] = outputToA.getValue(x) + it
         }
 
-        fun findParts(ptr: Int, next: List<Long> = listOf()): List<Long>? {
+        /**
+         * Starting from the tail of the desired sequence, recursively find all 10-bit parts.
+         *
+         * @param ptr the current position in the desired output sequence.
+         * @param next the sequence of parts already generated.
+         */
+        fun findParts(ptr: Int = program.size - 1, next: List<Long> = listOf()): List<Long>? {
             if (ptr == -1) return next
 
-            val candidates = seeds.getValue(program[ptr])
+            val candidates = outputToA.getValue(program[ptr])
             for (candidate in candidates) {
                 if (next.size >= 1 && (candidate shr 3 != next[0] and 0b1111111))
                     continue
@@ -69,10 +110,12 @@ data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Lon
             return null
         }
 
-        val parts = findParts(program.size - 1) ?: error("No solution found")
+        val parts = findParts() ?: error("No solution found")
+
+        // Overlap all 10-bit numbers into one.
         var a = 0L
-        for (i in parts.indices)
-            a = a or (parts[i] shl (3 * i))
+        for ((i, num) in parts.withIndex())
+            a = a or (num shl (3 * i))
         return a
     }
 }
