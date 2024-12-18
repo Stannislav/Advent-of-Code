@@ -33,4 +33,6 @@ fun main() {
     day16.main()
     println("--- Day 17: Chronospatial Computer ---")
     day17.main()
+    println("--- Day 18: RAM Run ---")
+    day18.main()
 }
