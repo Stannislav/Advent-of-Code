@@ -5,34 +5,22 @@ import java.io.InputStream
 
 data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Long>) {
     private var ptr = 0
-    private var regA = 0L
-    private var regB = 0L
-    private var regC = 0L
+    private var regA = a
+    private var regB = b
+    private var regC = c
     private val out = mutableListOf<Long>()
-
-    init { reset() }
 
     val getA = { regA }
     val getB = { regB }
-
-    fun reset() {
-        ptr = 0
-        regA = a
-        regB = b
-        regC = c
-        out.clear()
-    }
 
     fun run(): Computer {
         while (ptr < program.size) { step() }
         return this
     }
 
-    fun next(): Long = program[ptr++]
-
     private fun step() {
-        val op = next()
-        val n = next()
+        val op = program[ptr++]
+        val n = program[ptr++]
         when (op) {
             0L -> regA = regA shr combo(n).toInt()
             1L -> regB = regB xor n
@@ -53,9 +41,12 @@ data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Lon
         else -> error("Unknown operand: $n")
     }
 
-    fun readout(): List<Long> = out
+    fun readout(): List<Long> = out.toList()
 
-    fun findReplicating(): Long {
+    /**
+     * In the initial value of register A with which the computer output is equal to its program.
+     */
+    fun findReplicatingA(): Long {
         val seeds = mutableMapOf<Long, List<Long>>().withDefault { listOf() }
         (0L until 1024L).forEach {
             val x = this.copy(a = it).run().readout().first()
@@ -67,15 +58,12 @@ data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Lon
 
             val candidates = seeds.getValue(program[ptr])
             for (candidate in candidates) {
-                if (next.size >= 1 && (candidate shr 3 != next[0] and 0b1111111)) {
+                if (next.size >= 1 && (candidate shr 3 != next[0] and 0b1111111))
                     continue
-                }
-                if (next.size > 2 && (candidate shr 6 != next[1] and 0b1111)) {
+                if (next.size > 2 && (candidate shr 6 != next[1] and 0b1111))
                     continue
-                }
-                if (next.size > 3 && (candidate shr 9 != next[2] and 0b1)) {
+                if (next.size > 3 && (candidate shr 9 != next[2] and 0b1))
                     continue
-                }
                 findParts(ptr - 1, listOf(candidate) + next)?.let { return it }
             }
             return null
@@ -112,5 +100,5 @@ fun part1(computer: Computer): String {
 }
 
 fun part2(computer: Computer): Long {
-    return computer.findReplicating()
+    return computer.findReplicatingA()
 }
