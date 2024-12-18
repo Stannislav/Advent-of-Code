@@ -49,7 +49,7 @@ fun getPath(bytes: List<Vec>, target: Vec): List<Vec>? {
         sequenceOf(LEFT, RIGHT, UP, DOWN)
             .map { pos + it }
             .filter { it.i >= 0 && it.j >= 0 && it.i <= target.i && it.j <= target.j }
-            .filter { !corrupted.contains(it) && !done.contains(it) }
+            .filterNot { corrupted.contains(it) || done.contains(it) }
             .filter { dist[it]?.let { oldD -> oldD > d } ?: true }
             .forEach { dist[it] = d; prev[it] = pos; q.add(it) }
     }
