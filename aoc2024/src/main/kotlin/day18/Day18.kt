@@ -22,23 +22,28 @@ fun parseInput(stream: InputStream): List<Vec> {
         .toList()
 }
 
-fun part1(bytes: List<Vec>, target: Vec, max: Int): Int {
-    return dist(bytes.subList(0, max), target) ?: error("Could not find $target")
+fun part1(allBytes: List<Vec>, target: Vec, max: Int): Int {
+    return getPath(allBytes.subList(0, max), target)?.size ?: error("Could not find $target")
 }
 
-fun part2(bytes: List<Vec>, target: Vec, min: Int): String {
-    for (max in min until bytes.size) {
-        dist(bytes.subList(0, max), target) ?: return bytes[max - 1].run { "${i},${j}" }
+fun part2(allBytes: List<Vec>, target: Vec, min: Int): String {
+    val bytes = allBytes.subList(0, min).toMutableList()
+    var path = getPath(bytes, target)?.toSet() ?: error("Can't find minimal path")
+    for (byte in allBytes.drop(min)) {
+        bytes += byte
+        if (path.contains(byte))
+            path = getPath(bytes, target)?.toSet() ?: return byte.run { "${i},${j}" }
     }
-    return ""
+    error("No solution found")
 }
 
-fun dist(bytes: List<Vec>, target: Vec): Int? {
+fun getPath(bytes: List<Vec>, target: Vec): List<Vec>? {
     val corrupted = bytes.toSet()
     val dist = mutableMapOf(Vec(0, 0) to 0)
     val q: Queue<Vec> = LinkedList()
     val done = mutableSetOf<Vec>()
     q.add(Vec(0, 0))
+    val prev = mutableMapOf<Vec, Vec>()
     while (q.isNotEmpty()) {
         val pos = q.remove()
         done.add(pos)
@@ -48,7 +53,15 @@ fun dist(bytes: List<Vec>, target: Vec): Int? {
             .filter { it.i >= 0 && it.j >= 0 && it.i <= target.i && it.j <= target.j }
             .filter { !corrupted.contains(it) && !done.contains(it) }
             .filter { dist[it]?.let { oldD -> oldD > d } ?: true }
-            .forEach { dist[it] = d; q.add(it) }
+            .forEach { dist[it] = d; prev[it] = pos; q.add(it) }
     }
-    return dist[target]
+    if (!dist.contains(target))
+        return null
+    val path = mutableListOf<Vec>()
+    var pos = target
+    while (pos != Vec(0, 0)) {
+        path.add(pos)
+        pos = prev[pos] ?: error("Path incomplete")
+    }
+    return path.reversed()
 }
