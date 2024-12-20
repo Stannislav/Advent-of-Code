@@ -1,7 +1,4 @@
-import common.Vec
-import common.i
-import common.j
-import common.plus
+import common.*
 import day20.Day20
 import kotlin.test.Test
 import kotlin.test.assertEquals
