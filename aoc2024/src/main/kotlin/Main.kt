@@ -35,4 +35,8 @@ fun main() {
     day17.main()
     println("--- Day 18: RAM Run ---")
     day18.main()
+    println("--- Day 19: Linen Layout ---")
+    day19.main()
+    println("--- Day 20: Race Condition ---")
+    day20.main()
 }
