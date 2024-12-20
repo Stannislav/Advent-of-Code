@@ -25,19 +25,13 @@ fun part2(towels: List<String>, patterns: List<String>): Long {
 }
 
 fun arrangements(pattern: String, towels: List<String>): Long {
-    val towelsForChar = towels.groupBy { it[0] }.toMap()
-    val cache = mutableMapOf<Int, Long>()
+    val cache = mutableMapOf("" to 1L)
 
-    fun matchAt(idx: Int): Long {
-        cache[idx]?.let { return it }
-        if (idx == pattern.length) return 1
-        val result = towelsForChar[pattern[idx]]
-            ?.filter { idx + it.length <= pattern.length }
-            ?.filter { pattern.substring(idx, idx + it.length) == it }
-            ?.sumOf { matchAt(idx + it.length) }
-            ?: 0
-        cache[idx] = result
-        return result
+    fun match(subPattern: String): Long = cache.getOrPut(subPattern) {
+        towels
+            .filter { subPattern.startsWith(it) }
+            .sumOf { match(subPattern.removePrefix(it)) }
     }
-    return matchAt(0)
+
+    return match(pattern)
 }
