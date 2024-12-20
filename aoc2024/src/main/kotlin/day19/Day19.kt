@@ -4,34 +4,37 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
-    val (towels, patterns) = parseInput(File("input/19.txt").inputStream())
-    println("Part 1: ${part1(towels, patterns)}")
-    println("Part 2: ${part2(towels, patterns)}")
+    val day19 = Day19.fromStream(File("input/19.txt").inputStream())
+    println("Part 1: ${day19.part1()}")
+    println("Part 2: ${day19.part2()}")
 }
 
-fun parseInput(stream: InputStream): Pair<List<String>, List<String>> {
-    val (top, bottom) = stream.bufferedReader().readText().split("\n\n", limit = 2)
-    val towels = top.trim().split(", ")
-    val patterns = bottom.trim().split("\n")
-    return Pair(towels, patterns)
-}
-
-fun part1(towels: List<String>, patterns: List<String>): Int {
-    return patterns.count { arrangements(it, towels) != 0L }
-}
-
-fun part2(towels: List<String>, patterns: List<String>): Long {
-    return patterns.sumOf { arrangements(it, towels) }
-}
-
-fun arrangements(pattern: String, towels: List<String>): Long {
-    val cache = mutableMapOf("" to 1L)
-
-    fun match(subPattern: String): Long = cache.getOrPut(subPattern) {
-        towels
-            .filter { subPattern.startsWith(it) }
-            .sumOf { match(subPattern.removePrefix(it)) }
+/**
+ * Day 19 solution.
+ *
+ * Refactoring improvements thanks to users from Reddit:
+ *
+ * * [Jadarma](https://github.com/Jadarma/advent-of-code-kotlin-solutions/blob/256ca9aef9b08e50332bc772ca0a1364d2c3bfe0/solutions/aockt/y2024/Y2024D19.kt)
+ * * [ckainz11](https://github.com/ckainz11/AdventOfCode2024/blob/main/src/main/kotlin/days/day19/Day19.kt)
+ */
+class Day19(val towels: List<String>, val patterns: List<String>) {
+    companion object {
+        fun fromStream(stream: InputStream): Day19 {
+            val (top, bottom) = stream.bufferedReader().readText().split("\n\n", limit = 2)
+            val towels = top.trim().split(", ")
+            val patterns = bottom.trim().split("\n")
+            return Day19(towels, patterns)
+        }
     }
 
-    return match(pattern)
+    private val cache = mutableMapOf("" to 1L)
+    private fun String.countArrangements(): Long = cache.getOrPut(this) {
+        towels
+            .filter { startsWith(it) }
+            .sumOf { removePrefix(it).countArrangements() }
+    }
+
+    fun countAll(): List<Long> = patterns.map { it.countArrangements() }
+    fun part1(): Int = countAll().count { it != 0L }
+    fun part2(): Long = countAll().sum()
 }
