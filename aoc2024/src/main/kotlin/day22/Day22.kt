@@ -19,10 +19,10 @@ fun nextSecret(n: Long): Long {
     return result xor (result * 2048) % 16777216
 }
 
-fun getChangeToPrice(secretSequence: List<Long>): Map<List<Int>, Int> {
+fun getChangeToPrice(secretSequence: List<Long>): Map<Int, Int> {
     val prices = secretSequence.map { it % 10 }.map { it.toInt() }
-    val diffs = prices.zip(prices.drop(1)).map { (p1, p2) -> p2 - p1 }
-    val changeToPrice = (0 until prices.size - 4).map { diffs.drop(it).take(4) to prices[it + 4] }
+    val diffs = prices.zip(prices.drop(1)).map { (p1, p2) -> p2 - p1 }.toIntArray()
+    val changeToPrice = (0 until prices.size - 4).map { diffs.slice(it until it + 4).toTypedArray().contentHashCode() to prices[it + 4] }
     val uniqueChanges = changeToPrice.map { it.first }.toSet()
     return uniqueChanges.associate { changeToPrice.first { element -> element.first == it } }
 }
