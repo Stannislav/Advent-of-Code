@@ -222,8 +222,8 @@ data class Device (val inputValues: Map<String, Int>, val gates: List<Gate>) {
     fun swap(out1: String, out2: String): Device {
         return this.copy(gates = gates.map { gate ->
             when (gate.out) {
-                out1 -> gate.copy(out = out1)
-                out2 -> gate.copy(out = out2)
+                out1 -> gate.copy(out = out2)
+                out2 -> gate.copy(out = out1)
                 else -> gate
             }
         })
