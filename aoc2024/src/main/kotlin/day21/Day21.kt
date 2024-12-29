@@ -12,11 +12,11 @@ fun main() {
     println("Part 2: ${part2(input)}")
 }
 
-fun part1(input: List<String>): Int = solve(input, 2)
-fun part2(input: List<String>): Int = solve(input, 25)
+fun part1(input: List<String>): Long = solve(input, 2)
+fun part2(input: List<String>): Long = solve(input, 25)
 
 
-fun solve(input: List<String>, nKeypads: Int): Int {
+fun solve(input: List<String>, nKeypads: Int): Long {
     val arrowKeypad = Keypad.fromString(" ^A\n<v>")
     val numericKeypad = Keypad.fromString("789\n456\n123\n 0A")
     val robot = Robot(numericKeypad, (1..nKeypads).fold(Human as Agent) { agent, _ -> Robot(arrowKeypad, agent)})
@@ -91,18 +91,18 @@ class Keypad private constructor(private val positions: Map<Char, Vec>) {
 }
 
 sealed class Agent {
-    abstract fun pressButton(button: Char): Int
+    abstract fun pressButton(button: Char): Long
 }
 
 data object Human : Agent() {
-    override fun pressButton(button: Char): Int  = 1
+    override fun pressButton(button: Char): Long  = 1
 }
 
 class Robot(private val targetKeypad: Keypad, private val controller: Agent) : Agent() {
     private var position = 'A'
-    private val cache = mutableMapOf<Pair<Char, Char>, Int>()
+    private val cache = mutableMapOf<Pair<Char, Char>, Long>()
 
-    override fun pressButton(button: Char): Int = cache.getOrPut(Pair(position, button)) {
+    override fun pressButton(button: Char): Long = cache.getOrPut(Pair(position, button)) {
         val count = targetKeypad.getAllPaths(position, button)
             .map { it + 'A' }
             .minOf { it.sumOf { c -> controller.pressButton(c) } }
