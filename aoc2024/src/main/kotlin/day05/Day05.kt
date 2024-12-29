@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 5: Print Queue ---")
     val (rules, updates) = parseInput(File("input/05.txt").inputStream())
     println("Part 1: ${part1(rules, updates)}")
     println("Part 2: ${part2(rules, updates)}")

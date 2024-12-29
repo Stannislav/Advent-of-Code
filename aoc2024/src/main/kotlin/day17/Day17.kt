@@ -3,6 +3,13 @@ package day17
 import java.io.File
 import java.io.InputStream
 
+fun main() {
+    println("--- Day 17: Chronospatial Computer ---")
+    val computer = parseInput(File("input/17.txt").inputStream())
+    println("Part 1: ${part1(computer)}")
+    println("Part 2: ${part2(computer)}")
+}
+
 data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Long>) {
     private var ptr = 0
     private var regA = a
@@ -118,12 +125,6 @@ data class Computer(val a: Long, val b: Long, val c: Long, val program: List<Lon
             a = a or (num shl (3 * i))
         return a
     }
-}
-
-fun main() {
-    val computer = parseInput(File("input/17.txt").inputStream())
-    println("Part 1: ${part1(computer)}")
-    println("Part 2: ${part2(computer)}")
 }
 
 fun parseInput(stream: InputStream): Computer {

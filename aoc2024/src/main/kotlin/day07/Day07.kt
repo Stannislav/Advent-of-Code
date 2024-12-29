@@ -3,9 +3,8 @@ package day07
 import java.io.File
 import java.io.InputStream
 
-
-
 fun main() {
+    println("--- Day 7: Bridge Repair ---")
     val input = parseInput(File("input/07.txt").inputStream())
     println("Part 1: ${part1(input)}")
     println("Part 2: ${part2(input)}")

@@ -6,6 +6,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.sign
 
 fun main() {
+    println("--- Day 2: Red-Nosed Reports ---")
     val input = parseInput(File("input/02.txt").inputStream())
     println("Part 1: ${part1(input)}")
     println("Part 2: ${part2(input)}")

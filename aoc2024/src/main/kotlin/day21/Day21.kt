@@ -6,6 +6,7 @@ import java.io.InputStream
 import java.util.*
 
 fun main() {
+    println("--- Day 21: Keypad Conundrum ---")
     val input = parseInput(File("input/21.txt").inputStream())
     println("Part 1: ${part1(input)}")
     println("Part 2: ${part2(input)}")

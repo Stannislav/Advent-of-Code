@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 19: Linen Layout ---")
     val day19 = Day19.fromStream(File("input/19.txt").inputStream())
     println("Part 1: ${day19.part1()}")
     println("Part 2: ${day19.part2()}")

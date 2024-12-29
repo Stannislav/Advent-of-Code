@@ -6,6 +6,7 @@ import java.io.InputStream
 import java.util.*
 
 fun main() {
+    println("--- Day 18: RAM Run ---")
     val bytes = parseInput(File("input/18.txt").inputStream())
     println("Part 1: ${part1(bytes, Vec(70, 70), 1024)}")
     println("Part 2: ${part2(bytes, Vec(70, 70), 1024)}")

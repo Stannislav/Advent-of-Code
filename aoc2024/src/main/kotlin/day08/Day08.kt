@@ -5,6 +5,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 8: Resonant Collinearity ---")
     val (antennas, dim) = parseInput(File("input/08.txt").inputStream())
     println("Part 1: ${part1(antennas, dim)}")
     println("Part 2: ${part2(antennas, dim)}")

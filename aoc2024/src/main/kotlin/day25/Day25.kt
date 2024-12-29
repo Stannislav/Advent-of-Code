@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 25: Code Chronicle ---")
     val (locks, keys) = parseInput(File("input/25.txt").inputStream())
     println("Part 1: ${part1(locks, keys)}")
 }

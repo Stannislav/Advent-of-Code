@@ -5,6 +5,7 @@ import java.io.InputStream
 import kotlin.math.abs
 
 fun main() {
+    println("--- Day 1: Historian Hysteria ---")
     val (left, right) = parseInput(File("input/01.txt").inputStream())
     println("Part 1: ${part1(left, right)}")
     println("Part 2: ${part2(left, right)}")

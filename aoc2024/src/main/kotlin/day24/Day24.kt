@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 24: Crossed Wires ---")
     val device = Device.fromStream(File("input/24.txt").inputStream())
     println("Part 1: ${part1(device)}")
     println("Part 2: ${part2(device)}")

@@ -5,6 +5,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 14: Restroom Redoubt ---")
     val robots = parseInput(File("input/14.txt").inputStream())
     val room = Room(robots, Vec(101, 103))
     println("Part 1: ${part1(room)}")

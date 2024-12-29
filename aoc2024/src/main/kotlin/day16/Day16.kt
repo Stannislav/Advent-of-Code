@@ -7,6 +7,7 @@ import java.util.*
 import kotlin.streams.asSequence
 
 fun main() {
+    println("--- Day 16: Reindeer Maze ---")
     val maze = parseInput(File("input/16.txt").inputStream())
     println("Part 1: ${part1(maze)}")
     println("Part 2: ${part2(maze)}")

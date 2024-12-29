@@ -7,6 +7,7 @@ import java.io.InputStream
 typealias Vec = Pair<Int, Int>
 
 fun main() {
+    println("--- Day 6: Guard Gallivant ---")
     val (grid, start, dir) = parseInput(File("input/06.txt").inputStream())
     val seen = part1(grid, start, dir)
     println("Part 1: ${seen.size}")

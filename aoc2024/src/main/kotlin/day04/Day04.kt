@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 4: Ceres Search ---")
     val input = parseInput(File("input/04.txt").inputStream())
     println("Part 1: ${part1(input)}")
     println("Part 2: ${part2(input)}")

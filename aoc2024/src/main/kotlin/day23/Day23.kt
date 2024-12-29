@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 23: LAN Party ---")
     val network = Network.fromStream(File("input/23.txt").inputStream())
     println("Part 1: ${part1(network)}")
     println("Part 2: ${part2(network)}")

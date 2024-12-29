@@ -8,6 +8,7 @@ import java.util.Queue
 import kotlin.streams.asSequence
 
 fun main() {
+    println("--- Day 12: Garden Groups ---")
     val input = parseInput(File("input/12.txt").inputStream())
     println("Part 1: ${part1(input)}")
     println("Part 2: ${part2(input)}")

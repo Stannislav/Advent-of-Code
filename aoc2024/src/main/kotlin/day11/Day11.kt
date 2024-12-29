@@ -4,6 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 11: Plutonian Pebbles ---")
     val solution = Day11(File("input/11.txt").inputStream())
     println("Part 1: ${solution.blink(25)}")
     println("Part 2: ${solution.blink(75)}")

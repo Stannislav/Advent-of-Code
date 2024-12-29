@@ -5,6 +5,7 @@ import java.io.File
 import java.io.InputStream
 
 fun main() {
+    println("--- Day 10: Hoof It ---")
     val solution = Day10(File("input/10.txt").inputStream())
     println("Part 1: ${solution.part1()}")
     println("Part 2: ${solution.part2()}")

@@ -7,6 +7,7 @@ import java.util.*
 import kotlin.math.abs
 
 fun main() {
+    println("--- Day 20: Race Condition ---")
     val day20 = Day20.fromStream(File("input/20.txt").inputStream())
     println("Part 1: ${day20.part1()}")
     println("Part 2: ${day20.part2()}")

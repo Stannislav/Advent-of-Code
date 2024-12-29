@@ -3,6 +3,7 @@ package day03
 import java.io.File
 
 fun main() {
+    println("--- Day 3: Mull It Over ---")
     val input = File("input/03.txt").readText()
     println("Part 1: ${part1(input)}")
     println("Part 2: ${part2(input)}")
