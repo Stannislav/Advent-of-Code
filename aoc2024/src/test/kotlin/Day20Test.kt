@@ -9,7 +9,7 @@ class Day20Test {
         val day20 = Day20.fromStream(streamInput("20.txt"))
         val expectedMap = """
             ###############
-            #...#...#.....#i
+            #...#...#.....#
             #.#.#.#.#.###.#
             #.#...#.#.#...#
             #######.#.#.###
