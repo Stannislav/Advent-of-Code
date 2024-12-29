@@ -92,58 +92,21 @@ class Keypad private constructor(private val positions: Map<Char, Vec>) {
 
 sealed class Agent {
     abstract fun pressButton(button: Char): Int
-    abstract fun reset()
-    abstract fun printLog()
-    abstract fun typeSequence(seq: String): Int
 }
 
 data object Human : Agent() {
-    private var log = ""
-
-    override fun pressButton(button: Char): Int {
-        log += button
-        return 1
-    }
-    override fun reset() {
-        log = ""
-    }
-    override fun printLog() {
-        println(log)
-        log = ""
-    }
-    override fun typeSequence(seq: String): Int {
-        log += seq
-        return seq.length
-    }
+    override fun pressButton(button: Char): Int  = 1
 }
 
 class Robot(private val targetKeypad: Keypad, private val controller: Agent) : Agent() {
     private var position = 'A'
     private val cache = mutableMapOf<Pair<Char, Char>, Int>()
-    private var log = ""
 
     override fun pressButton(button: Char): Int = cache.getOrPut(Pair(position, button)) {
-        log += button
         val count = targetKeypad.getAllPaths(position, button)
             .map { it + 'A' }
             .minOf { it.sumOf { c -> controller.pressButton(c) } }
         position = button
         return count
-    }
-
-    override fun reset() {
-        position = 'A'
-        log = ""
-        controller.reset()
-    }
-
-    override fun printLog() {
-        controller.printLog()
-        println(log)
-        log = ""
-    }
-
-    override fun typeSequence(seq: String): Int {
-        return 0
     }
 }
