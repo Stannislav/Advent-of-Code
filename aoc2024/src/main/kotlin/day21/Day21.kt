@@ -9,9 +9,12 @@ import kotlin.math.abs
 fun main() {
     val input = parseInput(File("input/21.txt").inputStream())
     println("Part 1: ${part1(input)}")
+    println("Part 2: ${part2(input)}")
 }
 
 fun part1(input: List<String>): Int = solve(input, 2)
+fun part2(input: List<String>): Int = solve(input, 25)
+
 
 fun solve(input: List<String>, nKeypads: Int): Int {
     val arrowKeypad = Keypad.fromString(" ^A\n<v>")
@@ -25,7 +28,7 @@ fun parseInput(stream: InputStream): List<String> {
     return stream.bufferedReader().readLines()
 }
 
-class Keypad private constructor(val positions: Map<Char, Vec>, private val paths: Map<Pair<Char, Char>, List<Char>>) {
+class Keypad private constructor(private val positions: Map<Char, Vec>) {
     companion object {
         fun fromString(layout: String): Keypad {
             val positions = layout
@@ -33,24 +36,8 @@ class Keypad private constructor(val positions: Map<Char, Vec>, private val path
                 .flatMapIndexed { i, line -> line.mapIndexed { j, char -> char to Vec(i, j) } }
                 .toMap()
                 .filterKeys { it != ' ' }
-            val paths = positions.entries
-                .flatMap { (from, fromPos) ->
-                    positions.map { (to, toPos) -> Pair(from, to) to toPos - fromPos }
-                }
-                .toMap()
-                .mapValues { distToPath(it.value) }
-
-            return Keypad(positions, paths)
+            return Keypad(positions)
         }
-
-        private fun distToPath(dist: Vec): List<Char> {
-            return (0 until abs(dist.i)).map { if (dist.i > 0) 'v' else '^' }.toList() +
-                    (0 until abs(dist.j)).map { if (dist.j > 0) '>' else '<' }.toList()
-        }
-    }
-
-    fun path(from: Char, to: Char): List<Char> {
-        return paths[Pair(from, to)] ?: error("keypad: can't go from $from to $to")
     }
 
     fun getAllPaths(from: Char, to: Char): List<List<Char>> {
