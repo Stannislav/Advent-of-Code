@@ -3,70 +3,28 @@ package day21
 import common.*
 import java.io.File
 import java.io.InputStream
+import java.util.*
 import kotlin.math.abs
 
 fun main() {
     val input = parseInput(File("input/21.txt").inputStream())
-    val arrowKeypad = Keypad.fromString(" ^A\n<v>")
-    println(arrowKeypad.path('A', '>'))
-    println(arrowKeypad.path('A', '<'))
-
-    val numericKeypad = Keypad.fromString("789\n456\n123\n 0A")
-    println(numericKeypad.path('4', '9'))
-    println(numericKeypad.path('A', '8'))
-    println(numericKeypad.path('8', 'A'))
-
-    println("numeric + human")
-    val robot = Robot(numericKeypad)
-    println(robot.pressButton('0'))
-    println(robot.pressButton('2'))
-    println(robot.pressButton('9'))
-    println(robot.pressButton('A'))
-
-    println("arrow + human")
-    val robot2 = Robot(arrowKeypad)
-    println(robot2.pressButton('<'))
-    println(robot2.pressButton('^'))
-    println(robot2.pressButton('^'))
-    println(robot2.pressButton('^'))
-    println(robot2.pressButton('>'))
-    println(robot2.pressButton('v'))
-    println(robot2.pressButton('v'))
-    println(robot2.pressButton('v'))
-
-    println("puzzle")
-    part1(input)
+    println("Part 1: ${part1(input)}")
 }
 
 fun part1(input: List<String>): Int {
     val arrowKeypad = Keypad.fromString(" ^A\n<v>")
     val numericKeypad = Keypad.fromString("789\n456\n123\n 0A")
-    val robot = Robot(numericKeypad, Robot(arrowKeypad, Robot(arrowKeypad)))
+    val robot = Robot(numericKeypad, Robot(arrowKeypad, Robot(arrowKeypad, Human)))
 
-    robot.pressButton('0')
-//    robot.pressButton('2')
-//    robot.pressButton('9')
-//    robot.pressButton('A')
-    robot.printLog()
-
-//    println(robot.pressButton('3'))
-//    println(robot.pressButton('7'))
-//    println(robot.pressButton('9'))
-//    println(robot.pressButton('A'))
-    return 0
-//    input.forEach { line ->
-//        println(line.sumOf { c -> robot.pressButton(c) })
-//        robot.reset()
-//
-//    }
-//    return input.sumOf { it.sumOf { c -> robot.pressButton(c) } * it.removeSuffix("A").toInt() }
+    return input
+        .sumOf { line -> line.substring(0, 3).toInt() * line.sumOf(robot::pressButton) }
 }
 
 fun parseInput(stream: InputStream): List<String> {
     return stream.bufferedReader().readLines()
 }
 
-class Keypad private constructor(private val paths: Map<Pair<Char, Char>, List<Char>>) {
+class Keypad private constructor(val positions: Map<Char, Vec>, private val paths: Map<Pair<Char, Char>, List<Char>>) {
     companion object {
         fun fromString(layout: String): Keypad {
             val positions = layout
@@ -81,7 +39,7 @@ class Keypad private constructor(private val paths: Map<Pair<Char, Char>, List<C
                 .toMap()
                 .mapValues { distToPath(it.value) }
 
-            return Keypad(paths)
+            return Keypad(positions, paths)
         }
 
         private fun distToPath(dist: Vec): List<Char> {
@@ -89,8 +47,56 @@ class Keypad private constructor(private val paths: Map<Pair<Char, Char>, List<C
                     (0 until abs(dist.j)).map { if (dist.j > 0) '>' else '<' }.toList()
         }
     }
+
     fun path(from: Char, to: Char): List<Char> {
         return paths[Pair(from, to)] ?: error("keypad: can't go from $from to $to")
+    }
+
+    fun getAllPaths(from: Char, to: Char): List<List<Char>> {
+        // flood map with dfs
+        val fromPos = positions[from] ?: error("position of from=$from is unknown")
+        val toPos = positions[to] ?: error("position of to=$to is unknown")
+        val valid = positions.values.toSet()
+        val distances = mutableMapOf(fromPos to 0)
+        val q: Queue<Vec> = LinkedList()
+        q.add(fromPos)
+        while (q.isNotEmpty()) {
+            val pos = q.remove()
+            sequenceOf(UP, DOWN, LEFT, RIGHT)
+                .map { pos + it }
+                .filter { valid.contains(it) }
+                .filterNot { distances.contains(it) }
+                .forEach { newPos ->
+                    distances[newPos] = distances[pos]?.let { it + 1 } ?: error("unknown distance for $pos")
+                    q.add(newPos)
+                }
+
+        }
+
+        fun buildPaths(currentPos: Vec): List<List<Vec>> {
+            if (currentPos == toPos) {
+                return listOf(listOf(currentPos))
+            }
+            return sequenceOf(UP, DOWN, LEFT, RIGHT)
+                .map { currentPos + it }
+                .filter { valid.contains(it) }
+                .filter { distances[it]!! == distances[currentPos]!! + 1 }
+                .flatMap { buildPaths(it).map { path -> listOf(currentPos) + path } }
+                .toList()
+        }
+
+        return buildPaths(fromPos)
+            .map { path ->
+                path.zip(path.drop(1)).map {
+                    when(it.second - it.first) {
+                        UP -> '^'
+                        DOWN -> 'v'
+                        LEFT -> '<'
+                        RIGHT -> '>'
+                        else -> error("unknown direction $it")
+                    }
+                }
+            }
     }
 }
 
@@ -98,6 +104,7 @@ sealed class Agent {
     abstract fun pressButton(button: Char): Int
     abstract fun reset()
     abstract fun printLog()
+    abstract fun typeSequence(seq: String): Int
 }
 
 data object Human : Agent() {
@@ -114,16 +121,22 @@ data object Human : Agent() {
         println(log)
         log = ""
     }
+    override fun typeSequence(seq: String): Int {
+        log += seq
+        return seq.length
+    }
 }
 
-class Robot(private val targetKeypad: Keypad, private val controller: Agent = Human) : Agent() {
+class Robot(private val targetKeypad: Keypad, private val controller: Agent) : Agent() {
     private var position = 'A'
     private val cache = mutableMapOf<Pair<Char, Char>, Int>()
     private var log = ""
 
     override fun pressButton(button: Char): Int {
         log += button
-        val count = targetKeypad.path(position, button).sumOf { controller.pressButton(it) } + controller.pressButton('A')
+        val count = targetKeypad.getAllPaths(position, button)
+            .map { it + 'A' }
+            .minOf { it.sumOf { c -> controller.pressButton(c) } }
         position = button
         return count
     }
@@ -140,7 +153,7 @@ class Robot(private val targetKeypad: Keypad, private val controller: Agent = Hu
         log = ""
     }
 
-    fun typeSequence(seq: String) {
-
+    override fun typeSequence(seq: String): Int {
+        return 0
     }
 }
