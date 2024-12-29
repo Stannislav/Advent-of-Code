@@ -11,13 +11,14 @@ fun main() {
     println("Part 1: ${part1(input)}")
 }
 
-fun part1(input: List<String>): Int {
+fun part1(input: List<String>): Int = solve(input, 2)
+
+fun solve(input: List<String>, nKeypads: Int): Int {
     val arrowKeypad = Keypad.fromString(" ^A\n<v>")
     val numericKeypad = Keypad.fromString("789\n456\n123\n 0A")
-    val robot = Robot(numericKeypad, Robot(arrowKeypad, Robot(arrowKeypad, Human)))
+    val robot = Robot(numericKeypad, (1..nKeypads).fold(Human as Agent) { agent, _ -> Robot(arrowKeypad, agent)})
 
-    return input
-        .sumOf { line -> line.substring(0, 3).toInt() * line.sumOf(robot::pressButton) }
+    return input.sumOf { line -> line.substring(0, 3).toInt() * line.sumOf(robot::pressButton) }
 }
 
 fun parseInput(stream: InputStream): List<String> {
