@@ -122,7 +122,7 @@ class Robot(private val targetKeypad: Keypad, private val controller: Agent) : A
     private val cache = mutableMapOf<Pair<Char, Char>, Int>()
     private var log = ""
 
-    override fun pressButton(button: Char): Int {
+    override fun pressButton(button: Char): Int = cache.getOrPut(Pair(position, button)) {
         log += button
         val count = targetKeypad.getAllPaths(position, button)
             .map { it + 'A' }
