@@ -28,7 +28,7 @@ fun parseInput(stream: InputStream): List<String> {
     return stream.bufferedReader().readLines()
 }
 
-class Keypad private constructor(private val positions: Map<Char, Vec>) {
+class Keypad private constructor(val positions: Map<Char, Vec>) {
     companion object {
         fun fromString(layout: String): Keypad {
             val positions = layout
@@ -102,11 +102,11 @@ class Robot(private val targetKeypad: Keypad, private val controller: Agent) : A
     private var position = 'A'
     private val cache = mutableMapOf<Pair<Char, Char>, Long>()
 
-    override fun pressButton(button: Char): Long = cache.getOrPut(Pair(position, button)) {
+    override fun pressButton(button: Char): Long  {
         val count = targetKeypad.getAllPaths(position, button)
             .map { it + 'A' }
             .minOf { it.sumOf { c -> controller.pressButton(c) } }
         position = button
-        count
+        return count
     }
 }
