@@ -40,7 +40,9 @@ class Keypad private constructor(private val positions: Map<Char, Vec>) {
         }
     }
 
-    fun getAllPaths(from: Char, to: Char): List<List<Char>> {
+    private val pathCache = mutableMapOf<Pair<Char, Char>, List<List<Char>>>()
+
+    fun getAllPaths(from: Char, to: Char): List<List<Char>> = pathCache.getOrPut(Pair(from, to)) {
         // flood map with dfs
         val fromPos = positions[from] ?: error("position of from=$from is unknown")
         val toPos = positions[to] ?: error("position of to=$to is unknown")
