@@ -75,7 +75,7 @@ class Keypad private constructor(private val positions: Map<Char, Vec>) {
                 .toList()
         }
 
-        return buildPaths(fromPos)
+        buildPaths(fromPos)
             .map { path ->
                 path.zip(path.drop(1)).map {
                     when(it.second - it.first) {
@@ -107,6 +107,6 @@ class Robot(private val targetKeypad: Keypad, private val controller: Agent) : A
             .map { it + 'A' }
             .minOf { it.sumOf { c -> controller.pressButton(c) } }
         position = button
-        return count
+        count
     }
 }
