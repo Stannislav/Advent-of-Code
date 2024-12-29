@@ -102,11 +102,10 @@ class Robot(private val targetKeypad: Keypad, private val controller: Agent) : A
     private var position = 'A'
     private val cache = mutableMapOf<Pair<Char, Char>, Long>()
 
-    override fun pressButton(button: Char): Long  {
-        val count = targetKeypad.getAllPaths(position, button)
+    override fun pressButton(button: Char): Long = cache.getOrPut(Pair(position, button)) {
+        targetKeypad.getAllPaths(position, button)
             .map { it + 'A' }
             .minOf { it.sumOf { c -> controller.pressButton(c) } }
-        position = button
-        return count
     }
+    .also { position = button }
 }
