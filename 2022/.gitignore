@@ -1,2 +1,4 @@
+/.bsp/
+/project/
 /src/main/resources/input/*.txt
 !/src/main/resources/input/README.md
