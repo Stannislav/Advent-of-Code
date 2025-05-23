@@ -5,10 +5,8 @@ import Math.{min, max}
 object Solution {
   def main(args: Array[String]): Unit = {
     val rocks = parseInput(io.Source.fromResource("input/14.txt"))
-    println(rocks)
-    println(rocks.size)
-    val maxY = rocks.map(_.y).max
-    println(s"Max y: $maxY")
+
+    println(s"Part 1: ${part1(rocks)}")
   }
 
   def parseInput(stream: io.Source): Set[Point]= {
@@ -34,7 +32,46 @@ object Solution {
       .map(_.toSet)
       .reduce(_ | _)
   }
+
+  def part1(rocks: Set[Point]): Int = {
+    val maxY = rocks.map(_.y).max
+    var state = Set.from(rocks)
+    var prevSize = state.size
+
+    def addRock(state: Set[Point]): Set[Point] = {
+      var pos = Point(500, 0)
+      var stopped = false
+      var leaked = false
+
+      while (!stopped && !leaked) {
+        if (!state.contains(pos.down())) {
+          pos = pos.down()
+        } else if(!state.contains(pos.downLeft())) {
+          pos = pos.downLeft()
+        } else if(!state.contains(pos.downRight())) {
+          pos = pos.downRight()
+        } else {
+          stopped = true
+        }
+        if pos.y > maxY then leaked = true
+      }
+
+      if (stopped) state + pos else state
+    }
+
+    while ({
+      prevSize = state.size
+      state = addRock(state)
+      state.size > prevSize
+    }) {}
+
+    state.size - rocks.size
+  }
 }
 
 
-case class Point(x: Int, y: Int)
+case class Point(x: Int, y: Int) {
+  def down(): Point = this.copy(y = y + 1)
+  def downLeft(): Point = this.copy(x = x - 1, y = y + 1)
+  def downRight(): Point = this.copy(x = x + 1, y = y + 1)
+}

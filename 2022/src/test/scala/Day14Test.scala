@@ -17,4 +17,9 @@ class Day14Test extends AnyFunSuite {
     )
     assert(Solution.parseInput(io.Source.fromString(input)) === expected)
   }
+
+  test("Solution.part1") {
+    val rocks = Solution.parseInput(io.Source.fromString(input))
+    assert(Solution.part1(rocks) == 24)
+  }
 }
