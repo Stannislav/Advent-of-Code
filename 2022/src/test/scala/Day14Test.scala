@@ -20,6 +20,11 @@ class Day14Test extends AnyFunSuite {
 
   test("Solution.part1") {
     val rocks = Solution.parseInput(io.Source.fromString(input))
-    assert(Solution.part1(rocks) == 24)
+    assert(Solution.part1(rocks) === 24)
+  }
+
+  test("Solution.part2") {
+    val rocks = Solution.parseInput(io.Source.fromString(input))
+    assert(Solution.part2(rocks) === 93)
   }
 }

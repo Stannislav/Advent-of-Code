@@ -7,6 +7,7 @@ object Solution {
     val rocks = parseInput(io.Source.fromResource("input/14.txt"))
 
     println(s"Part 1: ${part1(rocks)}")
+    println(s"Part 2: ${part2(rocks)}")
   }
 
   def parseInput(stream: io.Source): Set[Point]= {
@@ -54,6 +55,40 @@ object Solution {
           stopped = true
         }
         if pos.y > maxY then leaked = true
+      }
+
+      if (stopped) state + pos else state
+    }
+
+    while ({
+      prevSize = state.size
+      state = addRock(state)
+      state.size > prevSize
+    }) {}
+
+    state.size - rocks.size
+  }
+
+  def part2(rocks: Set[Point]): Int = {
+    val maxY = rocks.map(_.y).max + 1
+    var state = Set.from(rocks)
+    var prevSize = state.size
+
+    def addRock(state: Set[Point]): Set[Point] = {
+      var pos = Point(500, 0)
+      var stopped = state.contains(pos)
+
+      while (!stopped) {
+        if (!state.contains(pos.down())) {
+          pos = pos.down()
+        } else if(!state.contains(pos.downLeft())) {
+          pos = pos.downLeft()
+        } else if(!state.contains(pos.downRight())) {
+          pos = pos.downRight()
+        } else {
+          stopped = true
+        }
+        if pos.y == maxY then stopped = true
       }
 
       if (stopped) state + pos else state
