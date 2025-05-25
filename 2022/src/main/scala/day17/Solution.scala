@@ -18,11 +18,11 @@ object Solution {
     var jetIdx = 0
     var chamber = Array[Int]()
 
-    def fall(rockShape: Seq[String], chamber: Array[Int]): Array[Int] = {
+    def dropRock(rockShape: Seq[String], chamber: Array[Int]): Array[Int] = {
       var pos = chamber.length + 3
-      var done = false
+      var resting = false
       val rock = Rock.fromShape(rockShape)
-      while(!done) {
+      while(!resting) {
         // 1. Shift left-right
         jets(jetIdx) match {
           case '<' => rock.maybeMoveLeft(chamber, pos)
@@ -34,7 +34,7 @@ object Solution {
         pos -= 1
         if (pos < 0 || rock.isCollision(chamber, pos)) {
           pos += 1
-          done = true
+          resting = true
         }
       }
       rock.mergeIntoChamber(chamber, pos)
@@ -52,7 +52,7 @@ object Solution {
     var nSteps = 0
     while(!cache.contains((jetIdx, rockIdx, chamber))) {
       cache((jetIdx, rockIdx, chamber)) = (nSteps, chamber.length + prunedHeight)
-      chamber = fall(ROCK_SHAPES(rockIdx), chamber)
+      chamber = dropRock(ROCK_SHAPES(rockIdx), chamber)
       rockIdx = (rockIdx + 1) % ROCK_SHAPES.length
       val (reducedChamber, reducedLines) = reduceChamber(chamber)
       chamber = reducedChamber
