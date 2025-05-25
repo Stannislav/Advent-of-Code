@@ -16,7 +16,7 @@ object Rock {
   }
 }
 
-private class Rock(var rockData: Array[Int]) {
+class Rock private(var rockData: Array[Int]) {
   private def canMoveRight = rockData.map(_ & 1).forall(_ == 0)
 
   private def canMoveLeft = rockData.map(_ & 64).forall(_ == 0)
