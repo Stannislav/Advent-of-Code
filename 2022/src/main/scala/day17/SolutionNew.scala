@@ -16,10 +16,8 @@ object SolutionNew {
       .map(_.map(Integer.parseInt(_, 2)).reverse.toArray)
       .toArray
 
-    var nSteps = 0
     var shapeIdx = 0
     var opIdx = 0
-    var prunedHeight = 0
     var state = Array[Int]()
 
 
@@ -67,23 +65,52 @@ object SolutionNew {
       mergeShapeIntoState(shape, state, pos)
     }
 
-    for (i <- 1 to 2022) {
-      state = fall(shapes(shapeIdx), state)
-      shapeIdx = (shapeIdx + 1) % shapes.length
-    }
-
-    println(s"Part 1: ${state.length}")
-
-
-
-    // (opIdx, shapeIdx, state) -> (nSteps, prunedHeight)
-//    val cache = collection.mutable.Map[(Int, Int, List[Int]), (Int, Int)]()
-//    while(!cache.contains((opIdx, shapeIdx, state))) {
-//      cache((opIdx, shapeIdx, state)) = (nSteps, prunedHeight)
-//
+//    for (i <- 1 to 2022) {
 //      state = fall(shapes(shapeIdx), state)
 //      shapeIdx = (shapeIdx + 1) % shapes.length
 //    }
+//    println(s"Part 1: ${state.length}")
+//
+    val fullLine = Integer.parseInt("1111111", 2)
+//    println(s"Full lines: ${state.count(_ == fullLine)}")
+
+    // (opIdx, shapeIdx, state) -> (nSteps, prunedHeight)
+    val cache = collection.mutable.Map[(Int, Int, Seq[Int]), (Int, Int)]()
+    def reduceState(state: Array[Int]): (Array[Int], Int) = {
+      val cutOff = state.lastIndexOf(fullLine) + 1
+      (state.slice(cutOff, state.length), cutOff)
+    }
+
+    var prunedHeight = 0
+    var nSteps = 0
+    while(!cache.contains((opIdx, shapeIdx, state))) {
+      cache((opIdx, shapeIdx, state)) = (nSteps, state.length + prunedHeight)
+      state = fall(shapes(shapeIdx), state)
+      shapeIdx = (shapeIdx + 1) % shapes.length
+      val (reducedState, reducedLines) = reduceState(state)
+      state = reducedState
+      prunedHeight += reducedLines
+      nSteps += 1
+    }
+    val (loopStart, startHeight) = cache((opIdx, shapeIdx, state))
+    val loopLength = nSteps - loopStart
+    val heights = Array.fill(cache.size) { 0 }
+    for((idx, height) <- cache.values) {
+      heights(idx) = height
+    }
+    val loopHeight = state.length + prunedHeight - heights(loopStart)
+    def getHeightAfter(steps: Long): Long = {
+      if (steps < heights.length) {
+        heights(steps.toInt)
+      } else {
+        val nLoops = (steps - loopStart) / loopLength
+        val loopIdx = (steps - loopStart) % loopLength
+        heights(loopStart + loopIdx.toInt) + nLoops * loopHeight
+      }
+    }
+
+    println(s"Part 1: ${getHeightAfter(2022)}")
+    println(s"Part 2: ${getHeightAfter(1000000000000L)}")
   }
 
   def parseInput(stream: Source): Array[Int] = {
