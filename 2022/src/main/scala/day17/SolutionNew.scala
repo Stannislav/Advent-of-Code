@@ -1,0 +1,96 @@
+package day17
+
+import io.Source
+
+object SolutionNew {
+  def main(args: Array[String]): Unit = {
+    val input = parseInput(Source.fromResource("input/17.txt"))
+
+    val shapes = Seq(
+      Seq("0011110"),
+      Seq("0001000", "0011100", "0001000"),
+      Seq("0000100", "0000100", "0011100"),
+      Seq("0010000", "0010000", "0010000", "0010000"),
+      Seq("0011000", "0011000"),
+    )
+      .map(_.map(Integer.parseInt(_, 2)).reverse.toArray)
+      .toArray
+
+    var nSteps = 0
+    var shapeIdx = 0
+    var opIdx = 0
+    var prunedHeight = 0
+    var state = Array[Int]()
+
+
+    def canMoveRight(shape: Array[Int]) = shape.map(_ & 1).forall(_ == 0)
+    def canMoveLeft(shape: Array[Int]) = shape.map(_ & 64).forall(_ == 0)
+    def moveRight(shape: Array[Int]) = shape.map(_ >> 1)
+    def moveLeft(shape: Array[Int]) = shape.map(_ << 1)
+    def isCollision(shape: Array[Int], state: Array[Int], shapePos: Int): Boolean = {
+      val ids = (shapePos until shapePos + shape.length).filter(_ < state.length)
+      (shape zip ids).exists((line, idx) => (line & state(idx)) != 0)
+    }
+    def mergeShapeIntoState(shape: Array[Int], state: Array[Int], shapePos: Int): Array[Int] = {
+      val newState = state.padTo(shapePos + shape.length, 0)
+      val ids = shapePos until shapePos + shape.length
+      (shape zip ids).foreach((line, idx) => newState(idx) |= line)
+      newState
+    }
+
+    def fall(initialShape: Array[Int], state: Array[Int]): Array[Int] = {
+      var pos = state.length + 3
+      var done = false
+      var shape = initialShape.clone()
+      while(!done) {
+        // 1. Shift left-right
+        if (input(opIdx) == -1 && canMoveLeft(shape)) {
+          shape = moveLeft(shape)
+          if (isCollision(shape, state, pos)) {
+            shape = moveRight(shape)
+          }
+        } else if(input(opIdx) == 1 && canMoveRight(shape)) {
+          shape = moveRight(shape)
+          if (isCollision(shape, state, pos)) {
+            shape = moveLeft(shape)
+          }
+        }
+        opIdx = (opIdx + 1) % input.length
+
+        // 2. Shift down
+        pos -= 1
+        if (pos < 0 || isCollision(shape, state, pos)) {
+          pos += 1
+          done = true
+        }
+      }
+      mergeShapeIntoState(shape, state, pos)
+    }
+
+    for (i <- 1 to 2022) {
+      state = fall(shapes(shapeIdx), state)
+      shapeIdx = (shapeIdx + 1) % shapes.length
+    }
+
+    println(s"Part 1: ${state.length}")
+
+
+
+    // (opIdx, shapeIdx, state) -> (nSteps, prunedHeight)
+//    val cache = collection.mutable.Map[(Int, Int, List[Int]), (Int, Int)]()
+//    while(!cache.contains((opIdx, shapeIdx, state))) {
+//      cache((opIdx, shapeIdx, state)) = (nSteps, prunedHeight)
+//
+//      state = fall(shapes(shapeIdx), state)
+//      shapeIdx = (shapeIdx + 1) % shapes.length
+//    }
+  }
+
+  def parseInput(stream: Source): Array[Int] = {
+    stream.mkString.strip().map {
+      case '<' => -1
+      case '>' => 1
+      case c@_ => throw Error(s"Unknown input: $c")
+    }.toArray
+  }
+}
