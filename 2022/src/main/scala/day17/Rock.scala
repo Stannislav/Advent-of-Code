@@ -45,4 +45,11 @@ private class Rock(var data: Array[Int]) {
         data = moveLeft
     }
   }
+
+  def mergeIntoState(state: Array[Int], rockPos: Int): Array[Int] = {
+    val newState = state.padTo(rockPos + data.length, 0)
+    val ids = rockPos until rockPos + data.length
+    (data zip ids).foreach((line, idx) => newState(idx) |= line)
+    newState
+  }
 }
