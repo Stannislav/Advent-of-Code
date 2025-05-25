@@ -47,9 +47,9 @@ class Rock private(var rockData: Array[Int]) {
   }
 
   def mergeIntoChamber(chamber: Array[Int], rockPos: Int): Array[Int] = {
-    val newState = chamber.padTo(rockPos + rockData.length, 0)
+    val updatedChamber = chamber.padTo(rockPos + rockData.length, 0)
     val ids = rockPos until rockPos + rockData.length
-    (rockData zip ids).foreach((line, idx) => newState(idx) |= line)
-    newState
+    (rockData zip ids).foreach((line, idx) => updatedChamber(idx) |= line)
+    updatedChamber
   }
 }
