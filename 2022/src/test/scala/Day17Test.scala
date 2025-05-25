@@ -1,15 +1,12 @@
 import org.scalatest.funsuite.AnyFunSuite
 
-import day17.SolutionNew
+import day17.Solution
 
 class Day17Test extends AnyFunSuite {
-  private val input = ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>"
+  private val input = ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>\n"
 
   test("Solution.parseInput") {
-    val expected = Array(
-      '>', '>', '>', '<', '<', '>', '<', '>', '>', '<', '<', '<', '>', '>', '<', '>', '>', '>', '<', '<',
-      '<', '>', '>', '>', '<', '<', '<', '>', '<', '<', '<', '>', '>', '<', '>', '>', '<', '<', '>', '>',
-    )
-    assert(SolutionNew.parseInput(io.Source.fromString(input)) === expected)
+    val expected = ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>"
+    assert(Solution.parseInput(io.Source.fromString(input)) === expected)
   }
 }

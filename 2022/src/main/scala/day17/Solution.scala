@@ -2,7 +2,7 @@ package day17
 
 import io.Source
 
-object SolutionNew {
+object Solution {
   private val ROCK_SHAPES: Seq[Seq[String]] = Seq(
     Seq("####"),
     Seq(".#.", "###", ".#."),
@@ -81,5 +81,5 @@ object SolutionNew {
     println(s"Part 2: ${getHeightAfter(1000000000000L)}")
   }
 
-  def parseInput(stream: Source): Array[Char] = stream.mkString.strip().toArray
+  def parseInput(stream: Source): String = stream.mkString.strip()
 }
