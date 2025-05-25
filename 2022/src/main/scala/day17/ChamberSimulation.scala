@@ -12,8 +12,8 @@ object ChamberSimulation {
 
   private def chamberHash(chamber: Array[Int]) = chamber.takeRight(30).toSeq.hashCode()
 
-  def run(jetsPattern: String): (Array[Int], Int, Int) = {
-    val jets = Jets(jetsPattern)
+  def run(jetData: String): (Array[Int], Int, Int) = {
+    val jets = Jets(jetData)
     var rockIdx = 0
     var chamber = Array[Int]()
     // (jetIdx, rockIdx, chamberHash) => (nSteps, height)

@@ -7,8 +7,8 @@ object Solution {
   def parseInput(stream: Source): String = stream.mkString.strip()
 
   def main(args: Array[String]): Unit = {
-    val jets = parseInput(Source.fromResource("input/17.txt"))
-    val (heights, loopStart, loopHeightGain) = ChamberSimulation.run(jets)
+    val jetData = parseInput(Source.fromResource("input/17.txt"))
+    val (heights, loopStart, loopHeightGain) = ChamberSimulation.run(jetData)
     val solution = Solution(heights, loopStart, loopHeightGain)
     println(s"Part 1: ${solution.part1}")
     println(s"Part 2: ${solution.part2}")
