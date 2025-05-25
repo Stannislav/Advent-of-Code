@@ -6,15 +6,40 @@ object SolutionNew {
   def main(args: Array[String]): Unit = {
     val input = parseInput(Source.fromResource("input/17.txt"))
 
-    val shapes = Seq(
-      Seq("0011110"),
-      Seq("0001000", "0011100", "0001000"),
-      Seq("0000100", "0000100", "0011100"),
-      Seq("0010000", "0010000", "0010000", "0010000"),
-      Seq("0011000", "0011000"),
-    )
-      .map(_.map(Integer.parseInt(_, 2)).reverse.toArray)
-      .toArray
+    def parseRock(lines: Seq[String]): Array[Int] = {
+      lines
+        .map(".." + _)
+        .map(_.padTo(7, '.'))
+        .map(_.replace(".", "0").replace("#", "1"))
+        .map(Integer.parseInt(_, 2))
+        .reverse
+        .toArray
+    }
+    val rocks = Seq(
+      Seq(
+        "####"
+      ),
+      Seq(
+        ".#.",
+        "###",
+        ".#."
+      ),
+      Seq(
+        "..#",
+        "..#",
+        "###"
+      ),
+      Seq(
+        "#",
+        "#",
+        "#",
+        "#",
+      ),
+      Seq(
+        "##",
+        "##"
+      ),
+    ).map(parseRock).toArray
 
     var shapeIdx = 0
     var opIdx = 0
@@ -77,8 +102,8 @@ object SolutionNew {
     var nSteps = 0
     while(!cache.contains((opIdx, shapeIdx, state))) {
       cache((opIdx, shapeIdx, state)) = (nSteps, state.length + prunedHeight)
-      state = fall(shapes(shapeIdx), state)
-      shapeIdx = (shapeIdx + 1) % shapes.length
+      state = fall(rocks(shapeIdx), state)
+      shapeIdx = (shapeIdx + 1) % rocks.length
       val (reducedState, reducedLines) = reduceState(state)
       state = reducedState
       prunedHeight += reducedLines
