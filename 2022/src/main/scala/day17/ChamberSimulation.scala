@@ -10,24 +10,20 @@ object ChamberSimulation {
   )
   private val FULL_LINE = 127 // 0b1111111
 
-  private var rockIdx = 0
-  private var jetIdx = 0
-  private var chamber: Array[Int] = Array()
-
   private def chamberHash(chamber: Array[Int]) = chamber.takeRight(30).toSeq.hashCode()
 
-  def run(jets: String): (Array[Int], Int, Int) = {
-    rockIdx = 0
-    jetIdx = 0
-    chamber = Array()
+  def run(jetsPattern: String): (Array[Int], Int, Int) = {
+    val jets = Jets(jetsPattern)
+    var rockIdx = 0
+    var chamber = Array[Int]()
     // (jetIdx, rockIdx, chamberHash) => (nSteps, height)
     val cache = collection.mutable.Map[(Int, Int, Int), (Int, Int)]()
     var nSteps = 0
 
     // Simulate rock falling until a loop is detected.
-    while (!cache.contains((jetIdx, rockIdx, chamberHash(chamber)))) {
-      cache((jetIdx, rockIdx, chamberHash(chamber))) = (nSteps, chamber.length)
-      dropRock(ROCK_SHAPES(rockIdx), jets)
+    while (!cache.contains((jets.idx, rockIdx, chamberHash(chamber)))) {
+      cache((jets.idx, rockIdx, chamberHash(chamber))) = (nSteps, chamber.length)
+      chamber = dropRock(ROCK_SHAPES(rockIdx), chamber, jets)
       rockIdx = (rockIdx + 1) % ROCK_SHAPES.length
       nSteps += 1
     }
@@ -35,7 +31,7 @@ object ChamberSimulation {
     // Translate cached chamber states into an array of heights indexed
     // by the step number. Also compute the loop length and the height gain
     // in the loop.
-    val (loopStart, startHeight) = cache((jetIdx, rockIdx, chamberHash(chamber)))
+    val (loopStart, startHeight) = cache((jets.idx, rockIdx, chamberHash(chamber)))
     val heights = Array.fill(cache.size)(0)
     for ((idx, height) <- cache.values) {
       heights(idx) = height
@@ -44,17 +40,16 @@ object ChamberSimulation {
     (heights, loopStart, loopHeightGain)
   }
 
-  private def dropRock(rockShape: Seq[String], jets: String): Unit = {
+  private def dropRock(rockShape: Seq[String], chamber: Array[Int], jets: Jets): Array[Int] = {
     var pos = chamber.length + 3
     var resting = false
     val rock = Rock.fromShape(rockShape)
     while (!resting) {
       // 1. Shift left-right
-      jets(jetIdx) match {
+      jets.next() match {
         case '<' => rock.maybeMoveLeft(chamber, pos)
         case '>' => rock.maybeMoveRight(chamber, pos)
       }
-      jetIdx = (jetIdx + 1) % jets.length
 
       // 2. Shift down
       pos -= 1
@@ -63,6 +58,6 @@ object ChamberSimulation {
         resting = true
       }
     }
-    chamber = rock.mergeIntoChamber(chamber, pos)
+    rock.mergeIntoChamber(chamber, pos)
   }
 }
