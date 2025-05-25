@@ -3,43 +3,27 @@ package day17
 import io.Source
 
 object SolutionNew {
-  def main(args: Array[String]): Unit = {
-    val input = parseInput(Source.fromResource("input/17.txt"))
+  private val ROCK_SHAPES: Seq[Seq[String]] = Seq(
+    Seq("####"),
+    Seq(".#.", "###", ".#."),
+    Seq("..#", "..#", "###"),
+    Seq("#", "#", "#", "#"),
+    Seq("##", "##"),
+  )
 
-    def parseRock(lines: Seq[String]): Array[Int] = {
-      lines
-        .map(".." + _)
-        .map(_.padTo(7, '.'))
-        .map(_.replace(".", "0").replace("#", "1"))
-        .map(Integer.parseInt(_, 2))
-        .reverse
-        .toArray
-    }
-    val rocks = Seq(
-      Seq(
-        "####"
-      ),
-      Seq(
-        ".#.",
-        "###",
-        ".#."
-      ),
-      Seq(
-        "..#",
-        "..#",
-        "###"
-      ),
-      Seq(
-        "#",
-        "#",
-        "#",
-        "#",
-      ),
-      Seq(
-        "##",
-        "##"
-      ),
-    ).map(parseRock).toArray
+  def parseRock(lines: Seq[String]): Array[Int] = {
+    lines
+      .map(".." + _)
+      .map(_.padTo(7, '.'))
+      .map(_.replace(".", "0").replace("#", "1"))
+      .map(Integer.parseInt(_, 2))
+      .reverse
+      .toArray
+  }
+
+  def main(args: Array[String]): Unit = {
+    val ops = parseInput(Source.fromResource("input/17.txt"))
+    val rocks = ROCK_SHAPES.map(parseRock).toArray
 
     var shapeIdx = 0
     var opIdx = 0
@@ -67,18 +51,18 @@ object SolutionNew {
       var shape = initialShape.clone()
       while(!done) {
         // 1. Shift left-right
-        if (input(opIdx) == '<' && canMoveLeft(shape)) {
+        if (ops(opIdx) == '<' && canMoveLeft(shape)) {
           shape = moveLeft(shape)
           if (isCollision(shape, state, pos)) {
             shape = moveRight(shape)
           }
-        } else if(input(opIdx) == '>' && canMoveRight(shape)) {
+        } else if(ops(opIdx) == '>' && canMoveRight(shape)) {
           shape = moveRight(shape)
           if (isCollision(shape, state, pos)) {
             shape = moveLeft(shape)
           }
         }
-        opIdx = (opIdx + 1) % input.length
+        opIdx = (opIdx + 1) % ops.length
 
         // 2. Shift down
         pos -= 1
@@ -90,10 +74,9 @@ object SolutionNew {
       mergeShapeIntoState(shape, state, pos)
     }
 
-    val fullLine = Integer.parseInt("1111111", 2)
-
     val cache = collection.mutable.Map[(Int, Int, Seq[Int]), (Int, Int)]()
     def reduceState(state: Array[Int]): (Array[Int], Int) = {
+      val fullLine = 127 // 0b1111111
       val cutOff = state.lastIndexOf(fullLine) + 1
       (state.slice(cutOff, state.length), cutOff)
     }
