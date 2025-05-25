@@ -42,12 +42,12 @@ object SolutionNew {
       var shape = initialShape.clone()
       while(!done) {
         // 1. Shift left-right
-        if (input(opIdx) == -1 && canMoveLeft(shape)) {
+        if (input(opIdx) == '<' && canMoveLeft(shape)) {
           shape = moveLeft(shape)
           if (isCollision(shape, state, pos)) {
             shape = moveRight(shape)
           }
-        } else if(input(opIdx) == 1 && canMoveRight(shape)) {
+        } else if(input(opIdx) == '>' && canMoveRight(shape)) {
           shape = moveRight(shape)
           if (isCollision(shape, state, pos)) {
             shape = moveLeft(shape)
@@ -65,16 +65,8 @@ object SolutionNew {
       mergeShapeIntoState(shape, state, pos)
     }
 
-//    for (i <- 1 to 2022) {
-//      state = fall(shapes(shapeIdx), state)
-//      shapeIdx = (shapeIdx + 1) % shapes.length
-//    }
-//    println(s"Part 1: ${state.length}")
-//
     val fullLine = Integer.parseInt("1111111", 2)
-//    println(s"Full lines: ${state.count(_ == fullLine)}")
 
-    // (opIdx, shapeIdx, state) -> (nSteps, prunedHeight)
     val cache = collection.mutable.Map[(Int, Int, Seq[Int]), (Int, Int)]()
     def reduceState(state: Array[Int]): (Array[Int], Int) = {
       val cutOff = state.lastIndexOf(fullLine) + 1
@@ -113,11 +105,5 @@ object SolutionNew {
     println(s"Part 2: ${getHeightAfter(1000000000000L)}")
   }
 
-  def parseInput(stream: Source): Array[Int] = {
-    stream.mkString.strip().map {
-      case '<' => -1
-      case '>' => 1
-      case c@_ => throw Error(s"Unknown input: $c")
-    }.toArray
-  }
+  def parseInput(stream: Source): Array[Char] = stream.mkString.strip().toArray
 }
