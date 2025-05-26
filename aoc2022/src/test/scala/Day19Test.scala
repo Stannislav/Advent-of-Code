@@ -27,4 +27,15 @@ class Day19Test extends AnyFunSuite {
       (a zip b).foreach { (x, y) => assert(x.toSeq === y.toSeq)}
     }
   }
+
+  test("Solution.runOptimally") {
+    val blueprints = Solution.parseInput(Source.fromResource("19.txt"))
+    assert(Solution.runOptimally(blueprints(0)) === 9)
+    assert(Solution.runOptimally(blueprints(1)) === 12)
+  }
+
+  test("Solution.part1") {
+    val blueprints = Solution.parseInput(Source.fromResource("19.txt"))
+    assert(Solution.part1(blueprints) === 33)
+  }
 }

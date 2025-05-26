@@ -30,4 +30,15 @@ object Solution {
       case _ => throw Exception(s"Can't parse line: $line")
     }
   }
+
+  def part1(blueprints: Seq[Array[Array[Int]]]): Int = {
+    blueprints
+      .zipWithIndex
+      .map((blueprint, idx) => (idx + 1) * runOptimally(blueprint))
+      .sum
+  }
+
+  def runOptimally(blueprint: Array[Array[Int]]): Int = {
+    0
+  }
 }
