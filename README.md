@@ -13,6 +13,6 @@ My solutions for the Advent of Code challenges.
 - [2019](2019) - JavaScript
 - [2020](2020) - Rust
 - [2021](2021) - Python 3.10
-- [2022](2022) - Scala
+- [2022](aoc2022) - Scala
 - [2023](aoc2023) - Golang
 - [2024](aoc2024) - Kotlin
