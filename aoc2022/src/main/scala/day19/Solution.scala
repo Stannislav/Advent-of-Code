@@ -9,6 +9,8 @@ object Solution {
 //      _.getLines.map(Blueprint.fromString).toList
 //    }
 //    println(input.map(_.run()))
+    val blueprints = parseInput(Source.fromResource("input/19.txt"))
+    println(s"Part 1: ${part1(blueprints)}")
   }
 
   def parseInput(stream: Source): Seq[Vector[Vector[Int]]] = {
@@ -34,56 +36,44 @@ object Solution {
   def part1(blueprints: Seq[Vector[Vector[Int]]]): Int = {
     blueprints
       .zipWithIndex
-      .map((blueprint, idx) => (idx + 1) * runOptimally(blueprint))
+      .map((blueprint, idx) => {
+        println(s"Processing blueprint ${idx + 1}/${blueprints.length}.")
+        (idx + 1) * runOptimally(blueprint)
+      })
       .sum
   }
 
   def runOptimally(blueprint: Vector[Vector[Int]]): Int = {
-    var state = Set((Vector(1, 0, 0, 0), Vector(0, 0, 0, 0)))
-    val seen = collection.mutable.Set[(Vector[Int], Vector[Int])]()
-
-    def step(nRobots: Vector[Int], nResources: Vector[Int]): Seq[(Vector[Int], Vector[Int])] = {
-      Seq(
-        (Vector(0, 0, 0, 0), nResources),
-        (Vector(1, 0, 0, 0), (nResources zip blueprint(0)).map(_ - _)),
-        (Vector(0, 1, 0, 0), (nResources zip blueprint(1)).map(_ - _)),
-        (Vector(0, 0, 1, 0), (nResources zip blueprint(2)).map(_ - _)),
-        (Vector(0, 0, 0, 1), (nResources zip blueprint(3)).map(_ - _)),
-      )
-        .filter(_._2.forall {_ >= 0})
-        .map { (robotBuilds, resources) =>
-          ((nRobots zip robotBuilds).map(_ + _), (resources zip nRobots).map(_ + _))
-        }
-        .filter(!seen.contains(_))
-    }
+    var states = Set(State(Vector(1, 0, 0, 0), Vector(0, 0, 0, 0)))
+    val seen = collection.mutable.Set[State]()
 
     for(i <- 1 to 24) {
 //      println(s"Current length: ${state.size}")
 //      println(s"  $state")
-      val nextState = state.flatMap { (nRobots, nResources) => step(nRobots, nResources) }
-      nextState.foreach(seen.add)
+      val nextStates = states.flatMap { _.step(blueprint).filter(!seen.contains(_))}
+      nextStates.foreach(seen.add)
       // for the same resources pick the state with the best robots state
-      state = nextState
-        .groupBy(_._2)
+      states = nextStates
+        .groupBy(_.resources)
         .values
         .map { items =>
-          if (items.exists(_._1(3) != 0)) {
+          if (items.exists(_.robots(3) != 0)) {
             val max = items.map(_._1(3)).max
-            items.filter(_._1(3) == max)
+            items.filter(_.robots(3) == max)
           } else if (items.exists(_._1(2) != 0)) {
-            val max = items.map(_._1(2)).max
-            items.filter(_._1(2) == max)
+            val max = items.map(_.robots(2)).max
+            items.filter(_.robots(2) == max)
           } else if (items.exists(_._1(1) != 0)) {
             val max = items.map(_._1(1)).max
-            items.filter(_._1(1) == max)
+            items.filter(_.robots(1) == max)
           } else {
             val max = items.map(_._1(0)).max
-            items.filter(_._1(0) == max)
+            items.filter(_.robots(0) == max)
           }
         }
         .reduce(_ | _)
     }
-    println(s"Total states at the end: ${state.size}")
-    state.map(_._2(3)).max
+    println(s"Total states at the end: ${states.size}")
+    states.map(_._2(3)).max
   }
 }
