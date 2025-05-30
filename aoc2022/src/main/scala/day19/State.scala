@@ -1,7 +1,7 @@
 package day19
 
 case class State(robots: Vector[Int], resources: Vector[Int]) {
-  def step(blueprint: Vector[Vector[Int]]): Seq[State] = {
+  def nextStates(blueprint: Vector[Vector[Int]]): Seq[State] = {
     Seq(
       (Vector(0, 0, 0, 0), resources),
       (Vector(1, 0, 0, 0), (resources zip blueprint(0)).map(_ - _)),

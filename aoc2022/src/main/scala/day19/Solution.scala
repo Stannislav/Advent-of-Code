@@ -43,37 +43,55 @@ object Solution {
       .sum
   }
 
-  def runOptimally(blueprint: Vector[Vector[Int]]): Int = {
-    var states = Set(State(Vector(1, 0, 0, 0), Vector(0, 0, 0, 0)))
-    val seen = collection.mutable.Set[State]()
+  def run(blueprint: Vector[Vector[Int]]): Int = {
 
-    for(i <- 1 to 24) {
-//      println(s"Current length: ${state.size}")
-//      println(s"  $state")
-      val nextStates = states.flatMap { _.step(blueprint).filter(!seen.contains(_))}
-      nextStates.foreach(seen.add)
-      // for the same resources pick the state with the best robots state
-      states = nextStates
-        .groupBy(_.resources)
-        .values
-        .map { items =>
-          if (items.exists(_.robots(3) != 0)) {
-            val max = items.map(_._1(3)).max
-            items.filter(_.robots(3) == max)
-          } else if (items.exists(_._1(2) != 0)) {
-            val max = items.map(_.robots(2)).max
-            items.filter(_.robots(2) == max)
-          } else if (items.exists(_._1(1) != 0)) {
-            val max = items.map(_._1(1)).max
-            items.filter(_.robots(1) == max)
-          } else {
-            val max = items.map(_._1(0)).max
-            items.filter(_.robots(0) == max)
-          }
+    def dfs(state: State, stepsDone: Int): Int = if(stepsDone == 24) state.resources(3) else {
+      val nextStates = state
+        .nextStates(blueprint)
+        .sortWith { (s1, s2) =>
+          (s1.robots zip s2.robots).map(_ - _).filter(_ != 0).reverse.head > 0
         }
-        .reduce(_ | _)
+
+      0
     }
-    println(s"Total states at the end: ${states.size}")
-    states.map(_._2(3)).max
+
+    dfs(State(Vector(1, 0, 0, 0), Vector(0, 0, 0, 0)), 0)
+  }
+
+  def runOptimally(blueprint: Vector[Vector[Int]]): Int = {
+    val states = collection.mutable.Map[Int, collection.mutable.Map[State, Int]]()
+    val seenAt = collection.mutable.Map[State, Int]().withDefaultValue(25)
+
+    def getGeodesFromState(state: State, stepsDone: Int): Int = states
+      .getOrElseUpdate(stepsDone, { collection.mutable.Map[State, Int]() })
+      .getOrElseUpdate(state, {
+        seenAt(state) = stepsDone
+        if (stepsDone == 24) {
+//          println(s"Current states (${states.size})")
+//          for ((k, v) <- states) {
+//            println(s"states at step $k: ${v.size}")
+//          }
+//          println(s"Seeing ${state.resources(3)}")
+//          println("All states at i=24:")
+//          for ((k, v) <- states(24)) {
+//            println(k)
+//          }
+          for (i <- 1 to 24) {
+            print(s"${states(i).size} | ")
+          }
+          println()
+          state.resources(3)
+        } else {
+          state
+            .nextStates(blueprint)
+            .filter { seenAt(_) > stepsDone + 1 }
+            .map { getGeodesFromState(_, stepsDone + 1)}
+//            .max
+            .maxOption
+            .getOrElse { 0 }
+        }
+    })
+
+    getGeodesFromState(State(Vector(1, 0, 0, 0), Vector(0, 0, 0, 0)), 0)
   }
 }
