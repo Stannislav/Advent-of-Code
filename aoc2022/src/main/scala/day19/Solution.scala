@@ -12,6 +12,7 @@ object Solution {
 
     val blueprints = Solution.parseInput(Source.fromResource("input/19.txt"))
     println(s"Part 1: ${part1(blueprints)}")
+    println(s"Part 2: ${part2(blueprints)}")
   }
 
   def parseInput(stream: Source): Seq[Vector[Vector[Int]]] = {
@@ -37,15 +38,22 @@ object Solution {
   def part1(blueprints: Seq[Vector[Vector[Int]]]): Int = {
     blueprints
       .zipWithIndex
-      .map((blueprint, idx) => {println(s"blueprint ${idx+1}/${blueprints.size}"); (idx + 1) * runOptimally(blueprint)})
+      .map((blueprint, idx) => {println(s"blueprint ${idx+1}/${blueprints.size}"); (idx + 1) * run(blueprint, 24)})
       .sum
   }
 
-  def runOptimally(blueprint: Vector[Vector[Int]]): Int = {
+  def part2(blueprints: Seq[Vector[Vector[Int]]]): Int = {
+    blueprints
+      .slice(0, 3)
+      .map(run(_, 32))
+      .product
+  }
+
+  def run(blueprint: Vector[Vector[Int]], nDays: Int): Int = {
     var states = Set(State(Vector(1, 0, 0, 0), Vector(0, 0, 0, 0)))
 //    val seen = collection.mutable.Set[State]()
 
-    for(i <- 1 to 24) {
+    for(i <- 1 to nDays) {
 //      println(s"Current length: ${state.size}")
 //      println(s"  $state")
       val nextStates = states.flatMap { _.step(blueprint)}//.filter(!seen.contains(_)) }
