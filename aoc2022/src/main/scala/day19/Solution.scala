@@ -54,8 +54,7 @@ object Solution {
 //    val seen = collection.mutable.Set[State]()
 
     for(i <- 1 to nDays) {
-//      println(s"Current length: ${state.size}")
-//      println(s"  $state")
+      println(s"At step $i the number of states is: ${states.size}")
       val nextStates = states.flatMap { _.step(blueprint)}//.filter(!seen.contains(_)) }
 
 //      seen.addAll(nextStates)
@@ -80,15 +79,17 @@ object Solution {
 //        }
 //        .reduce(_ | _)
 
-      if (nextStates.map(_.robots(3)).max == 1) {
-        states = nextStates.filter(_.robots(3) == 1)
-//      } else if (nextStates.map(_.robots(2)).max == 1) {
-//        states = nextStates.filter(_.robots(2) == 1)
-//      } else if (nextStates.map(_.robots(1)).max == 1) {
-//        states = nextStates.filter(_.robots(1) == 1)
-      } else {
-        states = nextStates
-      }
+      val max = nextStates.map(_.robots(3)).max
+      states = nextStates.filter(_.robots(3) == max)
+//      if (nextStates.map(_.robots(3)).max == 1) {
+//        states = nextStates.filter(_.robots(3) == 1)
+////      } else if (nextStates.map(_.robots(2)).max == 1) {
+////        states = nextStates.filter(_.robots(2) == 1)
+////      } else if (nextStates.map(_.robots(1)).max == 1) {
+////        states = nextStates.filter(_.robots(1) == 1)
+//      } else {
+//        states = nextStates
+//      }
 //      println(s"At $i number of stats: ${states.size}")
     }
     println(s"Total states at the end: ${states.size}")
