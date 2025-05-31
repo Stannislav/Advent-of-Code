@@ -4,8 +4,8 @@ import org.scalatest.funsuite.AnyFunSuite
 import io.Source
 
 class Day22Test extends AnyFunSuite {
-  private val input = """
-    |        ...#
+  private val input =
+  """        ...#
     |        .#..
     |        #...
     |        ....
@@ -27,5 +27,10 @@ class Day22Test extends AnyFunSuite {
     assert(map.size === 96)
     assert(map.values.toSet == Set('.', '#'))
     assert(path === expectedPath)
+  }
+
+  test("Solution.part1") {
+    val (map, path) = Solution.parseInput(Source.fromString(input))
+    assert(Solution.part1(map, path) === 6032)
   }
 }

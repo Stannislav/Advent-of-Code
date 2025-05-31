@@ -12,8 +12,10 @@ val DELTAS: List[Coord] = List((0, 1), (1, 0), (0, -1), (-1, 0))
 object Solution {
   def main(args: Array[String]): Unit = {
     val (map, path) = parseInput(Source.fromResource("input/22.txt"))
-    println(s"Part 1: ${solve(map, findFlatWraps(map), path)}")
+    println(s"Part 1: ${part1(map, path)}")
   }
+
+  def part1(map: Map[Coord, Char], path: List[Matchable]): Int = solve(map, findFlatWraps(map), path)
 
   def parseInput(source: Source): (Map[Coord, Char], List[Matchable]) = {
     source.mkString.split("\n\n").match {
