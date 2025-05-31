@@ -33,4 +33,9 @@ class Day22Test extends AnyFunSuite {
     val (map, path) = Solution.parseInput(Source.fromString(input))
     assert(Solution.part1(map, path) === 6032)
   }
+
+  test("Solution.part2") {
+    val (map, path) = Solution.parseInput(Source.fromString(input))
+    assert(Solution.part2(map, path) === 5031)
+  }
 }

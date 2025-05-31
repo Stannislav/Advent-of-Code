@@ -13,9 +13,13 @@ object Solution {
   def main(args: Array[String]): Unit = {
     val (map, path) = parseInput(Source.fromResource("input/22.txt"))
     println(s"Part 1: ${part1(map, path)}")
+    println(s"Part 2: ${part2(map, path)}")
   }
 
   def part1(map: Map[Coord, Char], path: List[Matchable]): Int = solve(map, findFlatWraps(map), path)
+
+  def part2(map: Map[Coord, Char], path: List[Matchable]): Int = solve(map, findCubeWraps(map), path)
+
 
   def parseInput(source: Source): (Map[Coord, Char], List[Matchable]) = {
     source.mkString.split("\n\n").match {
@@ -91,6 +95,10 @@ object Solution {
     }
 
     wraps.toMap
+  }
+
+  private def findCubeWraps(map: Map[Coord, Char]): Map[(Coord, Int), (Coord, Int)] = {
+    Map()
   }
 
   private def parseMap(inputMap: String): Map[Coord, Char] = {
