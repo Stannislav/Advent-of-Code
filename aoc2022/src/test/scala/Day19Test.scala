@@ -23,14 +23,25 @@ class Day19Test extends AnyFunSuite {
     assert(Solution.parseInput(Source.fromResource("19.txt")) === expected)
   }
 
-  test("Solution.runOptimally") {
+  test("Solution.run(blueprint, 24)") {
     val blueprints = Solution.parseInput(Source.fromResource("19.txt"))
-    assert(Solution.runOptimally(blueprints(0)) === 9)
-    assert(Solution.runOptimally(blueprints(1)) === 12)
+    assert(Solution.run(blueprints(0), 24) === 9)
+    assert(Solution.run(blueprints(1), 24) === 12)
+  }
+
+  test("Solution.run(blueprint, 32)") {
+    val blueprints = Solution.parseInput(Source.fromResource("19.txt"))
+    assert(Solution.run(blueprints(0), 32) === 56)
+    assert(Solution.run(blueprints(1), 32) === 62)
   }
 
   test("Solution.part1") {
     val blueprints = Solution.parseInput(Source.fromResource("19.txt"))
     assert(Solution.part1(blueprints) === 33)
+  }
+
+  test("Solution.part2") {
+    val blueprints = Solution.parseInput(Source.fromResource("19.txt"))
+    assert(Solution.part2(blueprints) === 56 * 62)
   }
 }
