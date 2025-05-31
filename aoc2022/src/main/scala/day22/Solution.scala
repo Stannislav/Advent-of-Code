@@ -1,5 +1,6 @@
 package day22
 
+import io.Source
 import scala.annotation.tailrec
 import scala.collection.mutable
 
@@ -10,14 +11,15 @@ val DELTAS: List[Coord] = List((0, 1), (1, 0), (0, -1), (-1, 0))
 
 object Solution {
   def main(args: Array[String]): Unit = {
-    val (map, path) = util.Using.resource(io.Source.fromResource("input/22.txt")) {
-      _.mkString.split("\n\n").match {
-        case Array(map, path) => (parseMap(map), parsePath(path.strip()))
-        case input @ _ => throw Exception(s"Invalid input:\n${input.mkString("\n\n")}")
-      }
-    }
-
+    val (map, path) = parseInput(Source.fromResource("input/22.txt"))
     println(s"Part 1: ${solve(map, findFlatWraps(map), path)}")
+  }
+
+  def parseInput(source: Source): (Map[Coord, Char], List[Matchable]) = {
+    source.mkString.split("\n\n").match {
+      case Array(map, path) => (parseMap(map), parsePath(path.strip()))
+      case input@_ => throw Exception(s"Invalid input:\n${input.mkString("\n\n")}")
+    }
   }
 
   private def solve(

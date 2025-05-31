@@ -1,0 +1,31 @@
+import day22.{Coord, Solution}
+import org.scalatest.funsuite.AnyFunSuite
+
+import io.Source
+
+class Day22Test extends AnyFunSuite {
+  private val input = """
+    |        ...#
+    |        .#..
+    |        #...
+    |        ....
+    |...#.......#
+    |........#...
+    |..#....#....
+    |..........#.
+    |        ...#....
+    |        .....#..
+    |        .#......
+    |        ......#.
+    |
+    |10R5L5R10L4R5L5
+    |""".stripMargin
+
+  test("Solution.parseInput") {
+    val (map, path) = Solution.parseInput(Source.fromString(input))
+    val expectedPath = List[Matchable](10, 'R', 5, 'L', 5, 'R', 10, 'L', 4, 'R', 5, 'L', 5)
+    assert(map.size === 96)
+    assert(map.values.toSet == Set('.', '#'))
+    assert(path === expectedPath)
+  }
+}
