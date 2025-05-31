@@ -51,6 +51,7 @@ object Solution {
       // At any given minute only keep the states with the maximal number of
       // geode-cracking robots.
       // This heuristic seems to be wrong: the examples used in unit tests don't pass.
+      // TODO: Find a better optimisation which also works for test examples.
       val maxGeodeRobots = nextStates.map(_.robots(3)).max
       states = nextStates.filter(_.robots(3) == maxGeodeRobots)
     }
