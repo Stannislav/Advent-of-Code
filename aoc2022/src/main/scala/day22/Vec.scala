@@ -40,7 +40,7 @@ case class Vec(c1: Int, c2: Int) {
     */
   @tailrec
   final def turnFaceBackwards(times: Int, scale: Int): Vec = {
-    if (!(0 <= c1 && c1 < scale))
+    if (!(0 <= c1 && c1 < scale && 0 <= c2 && c2 < scale))
       throw RuntimeException(s"Trying to rotate vector $this, which is not part of face with scale $scale")
     if (times == 0) {
       this.copy()
