@@ -1,4 +1,4 @@
-import day22.{Coord, Solution}
+import day22.Solution
 import org.scalatest.funsuite.AnyFunSuite
 
 import io.Source
