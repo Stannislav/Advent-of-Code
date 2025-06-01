@@ -5,40 +5,32 @@ import Math.floorMod
 import scala.annotation.tailrec
 import scala.collection.mutable
 
-
-type Coord = (Int, Int)
-val L: Coord = (0, -1)
-val R: Coord = (0, 1)
-val U: Coord = (-1, 0)
-val D: Coord = (1, 0)
-val DELTAS: List[Coord] = List(R, D, L, U)
+val L = Vec(0, -1)
+val R = Vec(0, 1)
+val U = Vec(-1, 0)
+val D = Vec(1, 0)
+val DELTAS: List[Vec] = List(R, D, L, U)
 
 @tailrec
-def unrot(coord: Coord, deg: Int): Coord = {
+def unrot(vec: Vec, deg: Int): Vec = {
   if (deg == 0) {
-    coord
+    vec
   } else {
-    unrot((coord._2, -coord._1), floorMod(deg - 1, 4))
+    unrot(Vec(vec.c2, -vec.c1), floorMod(deg - 1, 4))
   }
 }
 
 @tailrec
-def unrotFace(coord: Coord, deg: Int, scale: Int): Coord = {
+def unrotFace(vec: Vec, deg: Int, scale: Int): Vec = {
   // Rotate a face if size (scale, scale) located at (0, 0) around its centre,
   // i.e. after the rotation its top left corner is still at (0, 0).
   if (deg == 0) {
-    coord
+    vec
   } else {
-    unrotFace((coord._2, -coord._1 + scale - 1), floorMod(deg - 1, 4), scale)
+    unrotFace(Vec(vec.c2, -vec.c1 + scale - 1), floorMod(deg - 1, 4), scale)
   }
 }
 
-
-def add(c1: Coord, c2: Coord): Coord = (c1._1 + c2._1, c1._2 + c2._2)
-def sub(c1: Coord, c2: Coord): Coord = (c1._1 - c2._1, c1._2 - c2._2)
-def add(c1: Coord, c: Int): Coord = (c1._1 + c, c1._2 + c)
-def sub(c1: Coord, c: Int): Coord = (c1._1 - c, c1._2 - c)
-def times(c1: Coord, c: Int): Coord = (c1._1 * c, c1._2 * c)
 
 object Solution {
   def main(args: Array[String]): Unit = {
@@ -47,12 +39,12 @@ object Solution {
     println(s"Part 2: ${part2(map, path)}")
   }
 
-  def part1(map: Map[Coord, Char], path: List[Matchable]): Int = solve(map, findFlatWraps(map), path)
+  def part1(map: Map[Vec, Char], path: List[Matchable]): Int = solve(map, findFlatWraps(map), path)
 
-  def part2(map: Map[Coord, Char], path: List[Matchable]): Int = solve(map, findCubeWraps(map), path)
+  def part2(map: Map[Vec, Char], path: List[Matchable]): Int = solve(map, findCubeWraps(map), path)
 
 
-  def parseInput(source: Source): (Map[Coord, Char], List[Matchable]) = {
+  def parseInput(source: Source): (Map[Vec, Char], List[Matchable]) = {
     source.mkString.split("\n\n").match {
       case Array(map, path) => (parseMap(map), parsePath(path.strip()))
       case input@_ => throw Exception(s"Invalid input:\n${input.mkString("\n\n")}")
@@ -60,18 +52,18 @@ object Solution {
   }
 
   private def solve(
-    map: Map[Coord, Char],
-    wraps: Map[(Coord, Int), (Coord, Int)],
-    path: List[Matchable],
+                     map: Map[Vec, Char],
+                     wraps: Map[(Vec, Int), (Vec, Int)],
+                     path: List[Matchable],
   ): Int = {
-    def step(pos: Coord, dir: Int): (Coord, Int) =
+    def step(pos: Vec, dir: Int): (Vec, Int) =
       if (wraps.contains((pos, dir)))
         wraps((pos, dir))
       else
-        ((pos._1 + DELTAS(dir)._1, pos._2 + DELTAS(dir)._2), dir)
+        (pos + DELTAS(dir), dir)
 
     @tailrec
-    def move(pos: Coord, dir: Int, nSteps: Int): (Coord, Int) = {
+    def move(pos: Vec, dir: Int, nSteps: Int): (Vec, Int) = {
       if (nSteps == 0)
         (pos, dir)
       else {
@@ -84,7 +76,7 @@ object Solution {
     }
 
     @tailrec
-    def walk(pos: Coord, dir: Int, t: Int = 0): (Coord, Int, Int) = {
+    def walk(pos: Vec, dir: Int, t: Int = 0): (Vec, Int, Int) = {
       if (t >= path.length)
         (pos, dir, t)
       else
@@ -98,31 +90,31 @@ object Solution {
         }
     }
 
-    val (pos, dir, _) = walk(map.keys.filter(_._1 == 1).minBy(_._2), 0)
-    1000 * pos._1 + 4 * pos._2 + dir
+    val (pos, dir, _) = walk(map.keys.filter(_.c1 == 1).minBy(_.c2), 0)
+    1000 * pos.c1 + 4 * pos.c2 + dir
   }
 
-  private def findFlatWraps(map: Map[Coord, Char]): Map[(Coord, Int), (Coord, Int)] = {
+  private def findFlatWraps(map: Map[Vec, Char]): Map[(Vec, Int), (Vec, Int)] = {
     // precompute the wrap-around
     // 1. Find all surface normals.
-    val normals = mutable.Set[(Coord, Int)]()
+    val normals = mutable.Set[(Vec, Int)]()
     map.keys.foreach(point => {
       Range(0, 4).foreach(dir => {
-        val neighbour = (point._1 + DELTAS(dir)._1, point._2 + DELTAS(dir)._2)
+        val neighbour = point + DELTAS(dir)
         if (!map.contains(neighbour))
           normals.addOne((point, dir))
       })
     })
 
     // 2. Match pairs of surface points and connect them
-    val wraps = mutable.Map[(Coord, Int), (Coord, Int)]()
+    val wraps = mutable.Map[(Vec, Int), (Vec, Int)]()
     while (normals.nonEmpty) {
       val (point1, dir1) = normals.head
       normals.remove((point1, dir1))
       val dir2 = (dir1 + 2) % 4
       var point2 = point1
       while (!normals.remove((point2, dir2)))
-        point2 = (point2._1 + DELTAS(dir2)._1, point2._2 + DELTAS(dir2)._2)
+        point2 = point2 + DELTAS(dir2)
       wraps.addOne((point1, dir1), (point2, dir1))
       wraps.addOne((point2, dir2), (point1, dir2))
     }
@@ -130,12 +122,12 @@ object Solution {
     wraps.toMap
   }
 
-  private def findCubeWraps(map: Map[Coord, Char]): Map[(Coord, Int), (Coord, Int)] = {
+  private def findCubeWraps(map: Map[Vec, Char]): Map[(Vec, Int), (Vec, Int)] = {
     val scale = Math.sqrt(map.size / 6).toInt
-    val faces: Set[Coord] = map
+    val faces: Set[Vec] = map
       .keys
-      .map((x, y) => (x - 1, y - 1))
-      .map((x, y) => (x / scale, y / scale))
+      .map(_ - Vec(1, 1))
+      .map(_ / scale)
       .toSet
 
     // Find adjacent faces. Use the fact that an adjacent face can be reached
@@ -155,8 +147,8 @@ object Solution {
     // tile -> direction (L, R, U, D) -> (adj. tile, rotation)
     // rotation is measured counter-clockwise in multiple of 90 degrees
     val adjacent = faces.map(face => face -> DELTAS
-      .filter(dir => faces.contains(add(face, dir)))
-      .map(dir => dir -> (add(face, dir), 0))
+      .filter(dir => faces.contains(face + dir))
+      .map(dir => dir -> (face + dir, 0))
       .to(collection.mutable.Map)
     ).toMap
 
@@ -197,22 +189,22 @@ object Solution {
       }
     }
 
-    val wraps = mutable.Map[(Coord, Int), (Coord, Int)]()
+    val wraps = mutable.Map[(Vec, Int), (Vec, Int)]()
 
-    for (coord <- map.keys) {
+    for (pos <- map.keys) {
       for (dir <- DELTAS) {
-        if (!map.contains(add(coord, dir))) {
-          val face = ((coord._1 - 1) / scale, (coord._2 - 1) / scale)
+        if (!map.contains(pos + dir)) {
+          val face = (pos - Vec(1, 1)) / scale
           val (adjFace, adjRot) = adjacent(face)(dir)
-          val facePos = times(face, scale)
-          val adjFacePos = times(adjFace, scale)
+          val facePos = face * scale
+          val adjFacePos = adjFace * scale
 
-          val shiftedCoord = sub(sub(coord, facePos), (1, 1))
-          val rotatedCoord = unrotFace(shiftedCoord, adjRot, scale)
-          val unshiftedCoord = add(add(rotatedCoord, (1, 1)), facePos)
+          val shiftedPos = pos - facePos - Vec(1, 1)
+          val rotatedPos = unrotFace(shiftedPos, adjRot, scale)
+          val unshiftedPos = rotatedPos + Vec(1, 1) + facePos
           val newDir = unrot(dir, adjRot)
-          val newCoord = sub(add(unshiftedCoord, sub(adjFacePos, facePos)), times(newDir, scale))
-          wraps((coord, DELTAS.indexOf(dir))) = (add(newCoord, newDir), DELTAS.indexOf(newDir))
+          val newPos = unshiftedPos + adjFacePos - facePos - (newDir * scale)
+          wraps((pos, DELTAS.indexOf(dir))) = (newPos + newDir, DELTAS.indexOf(newDir))
         }
       }
     }
@@ -220,11 +212,11 @@ object Solution {
     wraps.toMap
   }
 
-  private def parseMap(inputMap: String): Map[Coord, Char] = {
+  private def parseMap(inputMap: String): Map[Vec, Char] = {
     inputMap
       .linesIterator
       .zipWithIndex
-      .flatMap((line, row) => line.zipWithIndex.map((c, col) => ((row + 1, col + 1), c)))
+      .flatMap((line, row) => line.zipWithIndex.map((c, col) => (Vec(row + 1, col + 1), c)))
       .filter((*, c) => c == '#' || c == '.')
       .toMap
   }
