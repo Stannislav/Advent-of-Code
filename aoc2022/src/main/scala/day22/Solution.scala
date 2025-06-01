@@ -1,13 +1,29 @@
 package day22
 
 import io.Source
+import Math.floorMod
 import scala.annotation.tailrec
 import scala.collection.mutable
 
 
 type Coord = (Int, Int)
-val DELTAS: List[Coord] = List((0, 1), (1, 0), (0, -1), (-1, 0))
+val L: Coord = (0, -1)
+val R: Coord = (0, 1)
+val U: Coord = (-1, 0)
+val D: Coord = (1, 0)
+val DELTAS: List[Coord] = List(R, D, L, U)
 
+@tailrec
+def unrot(coord: Coord, deg: Int): Coord = {
+  if (deg == 0) {
+    coord
+  } else {
+    unrot((coord._2, -coord._1), floorMod(deg - 1, 4))
+  }
+}
+
+
+def sum(c1: Coord, c2: Coord): Coord = (c1._1 + c2._1, c1._2 + c2._2)
 
 object Solution {
   def main(args: Array[String]): Unit = {
@@ -98,6 +114,90 @@ object Solution {
   }
 
   private def findCubeWraps(map: Map[Coord, Char]): Map[(Coord, Int), (Coord, Int)] = {
+    val scale = Math.sqrt(map.size / 6).toInt
+    println(s"Scale: $scale")
+
+    val faces: Set[Coord] = map
+      .keys
+      .map((x, y) => (x - 1, y - 1))
+      .map((x, y) => (x / scale, y / scale))
+      .toSet
+    println(s"Faces: $faces")
+
+    // Find adjacent faces. Use the fact that an adjacent face can be reached
+    // via another adjacent face, e.g.:
+    //  U
+    // L#R
+    //  D
+    // Starting with the middle face ("#") one can reach the face "U" via "L" or "R":
+    // U = L->U = R->U. So, if in the exploded diagram U were missing, then one could
+    // look for it via L or R, e.g.:
+    // U
+    // L#R
+    //  D
+    // Additionally, we need to take into account the tile rotation: in the diagram above
+    // the U should really be on its left side for the diagram to be equivalent to the
+    // first one. In the first diagram, going upwards from L one enters U on its left side.
+    // tile -> direction (L, R, U, D) -> (adj. tile, rotation)
+    // rotation is measured counter-clockwise in multiple of 90 degrees
+    val adjacent = faces.map(face => face -> DELTAS
+      .filter(dir => faces.contains(sum(face, dir)))
+      .map(dir => dir -> (sum(face, dir), 0))
+      .to(collection.mutable.Map)
+    ).toMap
+    println(s"Adjacent: $adjacent")
+
+    while(!adjacent.values.forall(_.size == 4)) {
+      for(face <- faces) {
+        if (adjacent(face).contains(U) && adjacent(face).contains(L)) {
+          val (upFace, upRot) = adjacent(face)(U)
+          val (leftFace, leftRot) = adjacent(face)(L)
+          if (!adjacent(leftFace).contains(unrot(U, leftRot))) {
+            adjacent(leftFace)(unrot(U, leftRot)) = (upFace, floorMod(upRot + 1 - leftRot, 4))
+            adjacent(upFace)(unrot(L, upRot)) = (leftFace, floorMod(leftRot - 1 - upRot, 4))
+            println(s"U-L found - set (face: $face)")
+          }
+        }
+        if (adjacent(face).contains(U) && adjacent(face).contains(R)) {
+          val (upFace, upRot) = adjacent(face)(U)
+          val (rightFace, rightRot) = adjacent(face)(R)
+          if (!adjacent(rightFace).contains(unrot(U, rightRot))) {
+            adjacent(rightFace)(unrot(U, rightRot)) = (upFace, floorMod(upRot - 1 - rightRot, 4))
+            adjacent(upFace)(unrot(R, upRot)) = (rightFace, floorMod(rightRot + 1 - upRot, 4))
+            println(s"U-R found - setting (face: $face)")
+          }
+        }
+        if (adjacent(face).contains(D) && adjacent(face).contains(R)) {
+          val (downFace, downRot) = adjacent(face)(D)
+          val (rightFace, rightRot) = adjacent(face)(R)
+          if (!adjacent(rightFace).contains(unrot(D, rightRot))) {
+            adjacent(rightFace)(unrot(D, rightRot)) = (downFace, floorMod(downRot + 1 - rightRot, 4))
+            adjacent(downFace)(unrot(R, downRot)) = (rightFace, floorMod(rightRot - 1 - downRot, 4))
+            println(f"D-R found - setting (face: $face)")
+          }
+        }
+        if (adjacent(face).contains(D) && adjacent(face).contains(L)) {
+          val (downFace, downRot) = adjacent(face)(D)
+          val (leftFace, leftRot) = adjacent(face)(L)
+          if (!adjacent(leftFace).contains(unrot(D, leftRot))) {
+            adjacent(leftFace)(unrot(D, leftRot)) = (downFace, floorMod(downRot - 1 - leftRot, 4))
+            adjacent(downFace)(unrot(L, downRot)) = (leftFace, floorMod(leftRot + 1 - downRot, 4))
+            println(s"D-L found - setting (face: $face)")
+          }
+        }
+      }
+    }
+
+    println("Adjacent faces:")
+    for((face, v) <- adjacent) {
+      println(s"Face $face")
+      println(s"  L: ${v(L)}")
+      println(s"  R: ${v(R)}")
+      println(s"  U: ${v(U)}")
+      println(s"  D: ${v(D)}")
+    }
+
+    // Placeholder
     Map()
   }
 
