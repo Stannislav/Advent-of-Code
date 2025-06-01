@@ -91,10 +91,9 @@ object Solution {
         path(t) match {
           case 'L' => walk(pos, (dir + 3) % 4, t + 1)
           case 'R' => walk(pos, (dir + 1) % 4, t + 1)
-          case n: Int => {
+          case n: Int =>
             val (newPos, newDir) = move(pos, dir, n)
             walk(newPos, newDir, t + 1)
-          }
           case other@_ => throw Exception(s"Invalid command: $other")
         }
     }
