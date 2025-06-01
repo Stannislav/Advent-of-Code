@@ -85,7 +85,6 @@ object Solution {
 
     @tailrec
     def walk(pos: Coord, dir: Int, t: Int = 0): (Coord, Int, Int) = {
-      println(s"Walk on pos=$pos with dir=$dir")
       if (t >= path.length)
         (pos, dir, t)
       else
@@ -134,14 +133,11 @@ object Solution {
 
   private def findCubeWraps(map: Map[Coord, Char]): Map[(Coord, Int), (Coord, Int)] = {
     val scale = Math.sqrt(map.size / 6).toInt
-    println(s"Scale: $scale")
-
     val faces: Set[Coord] = map
       .keys
       .map((x, y) => (x - 1, y - 1))
       .map((x, y) => (x / scale, y / scale))
       .toSet
-    println(s"Faces: $faces")
 
     // Find adjacent faces. Use the fact that an adjacent face can be reached
     // via another adjacent face, e.g.:
@@ -164,7 +160,6 @@ object Solution {
       .map(dir => dir -> (add(face, dir), 0))
       .to(collection.mutable.Map)
     ).toMap
-    println(s"Adjacent: $adjacent")
 
     while(!adjacent.values.forall(_.size == 4)) {
       for(face <- faces) {
@@ -174,7 +169,6 @@ object Solution {
           if (!adjacent(leftFace).contains(unrot(U, leftRot))) {
             adjacent(leftFace)(unrot(U, leftRot)) = (upFace, floorMod(upRot + 1 - leftRot, 4))
             adjacent(upFace)(unrot(L, upRot)) = (leftFace, floorMod(leftRot - 1 - upRot, 4))
-            println(s"U-L found - set (face: $face)")
           }
         }
         if (adjacent(face).contains(U) && adjacent(face).contains(R)) {
@@ -183,7 +177,6 @@ object Solution {
           if (!adjacent(rightFace).contains(unrot(U, rightRot))) {
             adjacent(rightFace)(unrot(U, rightRot)) = (upFace, floorMod(upRot - 1 - rightRot, 4))
             adjacent(upFace)(unrot(R, upRot)) = (rightFace, floorMod(rightRot + 1 - upRot, 4))
-            println(s"U-R found - setting (face: $face)")
           }
         }
         if (adjacent(face).contains(D) && adjacent(face).contains(R)) {
@@ -192,7 +185,6 @@ object Solution {
           if (!adjacent(rightFace).contains(unrot(D, rightRot))) {
             adjacent(rightFace)(unrot(D, rightRot)) = (downFace, floorMod(downRot + 1 - rightRot, 4))
             adjacent(downFace)(unrot(R, downRot)) = (rightFace, floorMod(rightRot - 1 - downRot, 4))
-            println(f"D-R found - setting (face: $face)")
           }
         }
         if (adjacent(face).contains(D) && adjacent(face).contains(L)) {
@@ -201,19 +193,9 @@ object Solution {
           if (!adjacent(leftFace).contains(unrot(D, leftRot))) {
             adjacent(leftFace)(unrot(D, leftRot)) = (downFace, floorMod(downRot - 1 - leftRot, 4))
             adjacent(downFace)(unrot(L, downRot)) = (leftFace, floorMod(leftRot + 1 - downRot, 4))
-            println(s"D-L found - setting (face: $face)")
           }
         }
       }
-    }
-
-    println("Adjacent faces:")
-    for((face, v) <- adjacent) {
-      println(s"Face $face")
-      println(s"  L: ${v(L)}")
-      println(s"  R: ${v(R)}")
-      println(s"  U: ${v(U)}")
-      println(s"  D: ${v(D)}")
     }
 
     val wraps = mutable.Map[(Coord, Int), (Coord, Int)]()
@@ -232,8 +214,6 @@ object Solution {
           val newDir = unrot(dir, adjRot)
           val newCoord = sub(add(unshiftedCoord, sub(adjFacePos, facePos)), times(newDir, scale))
           wraps((coord, DELTAS.indexOf(dir))) = (add(newCoord, newDir), DELTAS.indexOf(newDir))
-          println(s"face of $coord (dir: $dir) is $face. Adjacent face: $adjFace, rot: $adjRot")
-          println(s"  ($coord, ${DELTAS.indexOf(dir)} => (${add(newCoord, newDir)}, ${DELTAS.indexOf(newDir)})")
         }
       }
     }
