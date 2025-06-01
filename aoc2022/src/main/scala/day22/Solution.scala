@@ -31,6 +31,32 @@ object Solution {
     }
   }
 
+  private def parseMap(inputMap: String): Map[Vec, Char] = {
+    inputMap
+      .linesIterator
+      .zipWithIndex
+      .flatMap((line, row) => line.zipWithIndex.map((c, col) => (Vec(row + 1, col + 1), c)))
+      .filter((*, c) => c == '#' || c == '.')
+      .toMap
+  }
+
+  private def parsePath(inputPath: String): List[Matchable] = {
+    val digit = raw"(\d+)(.*)".r
+    val letter = "([LR])(.*)".r
+
+    @tailrec
+    def iterParse(input: String, acc: List[Matchable] = List()): List[Matchable] = {
+      input match {
+        case "" => acc
+        case digit(num, rest) => iterParse(rest, acc :+ num.toInt)
+        case letter(dir, rest) => iterParse(rest, acc :+ dir.head)
+        case other@_ => throw Exception(s"Can't parse path: $other")
+      }
+    }
+
+    iterParse(inputPath)
+  }
+
   private def solve(
                      map: Map[Vec, Char],
                      wraps: Map[(Vec, Int), (Vec, Int)],
@@ -190,30 +216,5 @@ object Solution {
     }
 
     wraps.toMap
-  }
-
-  private def parseMap(inputMap: String): Map[Vec, Char] = {
-    inputMap
-      .linesIterator
-      .zipWithIndex
-      .flatMap((line, row) => line.zipWithIndex.map((c, col) => (Vec(row + 1, col + 1), c)))
-      .filter((*, c) => c == '#' || c == '.')
-      .toMap
-  }
-
-  private def parsePath(inputPath: String): List[Matchable] = {
-    val digit = raw"(\d+)(.*)".r
-    val letter = "([LR])(.*)".r
-
-    @tailrec
-    def iterParse(input: String, acc: List[Matchable] = List()): List[Matchable] = {
-      input match {
-        case "" => acc
-        case digit(num, rest) => iterParse(rest, acc :+ num.toInt)
-        case letter(dir ,rest) => iterParse(rest, acc :+ dir.head)
-        case other @ _ => throw Exception(s"Can't parse path: $other")
-      }
-    }
-    iterParse(inputPath)
   }
 }
