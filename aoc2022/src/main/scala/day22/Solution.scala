@@ -11,26 +11,6 @@ val U = Vec(-1, 0)
 val D = Vec(1, 0)
 val DELTAS: List[Vec] = List(R, D, L, U)
 
-@tailrec
-def unrot(vec: Vec, deg: Int): Vec = {
-  if (deg == 0) {
-    vec
-  } else {
-    unrot(Vec(vec.c2, -vec.c1), floorMod(deg - 1, 4))
-  }
-}
-
-@tailrec
-def unrotFace(vec: Vec, deg: Int, scale: Int): Vec = {
-  // Rotate a face if size (scale, scale) located at (0, 0) around its centre,
-  // i.e. after the rotation its top left corner is still at (0, 0).
-  if (deg == 0) {
-    vec
-  } else {
-    unrotFace(Vec(vec.c2, -vec.c1 + scale - 1), floorMod(deg - 1, 4), scale)
-  }
-}
-
 
 object Solution {
   def main(args: Array[String]): Unit = {
@@ -157,33 +137,33 @@ object Solution {
         if (adjacent(face).contains(U) && adjacent(face).contains(L)) {
           val (upFace, upRot) = adjacent(face)(U)
           val (leftFace, leftRot) = adjacent(face)(L)
-          if (!adjacent(leftFace).contains(unrot(U, leftRot))) {
-            adjacent(leftFace)(unrot(U, leftRot)) = (upFace, floorMod(upRot + 1 - leftRot, 4))
-            adjacent(upFace)(unrot(L, upRot)) = (leftFace, floorMod(leftRot - 1 - upRot, 4))
+          if (!adjacent(leftFace).contains(U.turnBackwards(leftRot))) {
+            adjacent(leftFace)(U.turnBackwards(leftRot)) = (upFace, floorMod(upRot + 1 - leftRot, 4))
+            adjacent(upFace)(L.turnBackwards(upRot)) = (leftFace, floorMod(leftRot - 1 - upRot, 4))
           }
         }
         if (adjacent(face).contains(U) && adjacent(face).contains(R)) {
           val (upFace, upRot) = adjacent(face)(U)
           val (rightFace, rightRot) = adjacent(face)(R)
-          if (!adjacent(rightFace).contains(unrot(U, rightRot))) {
-            adjacent(rightFace)(unrot(U, rightRot)) = (upFace, floorMod(upRot - 1 - rightRot, 4))
-            adjacent(upFace)(unrot(R, upRot)) = (rightFace, floorMod(rightRot + 1 - upRot, 4))
+          if (!adjacent(rightFace).contains(U.turnBackwards(rightRot))) {
+            adjacent(rightFace)(U.turnBackwards(rightRot)) = (upFace, floorMod(upRot - 1 - rightRot, 4))
+            adjacent(upFace)(R.turnBackwards(upRot)) = (rightFace, floorMod(rightRot + 1 - upRot, 4))
           }
         }
         if (adjacent(face).contains(D) && adjacent(face).contains(R)) {
           val (downFace, downRot) = adjacent(face)(D)
           val (rightFace, rightRot) = adjacent(face)(R)
-          if (!adjacent(rightFace).contains(unrot(D, rightRot))) {
-            adjacent(rightFace)(unrot(D, rightRot)) = (downFace, floorMod(downRot + 1 - rightRot, 4))
-            adjacent(downFace)(unrot(R, downRot)) = (rightFace, floorMod(rightRot - 1 - downRot, 4))
+          if (!adjacent(rightFace).contains(D.turnBackwards(rightRot))) {
+            adjacent(rightFace)(D.turnBackwards(rightRot)) = (downFace, floorMod(downRot + 1 - rightRot, 4))
+            adjacent(downFace)(R.turnBackwards(downRot)) = (rightFace, floorMod(rightRot - 1 - downRot, 4))
           }
         }
         if (adjacent(face).contains(D) && adjacent(face).contains(L)) {
           val (downFace, downRot) = adjacent(face)(D)
           val (leftFace, leftRot) = adjacent(face)(L)
-          if (!adjacent(leftFace).contains(unrot(D, leftRot))) {
-            adjacent(leftFace)(unrot(D, leftRot)) = (downFace, floorMod(downRot - 1 - leftRot, 4))
-            adjacent(downFace)(unrot(L, downRot)) = (leftFace, floorMod(leftRot + 1 - downRot, 4))
+          if (!adjacent(leftFace).contains(D.turnBackwards(leftRot))) {
+            adjacent(leftFace)(D.turnBackwards(leftRot)) = (downFace, floorMod(downRot - 1 - leftRot, 4))
+            adjacent(downFace)(L.turnBackwards(downRot)) = (leftFace, floorMod(leftRot + 1 - downRot, 4))
           }
         }
       }
@@ -200,9 +180,9 @@ object Solution {
           val adjFacePos = adjFace * scale
 
           val shiftedPos = pos - facePos - Vec(1, 1)
-          val rotatedPos = unrotFace(shiftedPos, adjRot, scale)
+          val rotatedPos = shiftedPos.turnFaceBackwards(adjRot, scale)
           val unshiftedPos = rotatedPos + Vec(1, 1) + facePos
-          val newDir = unrot(dir, adjRot)
+          val newDir = dir.turnBackwards(adjRot)
           val newPos = unshiftedPos + adjFacePos - facePos - (newDir * scale)
           wraps((pos, DELTAS.indexOf(dir))) = (newPos + newDir, DELTAS.indexOf(newDir))
         }

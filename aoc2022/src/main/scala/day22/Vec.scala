@@ -1,5 +1,8 @@
 package day22
 
+import Math.floorMod
+import scala.annotation.tailrec
+
 case class Vec(c1: Int, c2: Int) {
   def +(other: Vec): Vec = Vec(c1 + other.c1, c2 + other.c2)
 
@@ -12,4 +15,39 @@ case class Vec(c1: Int, c2: Int) {
   def *(c: Int): Vec = Vec(c1 * c, c2 * c)
 
   def /(c: Int): Vec = Vec(c1 / c, c2 / c)
+
+  /** Rotate vector clock-wise by multiples of 90 degrees.
+    *
+    * @param times The number of clock-wise rotations by 90 degrees.
+    * @return      The rotated vector.
+    */
+  @tailrec
+  final def turnBackwards(times: Int): Vec = {
+    if (times == 0) {
+      this.copy()
+    } else {
+      Vec(c2, -c1).turnBackwards(floorMod(times - 1, 4))
+    }
+  }
+
+  /** Rotate a face of size `(scale, scale)` located at `(0, 0)` around its centre
+    * by multiples of 90 degrees, i.e. after the rotation its top left corner is
+    * still at (0, 0).
+    *
+    * @param times The number of clock-wise rotations by 90 degrees.
+    * @param scale The size of the face.
+    * @return
+    */
+  @tailrec
+  final def turnFaceBackwards(times: Int, scale: Int): Vec = {
+    if (!(0 <= c1 && c1 < scale))
+      throw RuntimeException(s"Trying to rotate vector $this, which is not part of face with scale $scale")
+    if (times == 0) {
+      this.copy()
+    } else {
+      // Note the shift in the second coordinate to bring the vector back
+      // to the original quadrant.
+      Vec(c2, -c1 + scale - 1).turnFaceBackwards(floorMod(times - 1, 4), scale)
+    }
+  }
 }
