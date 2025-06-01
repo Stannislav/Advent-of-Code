@@ -96,8 +96,8 @@ object Solution {
         }
     }
 
-    val (pos, dir, _) = walk(map.keys.filter(_.c1 == 1).minBy(_.c2), 0)
-    1000 * pos.c1 + 4 * pos.c2 + dir
+    val (pos, dir, _) = walk(map.keys.filter(_.row == 1).minBy(_.col), 0)
+    1000 * pos.row + 4 * pos.col + dir
   }
 
   private def findFlatWraps(map: Map[Vec, Char]): Map[(Vec, Int), (Vec, Int)] = {
