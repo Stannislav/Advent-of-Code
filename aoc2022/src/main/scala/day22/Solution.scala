@@ -22,8 +22,23 @@ def unrot(coord: Coord, deg: Int): Coord = {
   }
 }
 
+@tailrec
+def unrotFace(coord: Coord, deg: Int, scale: Int): Coord = {
+  // Rotate a face if size (scale, scale) located at (0, 0) around its centre,
+  // i.e. after the rotation its top left corner is still at (0, 0).
+  if (deg == 0) {
+    coord
+  } else {
+    unrotFace((coord._2, -coord._1 + scale - 1), floorMod(deg - 1, 4), scale)
+  }
+}
 
-def sum(c1: Coord, c2: Coord): Coord = (c1._1 + c2._1, c1._2 + c2._2)
+
+def add(c1: Coord, c2: Coord): Coord = (c1._1 + c2._1, c1._2 + c2._2)
+def sub(c1: Coord, c2: Coord): Coord = (c1._1 - c2._1, c1._2 - c2._2)
+def add(c1: Coord, c: Int): Coord = (c1._1 + c, c1._2 + c)
+def sub(c1: Coord, c: Int): Coord = (c1._1 - c, c1._2 - c)
+def times(c1: Coord, c: Int): Coord = (c1._1 * c, c1._2 * c)
 
 object Solution {
   def main(args: Array[String]): Unit = {
@@ -56,9 +71,9 @@ object Solution {
         ((pos._1 + DELTAS(dir)._1, pos._2 + DELTAS(dir)._2), dir)
 
     @tailrec
-    def move(pos: Coord, dir: Int, nSteps: Int): Coord = {
+    def move(pos: Coord, dir: Int, nSteps: Int): (Coord, Int) = {
       if (nSteps == 0)
-        pos
+        (pos, dir)
       else {
         val (newPos, newDir) = step(pos, dir)
         map(newPos) match {
@@ -70,13 +85,17 @@ object Solution {
 
     @tailrec
     def walk(pos: Coord, dir: Int, t: Int = 0): (Coord, Int, Int) = {
+      println(s"Walk on pos=$pos with dir=$dir")
       if (t >= path.length)
         (pos, dir, t)
       else
         path(t) match {
           case 'L' => walk(pos, (dir + 3) % 4, t + 1)
           case 'R' => walk(pos, (dir + 1) % 4, t + 1)
-          case n: Int => walk(move(pos, dir, n), dir, t + 1)
+          case n: Int => {
+            val (newPos, newDir) = move(pos, dir, n)
+            walk(newPos, newDir, t + 1)
+          }
           case other@_ => throw Exception(s"Invalid command: $other")
         }
     }
@@ -141,8 +160,8 @@ object Solution {
     // tile -> direction (L, R, U, D) -> (adj. tile, rotation)
     // rotation is measured counter-clockwise in multiple of 90 degrees
     val adjacent = faces.map(face => face -> DELTAS
-      .filter(dir => faces.contains(sum(face, dir)))
-      .map(dir => dir -> (sum(face, dir), 0))
+      .filter(dir => faces.contains(add(face, dir)))
+      .map(dir => dir -> (add(face, dir), 0))
       .to(collection.mutable.Map)
     ).toMap
     println(s"Adjacent: $adjacent")
@@ -197,8 +216,29 @@ object Solution {
       println(s"  D: ${v(D)}")
     }
 
-    // Placeholder
-    Map()
+    val wraps = mutable.Map[(Coord, Int), (Coord, Int)]()
+
+    for (coord <- map.keys) {
+      for (dir <- DELTAS) {
+        if (!map.contains(add(coord, dir))) {
+          val face = ((coord._1 - 1) / scale, (coord._2 - 1) / scale)
+          val (adjFace, adjRot) = adjacent(face)(dir)
+          val facePos = times(face, scale)
+          val adjFacePos = times(adjFace, scale)
+
+          val shiftedCoord = sub(sub(coord, facePos), (1, 1))
+          val rotatedCoord = unrotFace(shiftedCoord, adjRot, scale)
+          val unshiftedCoord = add(add(rotatedCoord, (1, 1)), facePos)
+          val newDir = unrot(dir, adjRot)
+          val newCoord = sub(add(unshiftedCoord, sub(adjFacePos, facePos)), times(newDir, scale))
+          wraps((coord, DELTAS.indexOf(dir))) = (add(newCoord, newDir), DELTAS.indexOf(newDir))
+          println(s"face of $coord (dir: $dir) is $face. Adjacent face: $adjFace, rot: $adjRot")
+          println(s"  ($coord, ${DELTAS.indexOf(dir)} => (${add(newCoord, newDir)}, ${DELTAS.indexOf(newDir)})")
+        }
+      }
+    }
+
+    wraps.toMap
   }
 
   private def parseMap(inputMap: String): Map[Coord, Char] = {
