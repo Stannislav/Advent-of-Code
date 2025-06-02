@@ -193,8 +193,8 @@ object Solution {
       }
     }
 
+    // Compute wraparounds for points from the cube face adjacency information.
     val wraps = mutable.Map[(Vec, Int), (Vec, Int)]()
-
     for (pos <- map.keys) {
       for (dir <- DIR_VECTORS) {
         if (!map.contains(pos + dir)) {
