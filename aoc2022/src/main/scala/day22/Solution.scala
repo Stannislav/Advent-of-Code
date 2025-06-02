@@ -35,7 +35,7 @@ object Solution {
     inputMap
       .linesIterator
       .zipWithIndex
-      .flatMap((line, row) => line.zipWithIndex.map((c, col) => (Vec(row + 1, col + 1), c)))
+      .flatMap((line, row) => line.zipWithIndex.map((c, col) => (Vec(row, col), c)))
       .filter((*, c) => c == '#' || c == '.')
       .toMap
   }
@@ -96,8 +96,8 @@ object Solution {
         }
     }
 
-    val (pos, dir, _) = walk(map.keys.filter(_.row == 1).minBy(_.col), 0)
-    1000 * pos.row + 4 * pos.col + dir
+    val (pos, dir, _) = walk(map.keys.filter(_.row == 0).minBy(_.col), 0)
+    1000 * (pos.row + 1) + 4 * (pos.col + 1) + dir
   }
 
   private def findFlatWraps(map: Map[Vec, Char]): Map[(Vec, Int), (Vec, Int)] = {
@@ -132,7 +132,6 @@ object Solution {
     val scale = Math.sqrt(map.size / 6).toInt
     val faces: Set[Vec] = map
       .keys
-      .map(_ - Vec(1, 1))
       .map(_ / scale)
       .toSet
 
@@ -200,14 +199,14 @@ object Solution {
     for (pos <- map.keys) {
       for (dir <- DELTAS) {
         if (!map.contains(pos + dir)) {
-          val face = (pos - Vec(1, 1)) / scale
+          val face = pos / scale
           val (adjFace, adjRot) = adjacent(face)(dir)
           val facePos = face * scale
           val adjFacePos = adjFace * scale
 
-          val shiftedPos = pos - facePos - Vec(1, 1)
+          val shiftedPos = pos - facePos
           val rotatedPos = shiftedPos.turnFaceBackwards(adjRot, scale)
-          val unshiftedPos = rotatedPos + Vec(1, 1) + facePos
+          val unshiftedPos = rotatedPos + facePos
           val newDir = dir.turnBackwards(adjRot)
           val newPos = unshiftedPos + adjFacePos - facePos - (newDir * scale)
           wraps((pos, DELTAS.indexOf(dir))) = (newPos + newDir, DELTAS.indexOf(newDir))
