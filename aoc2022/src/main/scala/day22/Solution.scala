@@ -1,15 +1,16 @@
 package day22
 
-import io.Source
-import Math.floorMod
+import java.lang.Math.floorMod
 import scala.annotation.tailrec
 import scala.collection.mutable
+import scala.io.Source
 
 val L = Vec(0, -1)
 val R = Vec(0, 1)
 val U = Vec(-1, 0)
 val D = Vec(1, 0)
-val DELTAS: List[Vec] = List(R, D, L, U)
+// Order significant and as given in problem statement.
+val DIR_VECTORS: List[Vec] = List(R, D, L, U)
 
 
 object Solution {
@@ -66,7 +67,7 @@ object Solution {
       if (wraps.contains((pos, dir)))
         wraps((pos, dir))
       else
-        (pos + DELTAS(dir), dir)
+        (pos + DIR_VECTORS(dir), dir)
 
     @tailrec
     def move(pos: Vec, dir: Int, nSteps: Int): (Vec, Int) = {
@@ -104,25 +105,25 @@ object Solution {
     // precompute the wrap-around
     // 1. Find all surface normals.
     val normals = mutable.Set[(Vec, Int)]()
-    map.keys.foreach(point => {
+    map.keys.foreach(pos => {
       Range(0, 4).foreach(dir => {
-        val neighbour = point + DELTAS(dir)
+        val neighbour = pos + DIR_VECTORS(dir)
         if (!map.contains(neighbour))
-          normals.addOne((point, dir))
+          normals.addOne((pos, dir))
       })
     })
 
     // 2. Match pairs of surface points and connect them
     val wraps = mutable.Map[(Vec, Int), (Vec, Int)]()
     while (normals.nonEmpty) {
-      val (point1, dir1) = normals.head
-      normals.remove((point1, dir1))
+      val (pos1, dir1) = normals.head
+      normals.remove((pos1, dir1))
       val dir2 = (dir1 + 2) % 4
-      var point2 = point1
-      while (!normals.remove((point2, dir2)))
-        point2 = point2 + DELTAS(dir2)
-      wraps.addOne((point1, dir1), (point2, dir1))
-      wraps.addOne((point2, dir2), (point1, dir2))
+      var pos2 = pos1
+      while (!normals.remove((pos2, dir2)))
+        pos2 = pos2 + DIR_VECTORS(dir2)
+      wraps.addOne((pos1, dir1), (pos2, dir1))
+      wraps.addOne((pos2, dir2), (pos1, dir2))
     }
 
     wraps.toMap
@@ -130,10 +131,8 @@ object Solution {
 
   private def findCubeWraps(map: Map[Vec, Char]): Map[(Vec, Int), (Vec, Int)] = {
     val scale = Math.sqrt(map.size / 6).toInt
-    val faces: Set[Vec] = map
-      .keys
-      .map(_ / scale)
-      .toSet
+    val faces: Set[Vec] = map.keys.map(_ / scale).toSet
+    assert(faces.size == 6)
 
     // Find adjacent faces. Use the fact that an adjacent face can be reached
     // via another adjacent face, e.g.:
@@ -151,7 +150,7 @@ object Solution {
     // first one. In the first diagram, going upwards from L one enters U on its left side.
     // tile -> direction (L, R, U, D) -> (adj. tile, rotation)
     // rotation is measured counter-clockwise in multiple of 90 degrees
-    val adjacent = faces.map(face => face -> DELTAS
+    val adjacent = faces.map(face => face -> DIR_VECTORS
       .filter(dir => faces.contains(face + dir))
       .map(dir => dir -> (face + dir, 0))
       .to(collection.mutable.Map)
@@ -197,7 +196,7 @@ object Solution {
     val wraps = mutable.Map[(Vec, Int), (Vec, Int)]()
 
     for (pos <- map.keys) {
-      for (dir <- DELTAS) {
+      for (dir <- DIR_VECTORS) {
         if (!map.contains(pos + dir)) {
           val face = pos / scale
           val (adjFace, adjRot) = adjacent(face)(dir)
@@ -208,8 +207,8 @@ object Solution {
           val rotatedPos = shiftedPos.turnFaceBackwards(adjRot, scale)
           val unshiftedPos = rotatedPos + facePos
           val newDir = dir.turnBackwards(adjRot)
-          val newPos = unshiftedPos + adjFacePos - facePos - (newDir * scale)
-          wraps((pos, DELTAS.indexOf(dir))) = (newPos + newDir, DELTAS.indexOf(newDir))
+          val newPos = unshiftedPos + (adjFacePos - facePos) - (newDir * scale)
+          wraps((pos, DIR_VECTORS.indexOf(dir))) = (newPos + newDir, DIR_VECTORS.indexOf(newDir))
         }
       }
     }
