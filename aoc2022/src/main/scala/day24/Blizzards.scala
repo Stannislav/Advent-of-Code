@@ -25,7 +25,7 @@ object Blizzards {
   }
 }
 
-class Blizzards(nRows: Int, nCols: Int, val pos: List[(Int, Int)], dir: List[(Int, Int)]) {
+case class Blizzards(nRows: Int, nCols: Int, pos: List[(Int, Int)], dir: List[(Int, Int)]) {
   def step: Blizzards = {
     def wrap(coord: Int, lim: Int): Int = ((coord - 1 + lim - 2) % (lim - 2)) + 1
     val newPos = pos
@@ -36,7 +36,7 @@ class Blizzards(nRows: Int, nCols: Int, val pos: List[(Int, Int)], dir: List[(In
     Blizzards(nRows, nCols, newPos, dir)
   }
 
-  override def toString(): String = {
+  override def toString: String = {
     def posCounts = pos.groupBy(identity).view.mapValues(_.length).toMap
     def symbols: Map[(Int, Int), Char] = posCounts.map((pt, count) =>
       val symbol =

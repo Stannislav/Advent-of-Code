@@ -2,17 +2,11 @@
 package day24
 
 import scala.annotation.tailrec
+import scala.io.Source
 
 object Solution {
   def main(args: Array[String]): Unit = {
-    val lines = util.Using.resource(io.Source.fromResource("input/24-debug.txt")) {
-      _.getLines.toList
-    }
-
-    val blizzards = Blizzards.parse(lines)
-    val start = (0, lines.head.indexOf('.'))
-    val end = (lines.length - 1, lines.last.indexOf('.'))
-
+    val (start, end, blizzards) = parseInput(Source.fromResource("24.txt"))
     println(start)
     println(end)
 
@@ -41,5 +35,14 @@ object Solution {
     }
     println(s"Part 1: ${dfs(start, blizzards)}")
 
+  }
+
+  def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {
+    val lines = source.getLines().toList
+    val blizzards = Blizzards.parse(lines)
+    val start = (0, lines.head.indexOf('.'))
+    val end = (lines.length - 1, lines.last.indexOf('.'))
+
+    (start, end, blizzards)
   }
 }
