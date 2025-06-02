@@ -6,7 +6,26 @@ import scala.io.Source
 
 object Solution {
   def main(args: Array[String]): Unit = {
-    val (start, end, blizzards) = parseInput(Source.fromResource("24.txt"))
+    val (start, end, blizzards) = parseInput(Source.fromResource("input/24.txt"))
+
+    println(s"Part1: ${part1(start, end, blizzards)}")
+  }
+
+  def part1(start: (Int, Int), end: (Int, Int), blizzards: Blizzards): Int = {
+    0
+  }
+
+  def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {
+    val lines = source.getLines().toList
+    val blizzards = Blizzards.parse(lines)
+    val start = (0, lines.head.indexOf('.'))
+    val end = (lines.length - 1, lines.last.indexOf('.'))
+
+    (start, end, blizzards)
+  }
+
+  def oldMain(args: Array[String]): Unit = {
+    val (start, end, blizzards) = parseInput(Source.fromResource("input/24.txt"))
     println(start)
     println(end)
 
@@ -35,14 +54,5 @@ object Solution {
     }
     println(s"Part 1: ${dfs(start, blizzards)}")
 
-  }
-
-  def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {
-    val lines = source.getLines().toList
-    val blizzards = Blizzards.parse(lines)
-    val start = (0, lines.head.indexOf('.'))
-    val end = (lines.length - 1, lines.last.indexOf('.'))
-
-    (start, end, blizzards)
   }
 }
