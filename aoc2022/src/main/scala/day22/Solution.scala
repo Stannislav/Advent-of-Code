@@ -129,65 +129,53 @@ object Solution {
     wraps.toMap
   }
 
+  /** Find wraparounds for the input map assuming that it folds to a cube.
+    *
+    * We perform the following steps:
+    *
+    *   - Find the dimension of the cube faces (`scale`).
+    *   - Find the relative location of the cube faces on the map (`faces`).
+    *   - For each face find the four adjacent faces and the rotation required
+    *     to align their edges (`adjacent`).
+    *   - Use the face alignment information to match up points on the face edges.
+    *
+    * @param map The cube map from the input.
+    * @return    A map of wraparounds for points on the cube.
+    */
   private def findCubeWraps(map: Map[Vec, Char]): Map[(Vec, Int), (Vec, Int)] = {
+    // Each face has scale^2 points, and there are six faces.
     val scale = Math.sqrt(map.size / 6).toInt
+    // Integer division rounds down, so we get face coordinates in face space.
     val faces: Set[Vec] = map.keys.map(_ / scale).toSet
     assert(faces.size == 6)
 
-    // Find adjacent faces. Use the fact that an adjacent face can be reached
-    // via another adjacent face, e.g.:
-    //  U
-    // L#R
-    //  D
-    // Starting with the middle face ("#") one can reach the face "U" via "L" or "R":
-    // U = L->U = R->U. So, if in the exploded diagram U were missing, then one could
-    // look for it via L or R, e.g.:
-    // U
-    // L#R
-    //  D
-    // Additionally, we need to take into account the tile rotation: in the diagram above
-    // the U should really be on its left side for the diagram to be equivalent to the
-    // first one. In the first diagram, going upwards from L one enters U on its left side.
-    // tile -> direction (L, R, U, D) -> (adj. tile, rotation)
-    // rotation is measured counter-clockwise in multiple of 90 degrees
+    // For all faces find all four neighbouring faces.
+    // Start with the faces which are already attached in the flat map.
+    // Map: face -> direction (L, R, U, D) -> (adjacent face, rotation)
+    // Rotation is measured counter-clockwise in multiples of 90 degrees.
     val adjacent = faces.map(face => face -> DIR_VECTORS
       .filter(dir => faces.contains(face + dir))
       .map(dir => dir -> (face + dir, 0))
       .to(collection.mutable.Map)
     ).toMap
 
+    // Iteratively add all the missing neighbouring faces. To do that use the
+    // fact that all three faces with the same corner touch each other. For
+    // example, given the following map:
+    //   U
+    //  L#
+    // we know that the left neighbour of U is L and the upper neighbour of L is U.
+    // Additional care is required to take into account the existing rotation of faces.
+    // For example, if we're looking for the left neighbour of a face which is rotated
+    // by 90 degrees, then it's actually the upper neighbour of the original face.
     while(!adjacent.values.forall(_.size == 4)) {
       for(face <- faces) {
-        if (adjacent(face).contains(U) && adjacent(face).contains(L)) {
-          val (upFace, upRot) = adjacent(face)(U)
-          val (leftFace, leftRot) = adjacent(face)(L)
-          if (!adjacent(leftFace).contains(U.turnBackwards(leftRot))) {
-            adjacent(leftFace)(U.turnBackwards(leftRot)) = (upFace, floorMod(upRot + 1 - leftRot, 4))
-            adjacent(upFace)(L.turnBackwards(upRot)) = (leftFace, floorMod(leftRot - 1 - upRot, 4))
-          }
-        }
-        if (adjacent(face).contains(U) && adjacent(face).contains(R)) {
-          val (upFace, upRot) = adjacent(face)(U)
-          val (rightFace, rightRot) = adjacent(face)(R)
-          if (!adjacent(rightFace).contains(U.turnBackwards(rightRot))) {
-            adjacent(rightFace)(U.turnBackwards(rightRot)) = (upFace, floorMod(upRot - 1 - rightRot, 4))
-            adjacent(upFace)(R.turnBackwards(upRot)) = (rightFace, floorMod(rightRot + 1 - upRot, 4))
-          }
-        }
-        if (adjacent(face).contains(D) && adjacent(face).contains(R)) {
-          val (downFace, downRot) = adjacent(face)(D)
-          val (rightFace, rightRot) = adjacent(face)(R)
-          if (!adjacent(rightFace).contains(D.turnBackwards(rightRot))) {
-            adjacent(rightFace)(D.turnBackwards(rightRot)) = (downFace, floorMod(downRot + 1 - rightRot, 4))
-            adjacent(downFace)(R.turnBackwards(downRot)) = (rightFace, floorMod(rightRot - 1 - downRot, 4))
-          }
-        }
-        if (adjacent(face).contains(D) && adjacent(face).contains(L)) {
-          val (downFace, downRot) = adjacent(face)(D)
-          val (leftFace, leftRot) = adjacent(face)(L)
-          if (!adjacent(leftFace).contains(D.turnBackwards(leftRot))) {
-            adjacent(leftFace)(D.turnBackwards(leftRot)) = (downFace, floorMod(downRot - 1 - leftRot, 4))
-            adjacent(downFace)(L.turnBackwards(downRot)) = (leftFace, floorMod(leftRot + 1 - downRot, 4))
+        for((dir1, dir2) <- Seq((U, L), (L, D), (D, R), (R, U))) {
+          if (adjacent(face).contains(dir1) && adjacent(face).contains(dir2)) {
+            val (face1, rot1) = adjacent(face)(dir1)
+            val (face2, rot2) = adjacent(face)(dir2)
+            adjacent(face2).getOrElseUpdate(dir1.turnBackwards(rot2), (face1, floorMod(rot1 + 1 - rot2, 4)))
+            adjacent(face1).getOrElseUpdate(dir2.turnBackwards(rot1), (face2, floorMod(rot2 - 1 - rot1, 4)))
           }
         }
       }
@@ -200,15 +188,26 @@ object Solution {
         if (!map.contains(pos + dir)) {
           val face = pos / scale
           val (adjFace, adjRot) = adjacent(face)(dir)
+          // Face position is its top left corner.
           val facePos = face * scale
           val adjFacePos = adjFace * scale
 
+          // We need to rotate the edge point around the face its on.
+          // To do that, we shift the face to the origin, use `turnFaceBackwards`
+          // to do the rotation, then shift face back to where it came from.
           val shiftedPos = pos - facePos
           val rotatedPos = shiftedPos.turnFaceBackwards(adjRot, scale)
           val unshiftedPos = rotatedPos + facePos
+          
           val newDir = dir.turnBackwards(adjRot)
-          val newPos = unshiftedPos + (adjFacePos - facePos) - (newDir * scale)
-          wraps((pos, DIR_VECTORS.indexOf(dir))) = (newPos + newDir, DIR_VECTORS.indexOf(newDir))
+          // The given point is mapped to the new position as follows:
+          // 1. Rotate the point to align with the target face (`unshiftedPos`)
+          // 2. Shift the original face on top of the target face (`+ (adjFacePos - facePos)`).
+          // 3. Shift the face again off the target face so that now the original edge and the
+          //    target edge align (` - (newDir * scale)`).
+          // 4. Make a single step into the path direction to complete the wraparound.
+          val newPos = unshiftedPos + (adjFacePos - facePos) - (newDir * scale) + newDir
+          wraps((pos, DIR_VECTORS.indexOf(dir))) = (newPos, DIR_VECTORS.indexOf(newDir))
         }
       }
     }
