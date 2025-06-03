@@ -20,6 +20,12 @@ object Solution {
   }
 
   private def travel(start: (Int, Int), end: (Int, Int), blizzards: Blizzards, startTime: Int = 0): Int = {
+    // Remember the shortest time taken to reach any given point.
+    // The blizzards are moving, so it's possible that one needs to
+    // travel through the same point with a different blizzard configuration.
+    // Therefore, we need to save the shortest times for all possible blizzard
+    // configurations.
+    // mam(blizzardConfigIdx)(point) = shortestTime
     val mem = List.fill(blizzards.cycleLength) { mutable.Map[(Int, Int), Int]() }
     mem(startTime % blizzards.cycleLength)(start) = startTime
     var timeToEnd = -1
