@@ -1,4 +1,3 @@
-// TODO: Finish solving.
 package day24
 
 import scala.annotation.tailrec
