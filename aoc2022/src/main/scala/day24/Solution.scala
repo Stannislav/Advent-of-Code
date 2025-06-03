@@ -10,18 +10,20 @@ object Solution {
     val (start, end, blizzards) = parseInput(Source.fromResource("input/24.txt"))
 
     println(s"Part 1: ${part1(start, end, blizzards)}")
-    println(s"Part 2: ${part1(start, end, blizzards)}")
+    println(s"Part 2: ${part2(start, end, blizzards)}")
   }
 
   def part1(start: (Int, Int), end: (Int, Int), blizzards: Blizzards): Int = travel(start, end, blizzards)
 
   def part2(start: (Int, Int), end: (Int, Int), blizzards: Blizzards): Int = {
-    0
+    val t1 = travel(start, end, blizzards)
+    val t2 = travel(end, start, blizzards, t1)
+    travel(start, end, blizzards, t2)
   }
 
   private def travel(start: (Int, Int), end: (Int, Int), blizzards: Blizzards, startTime: Int = 0): Int = {
     val best = List.fill(blizzards.cycleLength) { mutable.Map[(Int, Int), Int]() }
-    best.head(start) = startTime
+    best(startTime % blizzards.cycleLength)(start) = startTime
     val q = mutable.Queue((start, startTime))
     while(q.nonEmpty) {
       val (pos, prevTime) = q.dequeue()
@@ -39,7 +41,7 @@ object Solution {
           q.enqueue((nextPos, time))
         }
     }
-    best.filter(_.contains(end)).map(_(end)).min - startTime
+    best.filter(_.contains(end)).map(_(end)).min
   }
 
   def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {

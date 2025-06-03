@@ -38,7 +38,11 @@ class Day24Test extends AnyFunSuite {
 
   test("Solution.part1") {
     val (start, end, blizzards) = Solution.parseInput(Source.fromResource("24.txt"))
-
     assert(Solution.part1(start, end, blizzards) === 18)
+  }
+
+  test("Solution.part2") {
+    val (start, end, blizzards) = Solution.parseInput(Source.fromResource("24.txt"))
+    assert(Solution.part2(start, end, blizzards) === 54)
   }
 }
