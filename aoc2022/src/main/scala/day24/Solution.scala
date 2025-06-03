@@ -2,6 +2,7 @@
 package day24
 
 import scala.annotation.tailrec
+import scala.collection.mutable
 import scala.io.Source
 
 object Solution {
@@ -12,7 +13,27 @@ object Solution {
   }
 
   def part1(start: (Int, Int), end: (Int, Int), blizzards: Blizzards): Int = {
-    0
+    val best = List.fill(blizzards.cycleLength) { mutable.Map[(Int, Int), Int]() }
+    best.head(start) = 0
+    val q = mutable.Queue((start, 0))
+    while(q.nonEmpty) {
+      val (pos, prevTime) = q.dequeue()
+      val time = prevTime + 1
+//      println(s"t=$time")
+      val cycleTime = time % blizzards.cycleLength
+      val currentBlizzards = blizzards.atTime(time)
+
+      Seq((0, 0), (1, 0), (-1, 0), (0, 1), (0, -1))
+        .map((dRow, dCol) => (pos._1 + dRow, pos._2 + dCol))
+        .filter((row, col) => (row, col) == start || (row, col) == end || (col > 0 && col < blizzards.nCols - 1 && row > 0 && row < blizzards.nRows - 1))
+        .filterNot(currentBlizzards.contains)
+        .filterNot(best(cycleTime).contains)
+        .foreach { nextPos =>
+          best(cycleTime)(nextPos) = time
+          q.enqueue((nextPos, time))
+        }
+    }
+    best.filter(_.contains(end)).map(_(end)).min
   }
 
   def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {

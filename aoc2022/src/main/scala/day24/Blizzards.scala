@@ -1,5 +1,7 @@
 package day24
 
+import java.lang.Math.floorMod
+
 object Blizzards {
   def parse(lines: List[String]): Blizzards = {
     val nRows = lines.length
@@ -25,21 +27,18 @@ object Blizzards {
 }
 
 case class Blizzards(nRows: Int, nCols: Int, startPos: List[(Int, Int)], startDir: List[(Int, Int)]) {
-  val cycleLength = lcm(nRows - 2, nCols - 2)
-  private val stateCache = collection.mutable.Map[Int, List[(Int, Int)]](0 -> startPos)
+  val cycleLength: Int = lcm(nRows - 2, nCols - 2)
+  private val stateCache = collection.mutable.Map[Int, Set[(Int, Int)]]()
 
-  def atTime(t: Int): List[(Int, Int)] = {
-    require(t >= 0)
-    val effectiveT = t % cycleLength
-    stateCache.getOrElseUpdate(effectiveT, {
-      atTime(effectiveT - 1)
-        .zip(startDir)
-        .map((pos, dir) => (pos._1 + dir._1, pos._2 + dir._2))
-        .map((row, col) => (wrap(row, nRows), wrap(col, nCols)))
-    })
-  }
+  def atTime(t: Int): Set[(Int, Int)] = stateCache.getOrElseUpdate(t % cycleLength, {
+    startPos
+      .zip(startDir)
+      .map((pos, dir) => (pos._1 + dir._1 * t, pos._2 + dir._2 * t))
+      .map((row, col) => (wrap(row, nRows - 2), wrap(col, nCols - 2)))
+      .toSet
+  })
 
-  private def wrap(coordinate: Int, lim: Int): Int = ((coordinate - 1 + lim - 2) % (lim - 2)) + 1
+  private def wrap(coordinate: Int, lim: Int): Int = floorMod(coordinate - 1 + lim, lim) + 1
 
   def step: Blizzards = {
     val newPos = startPos
