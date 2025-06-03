@@ -39,36 +39,4 @@ case class Blizzards(nRows: Int, nCols: Int, startPos: List[(Int, Int)], startDi
   })
 
   private def wrap(coordinate: Int, lim: Int): Int = floorMod(coordinate - 1 + lim, lim) + 1
-
-  def step: Blizzards = {
-    val newPos = startPos
-      .zip(startDir)
-      .map((pos, dPos) => (pos._1 + dPos._1, pos._2 + dPos._2))
-      .map((row, col) => (wrap(row, nRows), wrap(col, nCols))
-      )
-    Blizzards(nRows, nCols, newPos, startDir)
-  }
-
-//  override def toString: String = {
-//    def posCounts = pos.groupBy(identity).view.mapValues(_.length).toMap
-//    def symbols: Map[(Int, Int), Char] = posCounts.map((pt, count) =>
-//      val symbol =
-//        if (count == 1) dir(pos.indexOf(pt)) match {
-//          case (0, 1) => '>'
-//          case (1, 0) => 'v'
-//          case (0, -1) => '<'
-//          case (-1, 0) => '^'
-//          case dir @ _ => throw Exception(s"Unknown direction: $dir")
-//        }
-//        else count.toString.head
-//      (pt, symbol)
-//    )
-//    Range(0, nRows).map(row =>
-//      Range(0, nCols)
-//        .map(col =>
-//          if (row == 0 || col == 0 || row == nRows - 1 || col == nCols - 1) '#'
-//          else symbols.getOrElse((row, col), '.'))
-//        .mkString
-//    ).mkString("\n")
-//  }
 }

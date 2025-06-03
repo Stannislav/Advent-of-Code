@@ -24,7 +24,7 @@ object Solution {
     val best = List.fill(blizzards.cycleLength) { mutable.Map[(Int, Int), Int]() }
     best(startTime % blizzards.cycleLength)(start) = startTime
     val q = mutable.Queue((start, startTime))
-    while(q.nonEmpty) {
+    while (q.nonEmpty) {
       val (pos, prevTime) = q.dequeue()
       val time = prevTime + 1
       val cycleTime = time % blizzards.cycleLength
@@ -50,37 +50,5 @@ object Solution {
     val end = (lines.length - 1, lines.last.indexOf('.'))
 
     (start, end, blizzards)
-  }
-
-  def oldMain(args: Array[String]): Unit = {
-    val (start, end, blizzards) = parseInput(Source.fromResource("input/24.txt"))
-    println(start)
-    println(end)
-
-    @tailrec
-    def play(blizzards: Blizzards, minutes: Int, time: Int = 0): Unit = {
-      println(s"== After minute $time ==")
-      println(blizzards)
-      println()
-      if (time < minutes)
-        play(blizzards.step, minutes, time + 1)
-    }
-    play(blizzards, 18)
-
-
-    val moves = List((1, 0), (0, 1), (0, 0), (-1, 0), (0, -1))
-
-    def dfs(pos: (Int, Int), blizzards: Blizzards, steps: Int = 0, best: Int = Int.MaxValue): Int = {
-      if (blizzards.startPos.contains(pos))
-        best
-      else if (pos == end)
-        steps
-      else
-        moves.foldLeft(best) { (best, dPos) =>
-          dfs((pos._1 + dPos._1, pos._2 + dPos._2), blizzards.step, steps + 1, best)
-        }
-    }
-    println(s"Part 1: ${dfs(start, blizzards)}")
-
   }
 }
