@@ -43,7 +43,7 @@ object Solution {
     val moves = List((1, 0), (0, 1), (0, 0), (-1, 0), (0, -1))
 
     def dfs(pos: (Int, Int), blizzards: Blizzards, steps: Int = 0, best: Int = Int.MaxValue): Int = {
-      if (blizzards.pos.contains(pos))
+      if (blizzards.startPos.contains(pos))
         best
       else if (pos == end)
         steps

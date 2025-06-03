@@ -28,4 +28,11 @@ class Day24Test extends AnyFunSuite {
     assert(end === (5, 6))
     assert(blizzards === expectedBlizzards)
   }
+
+  test("Blizzards.atTime") {
+    val (start, end, blizzards) = Solution.parseInput(Source.fromResource("24.txt"))
+
+    assert(blizzards.atTime(12) === blizzards.atTime(0))
+    assert(blizzards.atTime(12 * 340930 + 3) === blizzards.atTime(3))
+  }
 }
