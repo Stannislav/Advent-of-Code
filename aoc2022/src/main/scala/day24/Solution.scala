@@ -7,7 +7,6 @@ import scala.io.Source
 object Solution {
   def main(args: Array[String]): Unit = {
     val (start, end, blizzards) = parseInput(Source.fromResource("input/24.txt"))
-
     println(s"Part 1: ${part1(start, end, blizzards)}")
     println(s"Part 2: ${part2(start, end, blizzards)}")
   }
@@ -33,7 +32,7 @@ object Solution {
 
       Seq((0, 0), (1, 0), (-1, 0), (0, 1), (0, -1))
         .map((dRow, dCol) => (prevPos._1 + dRow, prevPos._2 + dCol))
-        .filter((row, col) => (row, col) == start || (row, col) == end || (col > 0 && col < blizzards.nCols - 1 && row > 0 && row < blizzards.nRows - 1))
+        .filter((row, col) => (row, col) == start || (row, col) == end || (col >= 0 && col < blizzards.nCols && row >= 0 && row < blizzards.nRows))
         .filterNot(currentBlizzards.contains)
         .filterNot(mem(cycleTime).contains)
         .foreach { pos =>
@@ -48,9 +47,12 @@ object Solution {
 
   def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {
     val lines = source.getLines().toList
-    val blizzards = Blizzards.parse(lines)
-    val start = (0, lines.head.indexOf('.'))
-    val end = (lines.length - 1, lines.last.indexOf('.'))
+    val valley = lines
+      .slice(1, lines.length - 1)
+      .map(line => line.substring(1, line.length - 1))
+    val blizzards = Blizzards.parse(valley)
+    val start = (-1, lines.head.indexOf('.') - 1)
+    val end = (lines.length - 2, lines.last.indexOf('.') - 1)
 
     (start, end, blizzards)
   }

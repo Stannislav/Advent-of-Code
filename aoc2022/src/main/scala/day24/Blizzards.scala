@@ -27,16 +27,14 @@ object Blizzards {
 }
 
 case class Blizzards(nRows: Int, nCols: Int, startPos: List[(Int, Int)], startDir: List[(Int, Int)]) {
-  val cycleLength: Int = lcm(nRows - 2, nCols - 2)
+  val cycleLength: Int = lcm(nRows, nCols)
   private val stateCache = collection.mutable.Map[Int, Set[(Int, Int)]]()
 
   def atTime(t: Int): Set[(Int, Int)] = stateCache.getOrElseUpdate(t % cycleLength, {
     startPos
       .zip(startDir)
       .map((pos, dir) => (pos._1 + dir._1 * t, pos._2 + dir._2 * t))
-      .map((row, col) => (wrap(row, nRows - 2), wrap(col, nCols - 2)))
+      .map((row, col) => (floorMod(row, nRows), floorMod(col, nCols)))
       .toSet
   })
-
-  private def wrap(coordinate: Int, lim: Int): Int = floorMod(coordinate - 1 + lim, lim) + 1
 }
