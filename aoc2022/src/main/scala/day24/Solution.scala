@@ -21,26 +21,29 @@ object Solution {
   }
 
   private def travel(start: (Int, Int), end: (Int, Int), blizzards: Blizzards, startTime: Int = 0): Int = {
-    val best = List.fill(blizzards.cycleLength) { mutable.Map[(Int, Int), Int]() }
-    best(startTime % blizzards.cycleLength)(start) = startTime
+    val mem = List.fill(blizzards.cycleLength) { mutable.Map[(Int, Int), Int]() }
+    mem(startTime % blizzards.cycleLength)(start) = startTime
+    var timeToEnd = -1
     val q = mutable.Queue((start, startTime))
-    while (q.nonEmpty) {
-      val (pos, prevTime) = q.dequeue()
+    while (q.nonEmpty && timeToEnd == -1) {
+      val (prevPos, prevTime) = q.dequeue()
       val time = prevTime + 1
       val cycleTime = time % blizzards.cycleLength
       val currentBlizzards = blizzards.atTime(time)
 
       Seq((0, 0), (1, 0), (-1, 0), (0, 1), (0, -1))
-        .map((dRow, dCol) => (pos._1 + dRow, pos._2 + dCol))
+        .map((dRow, dCol) => (prevPos._1 + dRow, prevPos._2 + dCol))
         .filter((row, col) => (row, col) == start || (row, col) == end || (col > 0 && col < blizzards.nCols - 1 && row > 0 && row < blizzards.nRows - 1))
         .filterNot(currentBlizzards.contains)
-        .filterNot(best(cycleTime).contains)
-        .foreach { nextPos =>
-          best(cycleTime)(nextPos) = time
-          q.enqueue((nextPos, time))
+        .filterNot(mem(cycleTime).contains)
+        .foreach { pos =>
+          if (pos == end)
+            timeToEnd = time
+          mem(cycleTime)(pos) = time
+          q.enqueue((pos, time))
         }
     }
-    best.filter(_.contains(end)).map(_(end)).min
+    timeToEnd
   }
 
   def parseInput(source: Source): ((Int, Int), (Int, Int), Blizzards) = {
