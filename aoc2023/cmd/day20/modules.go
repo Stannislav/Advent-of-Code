@@ -2,6 +2,7 @@ package main
 
 type Module interface {
 	Receive(from string, value bool) (signal bool, send bool)
+	String() string
 }
 
 type FlipFlop struct {
