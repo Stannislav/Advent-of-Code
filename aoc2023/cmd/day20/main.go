@@ -15,7 +15,7 @@ func main() {
 	fmt.Printf("Part 1: %d\n", part1Result)
 
 	modules, connections = parseInput("input/20.txt")
-	part2Result := part1(modules, connections)
+	part2Result := part2(modules, connections)
 	fmt.Printf("Part 2: %d\n", part2Result)
 }
 
@@ -90,31 +90,39 @@ func (s Signal) String() string {
 }
 
 func part1(modules map[string]Module, connections map[string][]string) int {
-	q := list.New()
 	counts := map[bool]int{true: 0, false: 0}
-
 	for i := 0; i < 1000; i++ {
-		q.PushBack(Signal{"button", false, "broadcaster"})
-		for q.Len() > 0 {
-			item := q.Remove(q.Front())
-			inSignal := item.(Signal)
-			fmt.Println(inSignal)
-			counts[inSignal.value]++
-			module := modules[inSignal.to]
-			if module != nil {
-				signal, send := module.Receive(inSignal.from, inSignal.value)
-				if send {
-					for _, target := range connections[inSignal.to] {
-						q.PushBack(Signal{inSignal.to, signal, target})
-					}
-				}
-			} else {
-				fmt.Printf("No module found for %s\n", inSignal.to)
-			}
+		signals := pressButton(modules, connections)
+		for _, signal := range signals {
+			counts[signal.value]++
 		}
 	}
 
 	return counts[true] * counts[false]
+}
+
+func pressButton(modules map[string]Module, connections map[string][]string) []Signal {
+	signals := []Signal{}
+
+	q := list.New()
+	q.PushBack(Signal{"button", false, "broadcaster"})
+	for q.Len() > 0 {
+		item := q.Remove(q.Front())
+		inSignal := item.(Signal)
+		// fmt.Println(inSignal)
+		signals = append(signals, inSignal)
+		module := modules[inSignal.to]
+		if module != nil {
+			signal, send := module.Receive(inSignal.from, inSignal.value)
+			if send {
+				for _, target := range connections[inSignal.to] {
+					q.PushBack(Signal{inSignal.to, signal, target})
+				}
+			}
+		}
+	}
+
+	return signals
 }
 
 func part2(modules map[string]Module, connections map[string][]string) int {
