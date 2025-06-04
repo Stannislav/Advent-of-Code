@@ -9,10 +9,12 @@ import (
 
 func main() {
 	modules, connections := parseInput("input/20.txt")
-	println(len(modules), "modules found")
-	println(len(connections), "connections found")
-	fmt.Printf("Modules:\n%v\n", modules)
-	fmt.Printf("Connections:\n%v\n", connections)
+	part1Result := part1(modules, connections)
+	fmt.Printf("Part 1: %d\n", part1Result)
+
+	modules, connections = parseInput("input/20.txt")
+	part2Result := part1(modules, connections)
+	fmt.Printf("Part 2: %d\n", part2Result)
 }
 
 func parseInput(filename string) (map[string]Module, map[string][]string) {
@@ -50,4 +52,12 @@ func parseInput(filename string) (map[string]Module, map[string][]string) {
 	}
 
 	return modules, connections
+}
+
+func part1(modules map[string]Module, connections map[string][]string) int {
+	return 0
+}
+
+func part2(modules map[string]Module, connections map[string][]string) int {
+	return 0
 }
