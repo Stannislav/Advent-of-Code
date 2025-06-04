@@ -43,3 +43,20 @@ func TestParseInput(t *testing.T) {
 		}
 	}
 }
+
+func TestPart1(t *testing.T) {
+	testCases := []struct {
+		filename string
+		expected int
+	}{
+		{"example_input_1.txt", 32000000},
+		{"example_input_2.txt", 11687500},
+	}
+	for _, tc := range testCases {
+		modules, connections := parseInput(tc.filename)
+		result := part1(modules, connections)
+		if result != tc.expected {
+			t.Errorf("Expected part1 result for %s to be %d, but got %d", tc.filename, tc.expected, result)
+		}
+	}
+}
