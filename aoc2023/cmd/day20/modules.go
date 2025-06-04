@@ -14,7 +14,7 @@ func NewFlipFlop() *FlipFlop {
 }
 
 func (f *FlipFlop) Receive(from string, value bool) (signal bool, send bool) {
-	println("FlipFlop received value:", value)
+	// println("FlipFlop received value:", value)
 	if value {
 		return false, false
 	} else {
@@ -31,16 +31,13 @@ type Conjunction struct {
 	LastInputs map[string]bool
 }
 
-func NewConjunction(inputs []string) *Conjunction {
+func NewConjunction() *Conjunction {
 	lastInputs := make(map[string]bool)
-	for _, input := range inputs {
-		lastInputs[input] = false
-	}
 	return &Conjunction{lastInputs}
 }
 
 func (c *Conjunction) Receive(from string, value bool) (signal bool, doSend bool) {
-	println("Conjunction received value:", value)
+	// println("Conjunction received value:", value)
 	c.LastInputs[from] = value
 	// If all inputs are true, then send false, otherwise true.
 	signal = false
@@ -60,7 +57,7 @@ func (c *Conjunction) String() string {
 type Broadcast struct{}
 
 func (b *Broadcast) Receive(from string, value bool) (signal bool, doSend bool) {
-	println("Broadcast received value:", value)
+	// println("Broadcast received value:", value)
 	return value, true
 }
 
