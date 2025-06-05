@@ -21,11 +21,24 @@ func TestParseInput(t *testing.T) {
 	}
 }
 
-func TestPart1(t *testing.T) {
+func TestSolve(t *testing.T) {
 	start, m := ParseInput("example_input.txt")
-	expectedResult := 16
-	result := bruteForce(start, &m, 6)
-	if result != expectedResult {
-		t.Errorf("Expected result to be %d, got %d", expectedResult, result)
+	test_cases := []struct {
+		steps    int
+		expected int
+	}{
+		{steps: 6, expected: 16},
+		{steps: 10, expected: 50},
+		{steps: 50, expected: 1594},
+		{steps: 100, expected: 6536},
+		{steps: 500, expected: 167004},
+		{steps: 1000, expected: 668697},
+		{steps: 5000, expected: 16733044},
+	}
+	for _, tc := range test_cases {
+		result := bruteForce(start, &m, tc.steps)
+		if result != tc.expected {
+			t.Errorf("Expected %d steps to reach %d plots, but got %d", tc.steps, tc.expected, result)
+		}
 	}
 }
