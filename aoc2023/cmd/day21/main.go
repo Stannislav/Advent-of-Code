@@ -9,7 +9,7 @@ import (
 
 func main() {
 	start, m := ParseInput("input/21.txt")
-	fmt.Println("Part 1 :", bruteForce(start, &m, 64))
+	fmt.Println("Part 1 :", Part1(start, &m))
 
 }
 
@@ -36,6 +36,10 @@ func ParseInput(filename string) (image.Point, Map) {
 	}
 	m := Map{rocks: rocks, lim: image.Point{X: len(plots), Y: len(plots[0])}}
 	return start, m
+}
+
+func Part1(start image.Point, m *Map) int {
+	return bruteForce(start, m, 64)
 }
 
 func bruteForce(start image.Point, m *Map, target int) int {

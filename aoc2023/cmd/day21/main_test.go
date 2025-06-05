@@ -20,3 +20,12 @@ func TestParseInput(t *testing.T) {
 		t.Errorf("Expected map limit %v, got %v", expectedLim, m.lim)
 	}
 }
+
+func TestPart1(t *testing.T) {
+	start, m := ParseInput("example_input.txt")
+	expectedResult := 16
+	result := bruteForce(start, &m, 6)
+	if result != expectedResult {
+		t.Errorf("Expected result to be %d, got %d", expectedResult, result)
+	}
+}
