@@ -11,11 +11,11 @@ import (
 
 func main() {
 	modules, connections := parseInput("input/20.txt")
-	part1Result := part1(modules, connections)
+	part1Result := Part1(modules, connections)
 	fmt.Printf("Part 1: %d\n", part1Result)
 
 	modules, connections = parseInput("input/20.txt")
-	part2Result := part2(modules, connections)
+	part2Result := Part2(modules, connections)
 	fmt.Printf("Part 2: %d\n", part2Result)
 }
 
@@ -89,7 +89,7 @@ func (s Signal) String() string {
 	return fmt.Sprintf("%s %s %s", s.from, value, s.to)
 }
 
-func part1(modules map[string]Module, connections map[string][]string) int {
+func Part1(modules map[string]Module, connections map[string][]string) int {
 	counts := map[bool]int{true: 0, false: 0}
 	for i := 0; i < 1000; i++ {
 		signals := pressButton(modules, connections)
@@ -125,29 +125,30 @@ func pressButton(modules map[string]Module, connections map[string][]string) []S
 	return signals
 }
 
-func part2(modules map[string]Module, connections map[string][]string) int {
+// Part2 calculates the number of button presses needed for the rx module to recieve a low signal.
+func Part2(modules map[string]Module, connections map[string][]string) int {
 	rxInputs := findInputsOf("rx", connections)
 	if len(rxInputs) != 1 {
 		panic("Expected exactly one input to rx, found: " + strings.Join(rxInputs, ", "))
 	}
 	ensureModuleIsConjunction(rxInputs[0], modules)
 
-	rxFirstParents := findInputsOf(rxInputs[0], connections)
-	for _, input := range rxFirstParents {
+	parents := findInputsOf(rxInputs[0], connections)
+	for _, input := range parents {
 		ensureModuleIsConjunction(input, modules)
 	}
-	rxSecondsParents := []string{}
-	for _, mod := range rxFirstParents {
+	grandparents := []string{}
+	for _, mod := range parents {
 		parents := findInputsOf(mod, connections)
 		if len(parents) != 1 {
 			panic("Expected exactly one input to " + mod + ", found: " + strings.Join(parents, ", "))
 		}
 		ensureModuleIsConjunction(parents[0], modules)
-		rxSecondsParents = append(rxSecondsParents, parents[0])
+		grandparents = append(grandparents, parents[0])
 	}
 
 	modToCycle := make(map[string]int)
-	for _, mod := range rxSecondsParents {
+	for _, mod := range grandparents {
 		modToCycle[mod] = -1 // -1 means not yet set
 	}
 

@@ -54,7 +54,7 @@ func TestPart1(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		modules, connections := parseInput(tc.filename)
-		result := part1(modules, connections)
+		result := Part1(modules, connections)
 		if result != tc.expected {
 			t.Errorf("Expected part1 result for %s to be %d, but got %d", tc.filename, tc.expected, result)
 		}
