@@ -9,7 +9,7 @@ import (
 
 func main() {
 	start, m := ParseInput("input/21.txt")
-	fmt.Println("Part 1 :", bruteForce(start, m, 64))
+	fmt.Println("Part 1 :", bruteForce(start, &m, 64))
 
 }
 
@@ -38,7 +38,7 @@ func ParseInput(filename string) (image.Point, Map) {
 	return start, m
 }
 
-func bruteForce(start image.Point, m Map, target int) int {
+func bruteForce(start image.Point, m *Map, target int) int {
 	q := []Record{{Pos: start, Steps: 0}}
 	dist := make(map[image.Point]int)
 	for len(q) > 0 {
@@ -75,7 +75,7 @@ type Map struct {
 	lim   image.Point
 }
 
-func (m Map) next(pt image.Point) []image.Point {
+func (m *Map) next(pt image.Point) []image.Point {
 	var result []image.Point
 	for _, d := range []image.Point{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
 		nxt := pt.Add(d)
@@ -86,7 +86,7 @@ func (m Map) next(pt image.Point) []image.Point {
 	return result
 }
 
-func (m Map) isFree(p image.Point) bool {
+func (m *Map) isFree(p image.Point) bool {
 	if _, ok := m.rocks[mod(p, m.lim)]; ok {
 		return false
 	}
