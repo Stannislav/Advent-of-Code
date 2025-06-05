@@ -126,17 +126,41 @@ func pressButton(modules map[string]Module, connections map[string][]string) []S
 }
 
 // Part2 calculates the number of button presses needed for the rx module to recieve a low signal.
+// By inspecting the input data we observe the following module structure near the rx module:
+//
+// &a -> rx
+//
+// &b1 -> a
+// &b2 -> a
+// &b3 -> a
+// &b4 -> a
+//
+// &c1 -> b1, ...
+// &c2 -> b2, ...
+// &c3 -> b3, ...
+// &c4 -> b4, ...
+//
+// The bN modules have single inputs and are therefore inverters. So, for the a module to send
+// a low signal to rx, all cN modules must send a low signal at the same time.
+// It turns out that the cN modules send low signals at fixed intervals. So, if we can find the
+// cycle lengths for all cN modules, then the least common multiple (LCM) of these cycle lengths
+// will be the first time when all cN modules send a low signal at the same time.
 func Part2(modules map[string]Module, connections map[string][]string) int {
+	// Find the names of all cN modules.
+	// rxInputs = {"a"}
 	rxInputs := findInputsOf("rx", connections)
 	if len(rxInputs) != 1 {
 		panic("Expected exactly one input to rx, found: " + strings.Join(rxInputs, ", "))
 	}
 	ensureModuleIsConjunction(rxInputs[0], modules)
 
+	// parents = {"b1", "b2", "b3", "b4"}
 	parents := findInputsOf(rxInputs[0], connections)
 	for _, input := range parents {
 		ensureModuleIsConjunction(input, modules)
 	}
+
+	// grandparents = {"c1", "c2", "c3", "c4"}
 	grandparents := []string{}
 	for _, mod := range parents {
 		parents := findInputsOf(mod, connections)
@@ -152,6 +176,7 @@ func Part2(modules map[string]Module, connections map[string][]string) int {
 		modToCycle[mod] = -1 // -1 means not yet set
 	}
 
+	// Now keep pressing the button until all cycles have been found.
 	buttonPressCounts := 0
 	for done := false; !done; {
 		signals := pressButton(modules, connections)
