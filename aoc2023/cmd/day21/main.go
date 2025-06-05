@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"image"
 	"os"
@@ -43,17 +44,17 @@ func Part1(start image.Point, m *Map) int {
 }
 
 func bruteForce(start image.Point, m *Map, target int) int {
-	q := []Record{{Pos: start, Steps: 0}}
+	q := list.New()
+	q.PushBack(Record{Pos: start, Steps: 0})
 	dist := make(map[image.Point]int)
-	for len(q) > 0 {
-		r := q[0]
-		q = q[1:]
+	for q.Len() > 0 {
+		r := q.Remove(q.Front()).(Record)
 		cont := r.Steps < target
 		for _, n := range m.next(r.Pos) {
 			if d, ok := dist[n]; !ok || r.Steps+1 < d {
 				dist[n] = r.Steps + 1
 				if cont {
-					q = append(q, Record{Pos: n, Steps: r.Steps + 1})
+					q.PushBack(Record{Pos: n, Steps: r.Steps + 1})
 				}
 			}
 		}
