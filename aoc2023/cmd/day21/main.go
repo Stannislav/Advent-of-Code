@@ -8,10 +8,15 @@ import (
 )
 
 func main() {
-	inputBytes, _ := os.ReadFile("input/21.txt")
+	start, m := ParseInput("input/21.txt")
+	fmt.Println("Part 1 :", bruteForce(start, m, 64))
+
+}
+
+func ParseInput(filename string) (image.Point, Map) {
+	inputBytes, _ := os.ReadFile(filename)
 	input := strings.TrimSpace(string(inputBytes))
 
-	// Parse input
 	start := image.Point{X: -1, Y: -1}
 	var plots [][]rune
 	rocks := make(map[image.Point]bool)
@@ -30,9 +35,7 @@ func main() {
 		plots = append(plots, row)
 	}
 	m := Map{rocks: rocks, lim: image.Point{X: len(plots), Y: len(plots[0])}}
-
-	fmt.Println("Part 1 :", bruteForce(start, m, 64))
-
+	return start, m
 }
 
 func bruteForce(start image.Point, m Map, target int) int {
