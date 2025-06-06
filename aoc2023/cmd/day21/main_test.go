@@ -42,3 +42,29 @@ func TestSolve(t *testing.T) {
 		}
 	}
 }
+
+func TestDist(t *testing.T) {
+	start, m := ParseInput("example_input.txt")
+	test_cases := []struct {
+		from          image.Point
+		to            image.Point
+		expected      int
+		expectedError string
+	}{
+		{start, start, 0, ""},
+		{image.Point{1, 5}, image.Point{8, 3}, -1, "the starting point (1,5) is not free"},
+		{start, image.Point{6, 5}, 1, "the target point (6,5) is not free"},
+		{image.Point{0, 0}, image.Point{10, 10}, 20, ""},
+		{image.Point{1, 8}, image.Point{4, 8}, 5, ""},
+		{image.Point{3, 3}, image.Point{6, 8}, 10, ""},
+	}
+	for _, tc := range test_cases {
+		result, err := m.Dist(tc.from, tc.to)
+		if err == nil && result != tc.expected {
+			t.Errorf("Expected distance from %v to %v to be %d, but got %d", tc.from, tc.to, tc.expected, result)
+		}
+		if err != nil && err.Error() != tc.expectedError {
+			t.Errorf("Expected error %s, but got %s", tc.expectedError, err.Error())
+		}
+	}
+}

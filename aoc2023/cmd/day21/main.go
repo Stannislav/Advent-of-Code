@@ -91,6 +91,21 @@ func (m *Map) next(pt image.Point) []image.Point {
 	return result
 }
 
+func (m *Map) nextNoWrap(pt image.Point) []image.Point {
+	var result []image.Point
+	for _, d := range []image.Point{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
+		nxt := pt.Add(d)
+		if m.isPointInBounds(nxt) && m.isFree(nxt) {
+			result = append(result, nxt)
+		}
+	}
+	return result
+}
+
+func (m *Map) isPointInBounds(p image.Point) bool {
+	return p.X >= 0 && p.X < m.lim.X && p.Y >= 0 && p.Y < m.lim.Y
+}
+
 func (m *Map) isFree(p image.Point) bool {
 	if _, ok := m.rocks[mod(p, m.lim)]; ok {
 		return false
@@ -102,5 +117,34 @@ func mod(pt, lim image.Point) image.Point {
 	return image.Point{
 		X: (pt.X%lim.X + lim.X) % lim.X,
 		Y: (pt.Y%lim.Y + lim.Y) % lim.Y,
+	}
+}
+
+func (m *Map) Dist(from image.Point, to image.Point) (int, error) {
+	if !m.isFree(from) {
+		return -1, fmt.Errorf("the starting point %v is not free", from)
+	}
+	if !m.isFree(to) {
+		return -1, fmt.Errorf("the target point %v is not free", to)
+	}
+	dist := map[image.Point]int{from: 0}
+	q := list.New()
+	q.PushBack(from)
+	for q.Len() > 0 {
+		p := q.Remove(q.Front()).(image.Point)
+		if p == to {
+			break
+		}
+		for _, n := range m.nextNoWrap(p) {
+			if _, ok := dist[n]; !ok {
+				dist[n] = dist[p] + 1
+				q.PushBack(n)
+			}
+		}
+	}
+	if d, ok := dist[to]; ok {
+		return d, nil
+	} else {
+		return -1, fmt.Errorf("no path found from %v to %v", from, to)
 	}
 }
