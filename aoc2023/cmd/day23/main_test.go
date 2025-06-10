@@ -45,3 +45,12 @@ func TestPart1(t *testing.T) {
 		t.Errorf("Expected result to be %d, but got %d", expected, result)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	m := ParseInput("example_input.txt")
+	result := Part2(m)
+	expected := 154
+	if result != expected {
+		t.Errorf("Expected result to be %d, but got %d", expected, result)
+	}
+}

@@ -21,7 +21,7 @@ func main() {
 	m := ParseInput("input/23.txt")
 
 	fmt.Printf("Part 1: %d\n", Part1(m))
-	fmt.Printf("Part 2: %d\n", 0)
+	fmt.Printf("Part 2: %d\n", Part2(m))
 }
 
 func ParseInput(filename string) *Map {
@@ -47,6 +47,10 @@ func ParseInput(filename string) *Map {
 
 func Part1(m *Map) int {
 	return m.LongestPath(map[image.Point]int{m.Start: 0}, m.Start)
+}
+
+func Part2(m *Map) int {
+	return Part1(m.removeSlopes())
 }
 
 func (m *Map) LongestPath(currentPath map[image.Point]int, start image.Point) int {
@@ -87,4 +91,16 @@ func (m *Map) next(pt image.Point) []image.Point {
 		}
 	}
 	return result
+}
+
+func (m *Map) removeSlopes() *Map {
+	newGrid := make(map[image.Point]rune)
+	for pt, r := range m.Grid {
+		if r == 'v' || r == '^' || r == '>' || r == '<' {
+			newGrid[pt] = '.'
+		} else {
+			newGrid[pt] = r
+		}
+	}
+	return &Map{newGrid, m.Start, m.End, m.Dim}
 }
