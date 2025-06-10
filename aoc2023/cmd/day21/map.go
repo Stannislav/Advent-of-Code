@@ -10,31 +10,20 @@ type Map struct {
 	lim   image.Point
 }
 
+type Record struct {
+	Pos   image.Point
+	Steps int
+}
+
 func (m *Map) next(pt image.Point) []image.Point {
 	var result []image.Point
 	for _, d := range []image.Point{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
 		nxt := pt.Add(d)
-		if m.isFree(nxt) {
+		if _, isRock := m.rocks[mod(nxt, m.lim)]; !isRock {
 			result = append(result, nxt)
 		}
 	}
 	return result
-}
-
-func (m *Map) isPointInBounds(p image.Point) bool {
-	return p.X >= 0 && p.X < m.lim.X && p.Y >= 0 && p.Y < m.lim.Y
-}
-
-func (m *Map) isFree(p image.Point) bool {
-	if _, ok := m.rocks[mod(p, m.lim)]; ok {
-		return false
-	}
-	return true
-}
-
-type Record struct {
-	Pos   image.Point
-	Steps int
 }
 
 func (m *Map) Walk(from image.Point, steps int) map[image.Point]int {

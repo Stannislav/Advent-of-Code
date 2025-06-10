@@ -141,7 +141,7 @@ func ReachablePointsByTiles(n int, start image.Point, m *Map) int {
 			} else {
 				M_o++
 			}
-		} else if m.isPointInBounds(pt) {
+		} else if pt.X >= 0 && pt.X < m.lim.X && pt.Y >= 0 && pt.Y < m.lim.Y {
 			if (pt.X+pt.Y)%2 == 0 {
 				x_e++
 			} else {
