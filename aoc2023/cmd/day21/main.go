@@ -122,10 +122,6 @@ func Part2(start image.Point, m *Map) int {
 		panic(fmt.Sprintf("The given N=%d is not of the form 65 + n * 131", N))
 	}
 
-	return ReachablePointsByTiles(n, start, m)
-}
-
-func ReachablePointsByTiles(n int, start image.Point, m *Map) int {
 	M_o := 0
 	M_e := 0
 	x_o := 0
