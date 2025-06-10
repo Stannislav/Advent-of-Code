@@ -85,33 +85,26 @@ func Part2(start image.Point, m *Map) int {
 }
 
 func ReachablePointsByTiles(n int, start image.Point, m *Map) int {
-	// Walk far enough to cover all reachable points in the original map tile.
-	distancesAll := m.walk(start, 65+131)
-
 	M_o := 0
 	M_e := 0
 	x_o := 0
 	x_e := 0
 
-	for x := 0; x < m.lim.X; x++ {
-		for y := 0; y < m.lim.Y; y++ {
-			pt := image.Point{x, y}
-			if _, reachable := distancesAll[pt]; !reachable {
-				continue
-			}
-			d := dist(pt, start)
-			if d <= 65 {
-				if (x+y)%2 == 0 {
-					M_e++
-				} else {
-					M_o++
-				}
+	// Walk far enough to cover all reachable points in the original map tile.
+	reachablePoints := m.walk(start, 65+131)
+	for pt := range reachablePoints {
+		d := dist(pt, start)
+		if d <= 65 {
+			if (pt.X+pt.Y)%2 == 0 {
+				M_e++
 			} else {
-				if (x+y)%2 == 0 {
-					x_e++
-				} else {
-					x_o++
-				}
+				M_o++
+			}
+		} else if m.isPointInBounds(pt) {
+			if (pt.X+pt.Y)%2 == 0 {
+				x_e++
+			} else {
+				x_o++
 			}
 		}
 	}
