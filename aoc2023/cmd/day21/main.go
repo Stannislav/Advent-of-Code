@@ -10,8 +10,11 @@ import (
 
 func main() {
 	start, m := ParseInput("input/21.txt")
-	fmt.Println("Part 1 :", Part1(start, &m))
+	fmt.Println("Part 1:", Part1(start, &m))
+	fmt.Println("Part 2:", Part2(start, &m))
+}
 
+func Part2(start image.Point, m *Map) int {
 	fmt.Printf("Map size is %v\n", m.lim)
 
 	// Distances from start to corners - all 130!
@@ -69,17 +72,17 @@ func main() {
 
 	// Compute reachable plots for the middle part and the corner parts.
 	fmt.Printf("Total number of plots: %d\n", m.lim.X*m.lim.Y-len(m.rocks))
-	fmt.Printf("Reachable plots in the middle part: %d\n", bruteForce(start, &m, 64)+bruteForce(start, &m, 65))
-	fmt.Println("Reachable plots from the top left corner:", bruteForce(image.Point{0, 0}, &m, 65))
-	fmt.Println("Reachable plots from the top right corner:", bruteForce(image.Point{0, 130}, &m, 65))
-	fmt.Println("Reachable plots from the bottom left corner:", bruteForce(image.Point{130, 0}, &m, 65))
-	fmt.Println("Reachable plots from the bottom right corner:", bruteForce(image.Point{130, 130}, &m, 65))
+	fmt.Printf("Reachable plots in the middle part: %d\n", bruteForce(start, m, 64)+bruteForce(start, m, 65))
+	fmt.Println("Reachable plots from the top left corner:", bruteForce(image.Point{0, 0}, m, 65))
+	fmt.Println("Reachable plots from the top right corner:", bruteForce(image.Point{0, 130}, m, 65))
+	fmt.Println("Reachable plots from the bottom left corner:", bruteForce(image.Point{130, 0}, m, 65))
+	fmt.Println("Reachable plots from the bottom right corner:", bruteForce(image.Point{130, 130}, m, 65))
 
 	// Test scaling
 	solutions := []int{}
 	for scale := 0; scale <= 5; scale++ {
 		steps := 65 + scale*131
-		solution := bruteForce(start, &m, steps)
+		solution := bruteForce(start, m, steps)
 		fmt.Printf("For scale %d, with %d steps, reachable plots: %d\n", scale, steps, solution)
 		solutions = append(solutions, solution)
 	}
@@ -88,10 +91,10 @@ func main() {
 		fmt.Printf("Scale %d: %d\n", i, solutions[i]-solutions[0])
 	}
 	n := 3
-	fmt.Printf("At %d: %d\n", n, bruteForce(start, &m, n))
+	fmt.Printf("At %d: %d\n", n, bruteForce(start, m, n))
 
-	c := bruteForce(start, &m, 65)
-	cPrime := bruteForce(start, &m, 64)
+	c := bruteForce(start, m, 65)
+	cPrime := bruteForce(start, m, 64)
 	evenCoords := []image.Point{}
 	oddCoords := []image.Point{}
 	for x := 0; x < m.lim.X; x++ {
@@ -173,10 +176,6 @@ func main() {
 	fmt.Printf("According to formula expected even distances '2' to be 9c + 4c' + 6(x + x') = %d\n", 9*cc+4*ccPrime+6*(xx+xxPrime))
 	fmt.Printf("Cube-based formula for '1': cube + 4*cubePrime - 2*xxPrime + xx = %d\n", 4*cube+cubePrime+xxPrime-2*xx)
 
-	nn := 202300
-	result := nn*nn*w + (2*nn+1)*cube - (nn+1)*xx + nn*xxPrime
-	fmt.Printf("Cube-base formula for '%d' generalised: %d\n", nn, result)
-
 	// borderPoints := []image.Point{}
 	// for pt, _ := range dist {
 	// 	if abs(pt.X-start.X)+abs(pt.Y-start.Y) == target {
@@ -195,7 +194,8 @@ func main() {
 	// 	}
 	// 	fmt.Println()
 	// }
-
+	nn := 202300
+	return nn*nn*w + (2*nn+1)*cube - (nn+1)*xx + nn*xxPrime
 }
 
 func ParseInput(filename string) (image.Point, Map) {
