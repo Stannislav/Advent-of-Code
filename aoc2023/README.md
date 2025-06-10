@@ -9,8 +9,14 @@ This year I'm going to use [Golang](https://golang.org/) to solve the puzzles.
 
 To run a particular solution, for example day 21, use the following command:
 
-```bash
+```shell
 go run cmd/day21/{main,map,arithmetics}.go
+```
+
+To run unit tests, for example for day 21, use the following command:
+
+```shell
+go test -v ./cmd/day21/...
 ```
 
 ## Solutions
