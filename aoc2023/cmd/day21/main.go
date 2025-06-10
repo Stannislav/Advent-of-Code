@@ -73,8 +73,62 @@ func Part2(start image.Point, m *Map) int {
 
 		We can now read off the general formula:
 
-		N_n = n^2W + 2(n+1)W_o - (n+1)x_o + nx_e
+		N_n = n^2W + (2n+1)W_o - (n+1)x_o + nx_e
 	*/
+	N := 26501365
+	n := (N - 65) / 131
+	if 65+n*131 != N {
+		panic(fmt.Sprintf("The given N=%d is not of the form 65 + n * 131", N))
+	}
+
+	return ReachablePointsByTiles(n, start, m)
+}
+
+func ReachablePointsByTiles(n int, start image.Point, m *Map) int {
+	// Walk far enough to cover all reachable points in the original map tile.
+	distancesAll := m.walk(start, 65+131)
+
+	M_o := 0
+	M_e := 0
+	x_o := 0
+	x_e := 0
+
+	for x := 0; x < m.lim.X; x++ {
+		for y := 0; y < m.lim.Y; y++ {
+			pt := image.Point{x, y}
+			if _, reachable := distancesAll[pt]; !reachable {
+				continue
+			}
+			d := dist(pt, start)
+			if d <= 65 {
+				if (x+y)%2 == 0 {
+					M_e++
+				} else {
+					M_o++
+				}
+			} else {
+				if (x+y)%2 == 0 {
+					x_e++
+				} else {
+					x_o++
+				}
+			}
+		}
+	}
+
+	W_o := M_o + x_o
+	W_e := M_e + x_e
+	W := W_o + W_e
+
+	return n*n*W + (2*n+1)*W_o - (n+1)*x_o + n*x_e
+}
+
+func dist(pt1, pt2 image.Point) int {
+	return abs(pt1.X-pt2.X) + abs(pt1.Y-pt2.Y)
+}
+
+func Part2Debug(start image.Point, m *Map) int {
+
 	fmt.Printf("Map size is %v\n", m.lim)
 
 	// Distances from start to corners - all 130!
@@ -320,7 +374,6 @@ func Part1(start image.Point, m *Map) int {
 
 func bruteForce(start image.Point, m *Map, target int) int {
 	distances := m.walk(start, target)
-	fmt.Printf("Points reached with target %d: %d\n", target, len(distances))
 
 	solution := 0
 	for _, steps := range distances {
