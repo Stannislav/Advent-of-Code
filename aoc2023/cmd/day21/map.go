@@ -15,7 +15,7 @@ type Record struct {
 	Steps int
 }
 
-func (m *Map) next(pt image.Point) []image.Point {
+func (m *Map) neighbours(pt image.Point) []image.Point {
 	var result []image.Point
 	for _, d := range []image.Point{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
 		nxt := pt.Add(d)
@@ -35,7 +35,7 @@ func (m *Map) Walk(from image.Point, steps int) map[image.Point]int {
 		if r.Steps == steps {
 			break
 		}
-		for _, n := range m.next(r.Pos) {
+		for _, n := range m.neighbours(r.Pos) {
 			if d, ok := dist[n]; !ok || r.Steps+1 < d {
 				dist[n] = r.Steps + 1
 				q.PushBack(Record{Pos: n, Steps: r.Steps + 1})
