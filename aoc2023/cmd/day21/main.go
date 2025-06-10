@@ -351,16 +351,6 @@ func filterOdd(distances map[image.Point]int) map[image.Point]int {
 	return result
 }
 
-func setDiff(a, b map[image.Point]int) map[image.Point]int {
-	result := make(map[image.Point]int)
-	for pt, steps := range a {
-		if _, ok := b[pt]; !ok {
-			result[pt] = steps
-		}
-	}
-	return result
-}
-
 func Part1(start image.Point, m *Map) int {
 	return bruteForce(start, m, 64)
 }
