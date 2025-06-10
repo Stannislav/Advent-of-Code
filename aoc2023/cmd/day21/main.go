@@ -43,7 +43,7 @@ func Part1(start image.Point, m *Map) int {
 }
 
 func CountReachablePoints(start image.Point, m *Map, steps int) int {
-	distances := m.walk(start, steps)
+	distances := m.Walk(start, steps)
 
 	solution := 0
 	for _, d := range distances {
@@ -132,7 +132,7 @@ func ReachablePointsByTiles(n int, start image.Point, m *Map) int {
 	x_e := 0
 
 	// Walk far enough to cover all reachable points in the original map tile.
-	reachablePoints := m.walk(start, 65+131)
+	reachablePoints := m.Walk(start, 65+131)
 	for pt := range reachablePoints {
 		d := dist(pt, start)
 		if d <= 65 {
@@ -262,13 +262,13 @@ func Part2Debug(start image.Point, m *Map) int {
 	fmt.Printf("c + c' + x + x' + rocks = %d\n", c+cPrime+x+xPrime+len(m.rocks))
 	fmt.Printf("131 * 131 = %d\n", 131*131)
 
-	distancesAll := m.walk(start, 65+131)
+	distancesAll := m.Walk(start, 65+131)
 	cDist := make(map[image.Point]int)
 	cPrimeDist := make(map[image.Point]int)
 	xDist := make(map[image.Point]int)
 	xPrimeDist := make(map[image.Point]int)
 
-	walkedCPrime := filterEven(m.walk(start, 64))
+	walkedCPrime := filterEven(m.Walk(start, 64))
 	fmt.Printf("Walked c' from start: %d\n", len(walkedCPrime))
 	for x := 0; x < m.lim.X; x++ {
 		for y := 0; y < m.lim.Y; y++ {
