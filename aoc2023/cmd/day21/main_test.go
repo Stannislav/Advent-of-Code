@@ -21,7 +21,7 @@ func TestParseInput(t *testing.T) {
 	}
 }
 
-func TestSolve(t *testing.T) {
+func TestCountReachablePoints(t *testing.T) {
 	start, m := ParseInput("example_input.txt")
 	test_cases := []struct {
 		steps    int
@@ -36,7 +36,7 @@ func TestSolve(t *testing.T) {
 		{steps: 5000, expected: 16733044},
 	}
 	for _, tc := range test_cases {
-		result := bruteForce(start, &m, tc.steps)
+		result := CountReachablePoints(start, &m, tc.steps)
 		if result != tc.expected {
 			t.Errorf("Expected %d steps to reach %d plots, but got %d", tc.steps, tc.expected, result)
 		}

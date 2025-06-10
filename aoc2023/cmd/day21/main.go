@@ -39,15 +39,15 @@ func ParseInput(filename string) (image.Point, Map) {
 }
 
 func Part1(start image.Point, m *Map) int {
-	return bruteForce(start, m, 64)
+	return CountReachablePoints(start, m, 64)
 }
 
-func bruteForce(start image.Point, m *Map, target int) int {
-	distances := m.walk(start, target)
+func CountReachablePoints(start image.Point, m *Map, steps int) int {
+	distances := m.walk(start, steps)
 
 	solution := 0
-	for _, steps := range distances {
-		if steps%2 == target%2 {
+	for _, d := range distances {
+		if d%2 == steps%2 {
 			solution++
 		}
 	}
@@ -216,17 +216,17 @@ func Part2Debug(start image.Point, m *Map) int {
 
 	// Compute reachable plots for the middle part and the corner parts.
 	fmt.Printf("Total number of plots: %d\n", m.lim.X*m.lim.Y-len(m.rocks))
-	fmt.Printf("Reachable plots in the middle part: %d\n", bruteForce(start, m, 64)+bruteForce(start, m, 65))
-	fmt.Println("Reachable plots from the top left corner:", bruteForce(image.Point{0, 0}, m, 65))
-	fmt.Println("Reachable plots from the top right corner:", bruteForce(image.Point{0, 130}, m, 65))
-	fmt.Println("Reachable plots from the bottom left corner:", bruteForce(image.Point{130, 0}, m, 65))
-	fmt.Println("Reachable plots from the bottom right corner:", bruteForce(image.Point{130, 130}, m, 65))
+	fmt.Printf("Reachable plots in the middle part: %d\n", CountReachablePoints(start, m, 64)+CountReachablePoints(start, m, 65))
+	fmt.Println("Reachable plots from the top left corner:", CountReachablePoints(image.Point{0, 0}, m, 65))
+	fmt.Println("Reachable plots from the top right corner:", CountReachablePoints(image.Point{0, 130}, m, 65))
+	fmt.Println("Reachable plots from the bottom left corner:", CountReachablePoints(image.Point{130, 0}, m, 65))
+	fmt.Println("Reachable plots from the bottom right corner:", CountReachablePoints(image.Point{130, 130}, m, 65))
 
 	// Test scaling
 	solutions := []int{}
 	for scale := 0; scale <= 5; scale++ {
 		steps := 65 + scale*131
-		solution := bruteForce(start, m, steps)
+		solution := CountReachablePoints(start, m, steps)
 		fmt.Printf("For scale %d, with %d steps, reachable plots: %d\n", scale, steps, solution)
 		solutions = append(solutions, solution)
 	}
@@ -235,10 +235,10 @@ func Part2Debug(start image.Point, m *Map) int {
 		fmt.Printf("Scale %d: %d\n", i, solutions[i]-solutions[0])
 	}
 	n := 3
-	fmt.Printf("At %d: %d\n", n, bruteForce(start, m, n))
+	fmt.Printf("At %d: %d\n", n, CountReachablePoints(start, m, n))
 
-	c := bruteForce(start, m, 65)
-	cPrime := bruteForce(start, m, 64)
+	c := CountReachablePoints(start, m, 65)
+	cPrime := CountReachablePoints(start, m, 64)
 	evenCoords := []image.Point{}
 	oddCoords := []image.Point{}
 	for x := 0; x < m.lim.X; x++ {
