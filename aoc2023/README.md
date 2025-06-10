@@ -7,10 +7,10 @@ This year I'm going to use [Golang](https://golang.org/) to solve the puzzles.
 
 ## How to Use
 
-To run a particular solution, for example day 1, use the following command:
+To run a particular solution, for example day 21, use the following command:
 
 ```bash
-go run cmd/day01/main.go
+go run cmd/day21/{main,map,arithmetics}.go
 ```
 
 ## Solutions
