@@ -16,3 +16,4 @@ My solutions for the Advent of Code challenges.
 - [2022](aoc2022) - Scala
 - [2023](aoc2023) - Golang
 - [2024](aoc2024) - Kotlin
+- [2025](aoc2025) - TypeScript

@@ -1,0 +1,24 @@
+{
+  "name": "aoc2025",
+  "version": "1.0.0",
+  "description": "My solutions for Advent of Code 2025",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npm run build && tsx src/index.ts",
+    "build": "tsc",
+    "lint": "eslint src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Stanislav Schmidt",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "npx": "^10.2.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0"
+  }
+}
