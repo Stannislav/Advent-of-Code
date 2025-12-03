@@ -10,7 +10,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "npm run build && tsx src/index.ts",
     "day01": "tsx src/day01.ts",
-    "day02": "tsx src/day02.ts"
+    "day02": "tsx src/day02.ts",
+    "day03": "tsx src/day03.ts"
   },
   "keywords": [],
   "author": "Stanislav Schmidt",
