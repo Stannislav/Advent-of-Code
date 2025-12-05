@@ -59,24 +59,20 @@ function part1(ranges: Range[], ids: number[]): number {
 
 function part2(ranges: Range[]): number {
   const fullyMerged: Range[] = [];
-  let toMerge = [...ranges];
+  let toMerge = [...ranges].sort((r1, r2) => r1.left - r2.left);
 
   while (toMerge.length > 0) {
-    let underMerge = toMerge[0];
+    let acc = toMerge[0];
     const tail = toMerge.slice(1);
-    if (underMerge === undefined) throw Error("merged range is undefined");
+    if (acc === undefined) throw Error("merged range is undefined");
 
     const stillToMerge: Range[] = [];
-    let didMerge = false;
     for (const r of tail) {
-      if (underMerge.canMerge(r)) {
-        underMerge = underMerge.merge(r);
-        didMerge = true;
-      } else stillToMerge.push(r);
+      if (acc.canMerge(r)) acc = acc.merge(r);
+      else stillToMerge.push(r);
     }
 
-    // If a range under merge didn't intersect with any other one, then it's fully merged.
-    (didMerge ? stillToMerge : fullyMerged).push(underMerge);
+    fullyMerged.push(acc);
     toMerge = stillToMerge;
   }
 
