@@ -12,7 +12,8 @@
     "day01": "tsx src/day01.ts",
     "day02": "tsx src/day02.ts",
     "day03": "tsx src/day03.ts",
-    "day04": "tsx src/day04.ts"
+    "day04": "tsx src/day04.ts",
+    "day05": "tsx src/day05.ts"
   },
   "keywords": [],
   "author": "Stanislav Schmidt",
