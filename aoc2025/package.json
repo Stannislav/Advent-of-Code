@@ -6,14 +6,17 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "check": "npm run lint && npm run build",
+    "check:fix": "npm run lint:fix && npm run build",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "npm run build && tsx src/index.ts",
     "day01": "tsx src/day01.ts",
     "day02": "tsx src/day02.ts",
     "day03": "tsx src/day03.ts",
     "day04": "tsx src/day04.ts",
-    "day05": "tsx src/day05.ts"
+    "day05": "tsx src/day05.ts",
+    "day06": "tsx src/day06.ts"
   },
   "keywords": [],
   "author": "Stanislav Schmidt",
